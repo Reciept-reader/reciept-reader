@@ -1,5 +1,5 @@
 # Reciept Reader
-The Reciept Reader project is a 3 section project for the CS 481 Capstone class. The purpose of this project is to allow users to keep track of their expenses by allowing to gather important information from the reciepts of the stores that they shop from.
+The Reciept Reader project is a 3 section project for the CS 481 Capstone class. The purpose of this project is to allow users to keep track of their expenses by gathering important information from the reciepts of the stores that they shop from.
 
 **Section 1**
 This section involves creating software to read physical receipts and extract valuable information from the reciepts
