@@ -1,19 +1,25 @@
 # Reciept Reader
+The Receipt Reader project is a 3 section project for the CS 481 Capstone class. The purpose of this project is to allow users to keep track of their expenses by allowing to gather important information from the receipts of the stores that they shop from.
 
+**Section 1**
+This section involves creating software to read physical receipts and extract valuable information from the receipts
 
+### Features
+- Ability to read receipts (images, pdfs) and intelligentlye extract purchase information such as name, quantility, category, price, date etc.
+- Ability to scan and process receipts from difeerent major stores including but not limited to: Walmart, Costco, Safeway, Target, Fredmeyer, Grocery Outlet, etc.
+- Ability to incorporate and read receipts online shopping stores such as Walmart+, Amazon Fresh, Instacart, etc.
+- Ability to let users know of unknown item name/price read from receipt and to allow user to edit it and save configuration for future use
+
+## Project Organization
+- AgendaMinutes/ - Contains all the minutes from the team meetings
+- ClientMinutes/ -  Contains all the minutes from the meetings with the client
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 
-```bash
+## Technologies
 
-```
-
-## Usage
-
-
-## Contributing
+## Team Members
 
 
 ## License
