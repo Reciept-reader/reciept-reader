@@ -5,10 +5,20 @@
  *********************************************************/
 import analyze_receipt from './analyze-receipt.js';
 import preprocess from './image-preprocessing.js';
+import createReceipt from './item_extraction.js';
 
-let defaultImagePath = "receipts/receipt2.jpeg";
 
-let imagePath = await preprocess(defaultImagePath);
-let arr = await analyze_receipt(imagePath);
+const  defaultImagePath = "receipts/unkown1.JPG";
 
-console.log(arr);
+async function main() {
+    let imagePath = await preprocess(defaultImagePath);
+    console.log("preprocessed")
+    let arr = await analyze_receipt(imagePath);
+    console.log("analyzed")
+    let receipt = await createReceipt(arr);
+    console.log(receipt);
+
+}
+
+
+main()

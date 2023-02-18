@@ -17,7 +17,8 @@ async function analyze_receipt(input) {
     let arr = new Array(lines.length);
     
     for (let i = 0; i < lines.length; i++) {
-      arr[i] = [lines[i].text, lines[i].confidence];
+      //arr[i] = [lines[i].text, lines[i].confidence];
+      arr[i] = lines[i].text
     }
     await worker.terminate();
     return arr;
