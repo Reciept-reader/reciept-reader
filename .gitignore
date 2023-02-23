@@ -1,3 +1,4 @@
-node_modules
+AgendaMinutes
+ClientMinutes
 .DS_Store
 .env
