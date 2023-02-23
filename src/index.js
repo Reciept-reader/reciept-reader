@@ -8,8 +8,7 @@ import preprocess from './image-preprocessing.js';
 import createReceipt from './item_extraction.js';
 
 
-const  defaultImagePath = "receipts/unkown1.JPG";
-
+const  defaultImagePath = "/Users/jacobfisher/Desktop/homework/CS481/group-git/reciept-reader/receipts/costco1.JPG";
 async function main() {
     let imagePath = await preprocess(defaultImagePath);
     console.log("preprocessed")
