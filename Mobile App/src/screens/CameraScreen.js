@@ -62,6 +62,9 @@ export default function App() {
       <View style={styles.buttonContainer}>
         <Button title="" onPress={takePic} />
       </View>
+       <View style={styles.buttonContainer2}>
+        <Button title="Upload pic" onPress={pickImage} />
+      </View>
       <StatusBar style="auto" />
     </Camera>
   );
@@ -83,6 +86,12 @@ const styles = StyleSheet.create({
     flex:1,
     position:'absolute',
     alignSelf:'center'
+  },
+    buttonContainer2: {
+    backgroundColor: '#fff',
+    alignSelf: 'left',
+    position: 'absolute',
+  bottom:0
   },
   preview: {
     alignSelf: 'stretch',

@@ -45,6 +45,9 @@ const SignInScreen = () => {
             />
   
             <CustomButton text ="Sign In" onPress={onSignInPressed}/>
+            <CustomButton text ="Forgot Password" onPress={onSignInPressed}/>
+            <CustomButton text ="Sign up" onPress={onSignInPressed}/>
+
             {/* <CustomButton text ="Forgot Password" onPress={}/> */}
 
         </View>
