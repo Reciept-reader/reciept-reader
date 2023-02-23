@@ -3,12 +3,15 @@ import { StyleSheet, Text, View, SafeAreaView, Button, Image } from 'react-nativ
 import { useEffect, useRef, useState } from 'react';
 import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
+import { useNavigation } from '@react-navigation/native';
+import EditToDB from './EditToDB';
 
 export default function App() {
   let cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
+  const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -41,7 +44,7 @@ export default function App() {
 
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        setPhoto(undefined);
+        navigation.navigate('EditToDB')
       });
     };
 
@@ -57,7 +60,7 @@ export default function App() {
   return (
     <Camera style={styles.container} ref={cameraRef}>
       <View style={styles.buttonContainer}>
-        <Button title="Take Pic" onPress={takePic} />
+        <Button title="" onPress={takePic} />
       </View>
       <StatusBar style="auto" />
     </Camera>
@@ -71,10 +74,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonContainer: {
+
+    width: 70,
+    height: 70,
+    bottom: 0,
+    borderRadius: 50,
     backgroundColor: '#fff',
-    alignSelf: 'center',
-    position: 'absolute',
-  bottom:0
+    flex:1,
+    position:'absolute',
+    alignSelf:'center'
   },
   preview: {
     alignSelf: 'stretch',

@@ -8,6 +8,7 @@ import SignInScreen from '../screens/SignInScreen';
 import About from '../screens/About';
 import ProfileScreen from '../screens/ProfileScreen';
 import ExpensesScreen from '../screens/ExpensesScreen';
+import EditToDB from '../screens/EditToDB';
 const Stack = createNativeStackNavigator();
 const Navigation =() => {
     return (
@@ -17,8 +18,8 @@ const Navigation =() => {
                 <Stack.Screen name = "HomeScreen" component={HomeScreen} options={{ title: '' }} />
                 <Stack.Screen name = "ExpenseScreen" component={ExpensesScreen} options={{ title: '' }} />
                 <Stack.Screen name = "ProfileScreen" component={ProfileScreen} options={{ title: '' }} />
-                <Stack.Screen name = "About" component={About} ptions={{ title: '' }} />
-
+                <Stack.Screen name = "About" component={About} options={{ title: '' }} />
+                <Stack.Screen name = "EditToDB" component={EditToDB} options={{ title: '' }} />
             </Stack.Navigator>
         </NavigationContainer>
     )
