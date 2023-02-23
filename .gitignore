@@ -1,4 +1,4 @@
-AgendaMinutes
-ClientMinutes
+AgendaMinutes/
+ClientMinutes/
 .DS_Store
 .env
