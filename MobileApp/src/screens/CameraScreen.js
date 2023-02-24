@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView,TouchableOpacity, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Button, Image } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
@@ -17,19 +17,25 @@ export default function App() {
   const navigation = useNavigation();
 
 
-  const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.torch)  
-  const __handleFlashMode = () => {
-  
-   if (flashMode === 'off') {
-    setFlashMode(Camera.Constants.FlashMode.torch)
-   } else if (flashMode === 'on') {
-    setFlashMode(Camera.Constants.FlashMode.off)
+  const [image, setImage] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
 
-   } else {
-    setFlashMode(Camera.Constants.FlashMode.off)
-   }
+
+
+  // const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.torch)
+  const __handleFlashMode = () => {
+
+    if (flashMode === 'off') {
+      setFlashMode(Camera.Constants.FlashMode.torch)
+    } else if (flashMode === 'on') {
+      setFlashMode(Camera.Constants.FlashMode.off)
+
+    } else {
+      setFlashMode(Camera.Constants.FlashMode.off)
+    }
   }
- 
+
 
   useEffect(() => {
     (async () => {
@@ -66,7 +72,7 @@ export default function App() {
     });
   }
   if (photo) {
-    
+
 
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
@@ -84,22 +90,26 @@ export default function App() {
   }
 
   return (
-    <Camera style={styles.container} ref={cameraRef} flashMode={flashMode}>
-<View>
-       
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={styles.buttonStyle}
-          onPress={__handleFlashMode}>
-          <Text style={styles.buttonTextStyle}>
-            {'Flash'  }
-          </Text>
-        </TouchableOpacity>
+    <Camera style={styles.container} ref={cameraRef} flashMode={flash}>
+      <View style={styles.flash}>
+
+        <Button
+        
+          onPress={() =>
+            setFlash(
+              flash === Camera.Constants.FlashMode.off
+                ? Camera.Constants.FlashMode.torch 
+                : Camera.Constants.FlashMode.off
+            )
+          }
+          title = "FlashLight"
+          color={flash === Camera.Constants.FlashMode.off ? 'gray' : '#fff'}
+        />
       </View>
       <View style={styles.buttonContainer}>
         <Button title="" onPress={takePic} />
       </View>
-       <View style={styles.buttonContainer2}>
+      <View style={styles.buttonContainer2}>
         <Button title="Upload pic" onPress={pickImage} />
       </View>
       <StatusBar style="auto" />
@@ -110,8 +120,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+
   },
   buttonContainer: {
 
@@ -120,20 +129,20 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderRadius: 50,
     backgroundColor: '#fff',
-    flex:1,
-    position:'absolute',
-    alignSelf:'center'
+    flex: 1,
+    position: 'absolute',
+    alignSelf: 'center'
   },
-    buttonContainer2: {
+  buttonContainer2: {
     backgroundColor: '#fff',
     alignSelf: 'left',
     position: 'absolute',
-  bottom:0
+    bottom: 0
   },
-  flash:{
-    
-  
-  marginright: 0,
+  flash: {
+      flex:1,
+      justifyContent: 'flex-start',
+      alignItems: 'flex-end',
   },
   preview: {
     alignSelf: 'stretch',
