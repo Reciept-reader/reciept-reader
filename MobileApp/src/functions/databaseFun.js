@@ -1,6 +1,6 @@
 
 import { createClient } from "@supabase/supabase-js";
-import { SUPA_ANON, SUPA_URL } from "@env"
+import env from "./reactEnv.js"
 
 /*
 Database layer to interact with the js client and edge functions 
@@ -14,7 +14,7 @@ const POST_OPTIONS = {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${SUPA_ANON}`,
+        'Authorization': `Bearer ${env.SUPA_ANON}`,
     },
     body: undefined,
 }
@@ -26,7 +26,7 @@ Creates a supabase.js client to interact with the database
 */
 export async function createSupaClient() {
     try {
-        const supabase = createClient(SUPA_URL, SUPA_ANON);
+        const supabase = createClient(env.SUPA_URL, env.SUPA_ANON);
         return supabase
     } catch (error) {
         console.error(error)

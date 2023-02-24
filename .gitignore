@@ -4,3 +4,4 @@ ClientMinutes/
 .env
 .expo
 node_modules
+reactEnv.js
