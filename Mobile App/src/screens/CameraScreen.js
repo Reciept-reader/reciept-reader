@@ -5,6 +5,7 @@ import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { useNavigation } from '@react-navigation/native';
 import EditToDB from './EditToDB';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function App() {
   let cameraRef = useRef();
@@ -38,7 +39,15 @@ export default function App() {
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
   };
-
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+  }
   if (photo) {
     
 
@@ -62,6 +71,9 @@ export default function App() {
       <View style={styles.buttonContainer}>
         <Button title="" onPress={takePic} />
       </View>
+       <View style={styles.buttonContainer2}>
+        <Button title="Upload pic" onPress={pickImage} />
+      </View>
       <StatusBar style="auto" />
     </Camera>
   );
@@ -83,6 +95,12 @@ const styles = StyleSheet.create({
     flex:1,
     position:'absolute',
     alignSelf:'center'
+  },
+    buttonContainer2: {
+    backgroundColor: '#fff',
+    alignSelf: 'left',
+    position: 'absolute',
+  bottom:0
   },
   preview: {
     alignSelf: 'stretch',
