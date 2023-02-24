@@ -3,43 +3,28 @@ import { View, Text, Image, StyleSheet, useWindowDimensions, Button } from 'reac
 import Logo from '../../assets1/logo2.png';
 import CustomInput from '../components/CustomInput/CustomInput';
 import CustomButton from '../components/CustomButton/CustomButton';
-
-import { NavigationContainer } from '@react-navigation/native';
-
+import {signUp, signIn} from '../functions/accountFun';
 import { useNavigation } from '@react-navigation/native';
 import HomeScreen from '../screens/HomeScreen';
 
 const SignInScreen = () => {
 
-    const [username, setUsername] = useState({
-        user:'',
-        passeord:'',
-        confirmPassword: ''
-    });
-    const [error, setError] = useState({
-        username: '',
-        password: '',
-        confirmPassword: ''
-      })
-      const onInputChange = e => {
- 
-      }
-     
-      const validateInput = e => {
-     
-      }
-    
-
-    const [password, setPassword] = useState('')
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const { height } = useWindowDimensions();
 
     const navigation = useNavigation();
-    const onSignInPressed = () => {
+    
+    onSignInPressed = async (user, pass) => {
+        // retVal = await signIn('john', 'password')
+        // alert(retVal);
         navigation.navigate('HomeScreen')
     };
+    
     const onForgotPassswordPressed = () => {
         navigation.navigate('ForgotPassword')
     };
+    
     return (
         <View style={styles.root}>
             <Image
@@ -50,9 +35,9 @@ const SignInScreen = () => {
             />
             <CustomInput
                 placeholder="Username"
-
                 value={username}
                 setValue={setUsername}
+                onChangeText={(username) => setUsername(username)}
             />
             <CustomInput
                 placeholder="Password"
@@ -62,7 +47,7 @@ const SignInScreen = () => {
                 secureTextEntry={true}
             />
          <Button tyle={styles.buttonContainer2} title="Forgot your password?" onPress={onForgotPassswordPressed} />
-            <CustomButton text="Sign In" onPress={onSignInPressed} />
+            <CustomButton text="Sign In" onPress={ () => onSignInPressed(username, password)} />
            
         <CustomButton text="Sign up" onPress={onSignInPressed} />
         </View>
