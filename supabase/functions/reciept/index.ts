@@ -3,7 +3,7 @@
 // This enables autocomplete, go to definition, etc.
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@^1.33.2'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@^2.8.0'
 
 
 console.log("Hi Receipt!")
@@ -37,6 +37,7 @@ serve(async (req) => {
   const receiptId = receiptData[0].receipt_id;
 
   const itemData = data.items.map((item) => ({
+    user_id: data.user_id,
     receipt_id: receiptId,
     item_name: item.item_name,
     price: parseFloat(item.price),
