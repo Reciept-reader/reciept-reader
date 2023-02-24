@@ -14,7 +14,11 @@
     "@react-navigation/drawer": "^6.6.0",
     "@react-navigation/native": "^6.1.4",
     "@react-navigation/native-stack": "^6.9.10",
+<<<<<<< HEAD
     "@supabase/supabase-js": "^2.8.0",
+=======
+    "@supabase/supabase-js": "^2.0.4",
+>>>>>>> 26e79b75020c732242b28994022c037d41991817
     "expo": "~47.0.12",
     "expo-camera": "~13.1.0",
     "expo-image-picker": "~14.0.2",
