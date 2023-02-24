@@ -2,6 +2,8 @@
 import { getItems } from './databaseFunctions/database.js'
 import levenshtein from 'fast-levenshtein';
 
+const dict = ["Walmart", "Safeway", "FredMeyer", "GroceryOutlet", "Target", "Total", "Subtotal","Balance"]
+
 /*
 Inputs a word and a list of words to match it to
 Algorthim finds the closest matching word or exact if it is present
@@ -26,8 +28,6 @@ async function levenshteinCorrection(text , dictionary) {
     }
 } 
 
-
-
 /*
 When an item matches a regular expression 
 We check to see if that item has an alias user name 
@@ -42,6 +42,98 @@ async function itemScan(item_name, itemNameToAlias) {
 }
 
 
+//Selects which regex to use depending on the store name
+async function selectRegex(store) {
+    // extracts a 10-11 digit number and the proceeding text within the line
+    const fredMeyerRegex = /\b\d{9,11}\b\s*(.+?)(?=\b\d{9,11}\b|$)/gm
+    // extracts text preceeding a capital letter seperated by whitespace up to the '[' character
+    const hasCapitalLetter = /([^[)]+)\s+(\$)?(\d+\.\d{2})\s+[A-Z]\b/g
+    //can use either fredMeyerRegex or hasCapitalLetter
+    const combinedRegex = new RegExp(fredMeyerRegex.source+ '|' + hasCapitalLetter.source);
+    // extracts text if there is a double present in the line
+    const simple = /([^[)]+)\s+(\$)?(\d+\.\d{2})/gi
+
+
+    if(store == "FredMeyer"){
+        return fredMeyerRegex
+    }
+    else if(store == "Safeway" || store == "GroceryOutlet"){
+        return hasCapitalLetter
+    }
+    else if (store == "Super1Foods"){
+        //todo
+    }
+    else{
+        return simple
+    }
+}
+
+//Extracts items differently depending on the receipt
+async function extractItems(match, store){
+    // extracts a double 
+    const extractDouble = /\d+\.\d+/g
+    //extracts text preceeding a '$' or a '.'
+    const sfExtractName = /.*(?=\$|\.)/g
+    //extracts non digit text following a 10-11 digit number
+    const fmExtractName = /(?<=\b\d{9,11}\b)\b.+\b/
+    //  characters that are not digits, dots, or dollar signs. 
+    const simple = /[^0-9.$]+/
+
+    let price = " "
+    let correspondingItem = ""
+    let retunrArr = [correspondingItem, price]
+    const item_name = match[0]
+    const priceExtract = item_name.match(extractDouble)
+    let nameExtract = item_name.match(sfExtractName)
+    if(store == "FredMeyer"){
+        nameExtract = item_name.match(fmExtractName)
+        if (nameExtract && nameExtract[0]) {
+            correspondingItem = nameExtract[0].trim();
+            // Do something with correspondingItem
+          }
+          if (priceExtract && priceExtract[0]) {
+            price = parseFloat(priceExtract[0].trim())
+            // Do something with correspondingItem
+          }
+        
+        retunrArr = [correspondingItem, price]
+        return retunrArr
+    }
+    else if(store == "Safeway" || store == "GroceryOutlet" || store == "Walmart"){
+        nameExtract = item_name.match(sfExtractName)
+
+        correspondingItem = nameExtract[0]
+        price = parseFloat(priceExtract[0])
+
+        retunrArr = [correspondingItem, price]
+        return retunrArr
+    }
+    else if(store == "Super1Foods")
+    {
+        nameExtract = item_name.match(simple)
+
+        correspondingItem = nameExtract[0]
+        price = parseFloat(priceExtract[0])
+
+        retunrArr = [correspondingItem, price]
+        return retunrArr
+        //todo
+    }
+    //if store is unrecognzed
+    else{
+        nameExtract = item_name.match(simple)
+
+        correspondingItem = nameExtract[0]
+        price = parseFloat(priceExtract[0])
+
+        retunrArr = [correspondingItem, price]
+        return retunrArr
+    }
+    
+    
+    
+    
+}
 
 /*
 Runs lines through the regular expressions if total found or data saves 
@@ -49,44 +141,67 @@ If item found checks for user alias
 */
 async function extractData(lines) {
     //REGULAR EXPRESSIONS
-    const itemRegex = /^\s*(\w+(?:\s+\w+)*)\s+\$(\d+\.\d{2})/
-    const dateRegex = /(\d{2})\/(\d{2})\/(\d{4})|(\d{2})\-(\d{2})\-(\d{4})/
-    const totalRegex = /^\s*(total)\s+\$(\d+\.\d{2})/i
-    const subTotalRegex = /^\s*(SUBTOTAL)\s+\$(\d+\.\d{2})/i
+    // extracts date in the format 02/02/2222
+    const dateRegex = /\b\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4}\b/g
+    // extracts a double proceeding "balance", "total", "sum" etc... a '$' is optinoal
+    const totalRegex = /(balance|total|grand\stotal|sum|bal|subtotal|balance:|total:|grand:\stotal:|sum:|bal:|subtotal:)\s+(\$)?(\d+([.,])?\d+)/
+    // extracts a double 
+    const extractDouble = /\d+\.\d+/g
+    // extracts one of these store names
+    const storeRegex = /(Safeway|Walmart|Costco|FredMeyer|GroceryOutlet|Target)/i
 
     const items = []
     let date = ""
     let total = ""
-
+    let store = ""
     //call the db to access all user names for levenshtein
     const itemNameToAlias = await getItems()
+    //determine the store name
+    for (const line of lines) {
+        
+        let words = String(line).split(/\s+/)
+        
+        for (let i = 0; i < words.length; i++) {
+            const storeMatch = String( await levenshteinCorrection(words[i],dict)).match(storeRegex)
+            if(storeMatch)
+            {
+                store = storeMatch[0]
+                break
+            }
+        }
+    }
 
     for (const line of lines) {
-
-        const totalMatch = line.match(subTotalRegex)
+        
+        const totalMatch = String(line).match(totalRegex)
         if (totalMatch) {
-            const [, name, priceStr] = totalMatch
-            const price = parseFloat(priceStr)
-            total = totalMatch.toString()
+            const totalLine = totalMatch.toString()
+            
+            total = totalLine.match(extractDouble)
+            total = parseFloat(total)
+            
+            continue
+        }
+
+        
+        const itemMatch = String(line).match( await selectRegex(store))
+        if (itemMatch) {
+            console.log(itemMatch[0])
+            const itemData = await extractItems(itemMatch, store)
+            items.push({"name": await itemScan(itemData[0], itemNameToAlias), "price": itemData[1]})
             continue
         }
         
-        const itemMatch = line.match(itemRegex)
-        if (itemMatch) {
-            const [, name, priceStr] = itemMatch
-            const price = parseFloat(priceStr)
-            items.push({ "name": await itemScan(name, itemNameToAlias), "price": price })
-            continue
-        }
 
-        const dateMatch = line.match(dateRegex)
+        const dateMatch = String(line).match(dateRegex)
         if (dateMatch) {
             date = dateMatch[0]
             continue
         }
+
     }
 
-    return [items, date, total]
+    return [items, date, total, store]
 }
 
 
@@ -101,10 +216,10 @@ async function createReceipt(lines) {
         'items': data[0],
         'total': data[2],
         'date': data[1],
-        'store': 'Grocery Outlet' //need to user store regular expression
+        'store': data[3] 
     }
     return receipt
 }
 
 
-export default createReceipt
+export default createReceipt;
