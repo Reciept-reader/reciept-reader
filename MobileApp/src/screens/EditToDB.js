@@ -1,10 +1,10 @@
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Button, TextInput } from 'react-native';
 import React, {useState} from 'react';
 
 const receiptData = {
-    user_id: '483aeb03-4566-459c-9035-5553483a22ef',
+    user_id: '3',
     store_name: 'Safeway',
-    date: '11/11/1111',
+    date: '',
     total: '100',
     items: [
 
@@ -30,14 +30,19 @@ function postdata(input) {
 
 function EditToDB() {
     
-    // hardcoded data that is going to be replaced with data returned from db
+    store_nameDB = receiptData.store_name
+    dateDB = receiptData.date
+    totalDB = receiptData.total
 
+    if(dateDB == '') {
+        dateDB = new Date().toLocaleDateString('en-US')
+    }
+    
     return (
       <View style={styles.view}>
-        
-        <Text>Store: {receiptData.store}</Text>
-        <Text>Date: {receiptData.date}</Text>
-        <Text>Total: {receiptData.total}</Text>
+        <TextInput style={styles.input} placeholder={store_nameDB}/>
+        <TextInput style={styles.input} placeholder={dateDB}/>
+        <TextInput style={styles.input} placeholder={totalDB}/>
         <Button onPress={postdata(receiptData)} title="Click me!"></Button>
       </View>
     );
@@ -48,6 +53,21 @@ const styles = StyleSheet.create( {
         alignItems: 'center',
         padding:20,
         paddingBottom:40,  
-    }
+    },
+    input:{
+        backgroundColor: 'white',
+        width: '100%',
+        borderColor: 'black',
+        borderWidth: 1,
+        borderRadius: 5,
+        
+        height: 40,
+        paddingHorizontal: 10,
+        marginVertical: 10,
+
+        fontWeight: 'bold',
+        color: 'black',
+        textDecorationColor:'black',
+    },
 });
 export default EditToDB;
