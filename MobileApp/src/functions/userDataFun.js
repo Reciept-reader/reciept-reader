@@ -5,8 +5,6 @@ Helper Functions for inserting , updating , and deleting receipts
 Helper Functions for inserting , updating , and deleting user custom items  
 */
 
-
-
 /*
 Data creation for making templates for the data
 */
@@ -60,8 +58,9 @@ Takes in receipt data and deletes the receipt and items from the db
 uses edge functon to manage deleting at the same time
 */
 async function deleteReceipt(receiptData) {
-    
-
+    let receipt = receiptData.items = itemsData
+    const res = await receiptEdge(receipt)
+    return res
 }
 
 
@@ -70,10 +69,12 @@ Edit Receipt
 Takes in receipt data and updates it seperate to items update / edit  
 */
 async function editReceipt(userId, receiptData, itemsData) {
-    const supabase = await createSupaClient();
     const {data, error} = await supabase
         .from('receipt')
-        .delete()
+        .select('receipt_id, store_name, price, date')
+        .eq('user_id', userId)
+        .eq('receipt_id', receiptId)
+        .eq('item_id', itemId);
 }
 
 
@@ -82,19 +83,33 @@ get receipt
 Takes in a user_id and receipt _id 
 If a match is found return that receipt object and items
 */
-const supabase = await createSupaClient();
+async function getReceipt(userId, receiptId) {
+    const supabase = await createSupaClient();
     const {data, error} = await supabase
         .from('receipt')
         .select('receipt_id, store_name, price, date')
         .eq('user_id', userId)
         .eq('receipt_id', receiptId)
-        .eq('item_id', itemId);
+    
+    if (error) throw error;
+    return data   
+}
+
 
 /*
 get all receipts 
 Takes in a user_id and returns all receipts associated with that account 
 */
+async function getReceipt(userId, receiptId) {
+    const supabase = await createSupaClient();
+    const {data, error} = await supabase
+        .from('receipt')
+        .select('receipt_id, store_name, price, date')
+        .eq('user_id', userId)
 
+    if (error) throw error;
+    return data  
+}
 
 //ITEMS
 //******************************
