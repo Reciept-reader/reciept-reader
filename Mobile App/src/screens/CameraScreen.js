@@ -1,18 +1,35 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView,TouchableOpacity, Button, Image } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { useNavigation } from '@react-navigation/native';
 import EditToDB from './EditToDB';
 import * as ImagePicker from 'expo-image-picker';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Torch from 'react-native-torch'
+import React from 'react'
 export default function App() {
   let cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
   const navigation = useNavigation();
+
+
+  const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.torch)  
+  const __handleFlashMode = () => {
+  
+   if (flashMode === 'off') {
+    setFlashMode(Camera.Constants.FlashMode.torch)
+   } else if (flashMode === 'on') {
+    setFlashMode(Camera.Constants.FlashMode.off)
+
+   } else {
+    setFlashMode(Camera.Constants.FlashMode.off)
+   }
+  }
+ 
 
   useEffect(() => {
     (async () => {
@@ -67,7 +84,18 @@ export default function App() {
   }
 
   return (
-    <Camera style={styles.container} ref={cameraRef}>
+    <Camera style={styles.container} ref={cameraRef} flashMode={flashMode}>
+<View>
+       
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={styles.buttonStyle}
+          onPress={__handleFlashMode}>
+          <Text style={styles.buttonTextStyle}>
+            {'Flash'  }
+          </Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.buttonContainer}>
         <Button title="" onPress={takePic} />
       </View>
@@ -102,8 +130,30 @@ const styles = StyleSheet.create({
     position: 'absolute',
   bottom:0
   },
+  flash:{
+    
+  
+  marginright: 0,
+  },
   preview: {
     alignSelf: 'stretch',
     flex: 1
-  }
+  },
+  titleText: {
+    fontSize: 22,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  buttonStyle: {
+    justifyContent: 'center',
+    marginTop: 15,
+    padding: 10,
+    backgroundColor: '#8ad24e',
+    marginRight: 2,
+    marginLeft: 2,
+  },
+  buttonTextStyle: {
+    color: '#fff',
+    textAlign: 'center',
+  },
 });
