@@ -1,7 +1,7 @@
 
 import { createClient } from "@supabase/supabase-js";
-import dotenv from 'dotenv';
-dotenv.config();
+import { SUPA_ANON, SUPA_URL } from "@env"
+
 /*
 Database layer to interact with the js client and edge functions 
 */
@@ -14,7 +14,7 @@ const POST_OPTIONS = {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.SUPA_ANON}`,
+        'Authorization': `Bearer ${SUPA_ANON}`,
     },
     body: undefined,
 }
@@ -26,9 +26,7 @@ Creates a supabase.js client to interact with the database
 */
 export async function createSupaClient() {
     try {
-        const url = process.env.SUPA_URL
-        const anon = process.env.SUPA_ANON
-        const supabase = createClient(url, anon);
+        const supabase = createClient(SUPA_URL, SUPA_ANON);
         return supabase
     } catch (error) {
         console.error(error)
