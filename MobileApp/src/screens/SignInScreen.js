@@ -16,9 +16,9 @@ const SignInScreen = () => {
     const navigation = useNavigation();
     
     onSignInPressed = async (user, pass) => {
-        // retVal = await signIn('john', 'password')
-        // alert(retVal.user_id);
-        navigation.navigate('HomeScreen')
+        retVal = await signIn('john', 'password')
+        alert(retVal)
+        //navigation.navigate('HomeScreen')
     };
     
     const onForgotPassswordPressed = () => {

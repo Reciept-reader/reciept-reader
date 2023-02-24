@@ -5,23 +5,7 @@ Takes in a username and password to sign up
 If the username doesnt exist works 
 If the username already exists return that they cant sign-up with that username 
 */
-export async function signUp(username, password) {
-    const supabase = await createSupaClient();
-    const { data: user, error } = await supabase
-      .from("users")
-      .insert({ username, password })
-      .single();
-  
-    if (error) {
-      if (error.message.includes("duplicate key value violates unique constraint")) {
-        return "username taken";
-      } else {
-        throw error;
-      }
-    }
-  
-    return user.id;
-  };
+
 
 /* Sign in function
 Takes in a user entered username and password 
@@ -31,25 +15,25 @@ If false returns "login credenials dont exist" for the app to tell the user
 */
 export async function signIn(username, password) {
   const supabase = await createSupaClient();
+  username = 'john'
+  password = 'password'
   const { data: user, error } = await supabase
     .from("users")
-    .select("user_id")
+    .select()
     .eq("username", username)
     .eq("password", password)
 
   if (error) {
-    if (error.message.includes("duplicate key value violates unique constraint")) {
-        return "username taken";
-    } else {
-        throw error
-    }
+      throw error
   }
 
-  if (user.user_id === undefined) {
+  console.log(username, password, user)
+
+  if (user[0].user_id === undefined) {
     return "login credentials don't exist";
   }
 
-  return { user_id: user.user_id, username: user.username };
+  return JSON.stringify({ user_id: user[0].user_id, username: user[0].username });
 };
 
 
@@ -108,5 +92,7 @@ export async function changeUsername(user_id, username, new_username) {
     
     return 'Username changed';
 };
+
+
 
 export default { signIn , signUp, changePassword, changeUsername }
