@@ -5,6 +5,7 @@ import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { useNavigation } from '@react-navigation/native';
 import EditToDB from './EditToDB';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function App() {
   let cameraRef = useRef();
