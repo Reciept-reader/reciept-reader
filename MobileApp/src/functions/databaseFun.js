@@ -1,6 +1,6 @@
 
 import { createClient } from "@supabase/supabase-js";
-import env from "./reactEnv.js"
+import env from "../../reactEnv.js"
 
 /*
 Database layer to interact with the js client and edge functions 

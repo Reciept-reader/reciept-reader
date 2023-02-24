@@ -126,9 +126,9 @@ const styles = StyleSheet.create({
   },
     buttonContainer2: {
     backgroundColor: '#fff',
-    alignSelf: 'left',
+    // alignSelf: 'left',
     position: 'absolute',
-  bottom:0
+    bottom:0
   },
   flash:{
     
