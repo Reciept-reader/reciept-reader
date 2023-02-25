@@ -26,9 +26,7 @@ export async function signIn(username, password) {
   if (error) {
       throw error
   }
-
-  console.log(username, password, user)
-
+  
   if (user[0].user_id === undefined) {
     return "login credentials don't exist";
   }
@@ -95,4 +93,4 @@ export async function changeUsername(user_id, username, new_username) {
 
 
 
-export default { signIn , signUp, changePassword, changeUsername }
+export default { signIn , changePassword, changeUsername }

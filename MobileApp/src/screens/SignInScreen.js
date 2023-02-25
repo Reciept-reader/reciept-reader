@@ -22,7 +22,9 @@ const SignInScreen = () => {
     
     onSignInPressed = async (user, pass) => {
         retVal = await signIn('john', 'password')
+        reVal = JSON.parse(retVal)
         alert(retVal)
+        //alert(`Welcome: ${retVal.username} User ID is : ${retVal.user_id}`)
         //navigation.navigate('HomeScreen')
     };
 
