@@ -256,7 +256,7 @@ async function getCustomItem(userId, itemName) {
         .eq("item_name", itemName)
     if (error) throw error
     return data
-        .
+      
 }
 
 

@@ -8,7 +8,7 @@ function ProfileScreen() {
     const navigation = useNavigation();
 
     const onSignInPressed =() => {
-        navigation.navigate('SignIn')
+        navigation.navigate('Sign In')
         };
 
         const onAboutPressed =() => {
