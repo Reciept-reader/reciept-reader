@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, useWindowDimensions, Button } from 'reac
 import Logo from '../../assets1/logo2.png';
 import CustomInput from '../components/CustomInput/CustomInput';
 import CustomButton from '../components/CustomButton/CustomButton';
-import {signUp, signIn} from '../functions/accountFun';
+import {signIn} from '../functions/accountFun';
 import { useNavigation } from '@react-navigation/native';
 import HomeScreen from '../screens/HomeScreen';
 
@@ -17,7 +17,8 @@ const SignInScreen = () => {
     
     onSignInPressed = async (user, pass) => {
         retVal = await signIn('john', 'password')
-        alert(retVal)
+        retVal = JSON.parse(retVal)
+        alert(`Welcome : ${retVal.username} Youre ID is : ${retVal.user_id}`)
         //navigation.navigate('HomeScreen')
     };
     
