@@ -109,4 +109,6 @@ export async function changeUsername(user_id, username, new_username) {
     return 'Username changed';
 };
 
-export default { signIn , signUp, changePassword, changeUsername }
+
+
+export default { signIn , changePassword, changeUsername }
