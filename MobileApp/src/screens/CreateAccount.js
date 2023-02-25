@@ -34,7 +34,7 @@ function Signup() {
             alert(`Welcome: ${retVal.username} User ID is : ${retVal.user_id}`)
             navigation.navigate('HomeScreen')
             } catch (error) {
-                alert("Invalid login credentials")
+                alert("Username taken")
             }
         }
     };

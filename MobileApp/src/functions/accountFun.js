@@ -10,7 +10,7 @@ export async function signUp(username, password) {
   const { data: user, error } = await supabase
     .from("users")
     .insert({ username, password })
-    .single();
+    .select();
 
   if (error) {
     if (error.message.includes("duplicate key value violates unique constraint")) {
@@ -20,7 +20,7 @@ export async function signUp(username, password) {
     }
   }
   
-  return JSON.stringify(user[0].id);
+  return JSON.stringify({ user_id: user[0].user_id, username: user[0].username });
 };
 
 /* Sign in function
@@ -109,4 +109,4 @@ export async function changeUsername(user_id, username, new_username) {
 
 
 
-export default { signIn , changePassword, changeUsername }
+export default { signIn , signUp , changePassword, changeUsername }
