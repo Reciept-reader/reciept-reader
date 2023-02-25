@@ -5,7 +5,23 @@ Takes in a username and password to sign up
 If the username doesnt exist works 
 If the username already exists return that they cant sign-up with that username 
 */
+export async function signUp(username, password) {
+  const supabase = await createSupaClient();
+  const { data: user, error } = await supabase
+    .from("users")
+    .insert({ username, password })
+    .single();
 
+  if (error) {
+    if (error.message.includes("duplicate key value violates unique constraint")) {
+      return "username taken";
+    } else {
+      throw error;
+    }
+  }
+  
+  return JSON.stringify(user[0].id);
+};
 
 /* Sign in function
 Takes in a user entered username and password 

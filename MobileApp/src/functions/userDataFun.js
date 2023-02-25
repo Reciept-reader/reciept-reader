@@ -9,32 +9,35 @@ Helper Functions for inserting , updating , and deleting user custom items
 Data creation for making templates for the data
 */
 export function createReceiptData({userId, storeName, total, date, items}) {
-    const receipt = {
+    let receipt = {
         "user_id": userId || undefined, 
         "store_name": storeName || undefined,
         "total": total || undefined,
         "date": date || undefined,
         "items": items || undefined
     }
+    receipt = JSON.stringify(receipt)
     return receipt
 }
 
 export function createItemData({itemName, customName, price}) {
-    const item = {
+    let item = {
         "item_name": itemName || undefined, 
         "custom_name": customName || undefined,
         "price": price || undefined,
     }
+    item = JSON.stringify(item)
     return item
 }
 
 export function createCustomItemData({command, userId, itemName, customName}) {
-    const customItem = {
+    let customItem = {
         "command": command || undefined,
         "user_id": userId || undefined,
         "item_name": itemName || undefined,
         "custom_name": customName || undefined,
     }
+    customItem = JSON.stringify(customItem)
     return customItem
 }
 
