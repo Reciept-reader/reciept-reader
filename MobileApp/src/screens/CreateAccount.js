@@ -13,8 +13,7 @@ function Signup() {
     const [password_check, setPassword_check] = useState('')
     const navigation = useNavigation();
 
-    onSignUpPressed = async (user, pass1, pass2) => {
-        
+    const onSignUpPressed = async (user, pass1, pass2) => {
         // check to see if all fields have data
         if (user == '' && pass1 == '' && pass2) {
             alert('Please provide a username and password')
@@ -29,12 +28,15 @@ function Signup() {
             alert('Both passwords must match')
         }
         else {
+            try {
             retVal = await signUp(user, pass1)
             retVal = JSON.parse(retVal)
             alert(`Welcome: ${retVal.username} User ID is : ${retVal.user_id}`)
             navigation.navigate('HomeScreen')
+            } catch (error) {
+                alert("Invalid login credentials")
+            }
         }
-        navigation.navigate('HomeScreen')
     };
     return (
         <View style={styles.root}>
@@ -42,30 +44,26 @@ function Signup() {
             source={Logo}
             style={[styles.logo, { height: height * 0.3 }]}
             resizeMode="contain"
-
         />
         <CustomInput
-            placeholder="Useremail"
-
+            placeholder="Username"
             value={username}
             setValue={setUsername}
         />
         
         <CustomInput
             placeholder="Create password"
-
             value={password}
             setValue={setPassword}
             secureTextEntry={true}
         />
         <CustomInput
             placeholder="Confirm Password"
-
             value={password_check}
             setValue={setPassword_check}
             secureTextEntry={true}
         />
-        <CustomButton text="Sign Up" onPress={onSignUpPressed(username, password, password_check)} />
+        <CustomButton text="Sign Up" onPress={ () => onSignUpPressed(username, password, password_check)} />
     </View>
     );
   }
