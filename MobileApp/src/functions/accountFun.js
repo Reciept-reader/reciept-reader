@@ -15,8 +15,6 @@ If false returns "login credenials dont exist" for the app to tell the user
 */
 export async function signIn(username, password) {
   const supabase = await createSupaClient();
-  username = 'john'
-  password = 'password'
   const { data: user, error } = await supabase
     .from("users")
     .select()

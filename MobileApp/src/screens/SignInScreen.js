@@ -21,9 +21,23 @@ const SignInScreen = () => {
     const navigation = useNavigation();
     
     onSignInPressed = async (user, pass) => {
-        retVal = await signIn('john', 'password')
-        reVal = JSON.parse(retVal)
-        alert(retVal)
+        
+        // check to see if all fields have data
+        if (user == '' && pass == '') {
+            alert('Please provide a username and password')
+        }
+        else if (user == '') {
+            alert('Please provide a username')
+        }
+        else if (pass == '') {
+            alert('Please provide a password')
+        }
+        else {
+            retVal = await signIn(user, pass)
+            reVal = JSON.parse(retVal)
+            alert(retVal)
+        }
+        
         //alert(`Welcome: ${retVal.username} User ID is : ${retVal.user_id}`)
         //navigation.navigate('HomeScreen')
     };
@@ -51,11 +65,9 @@ const SignInScreen = () => {
                 placeholder="Username"
                 value={username}
                 setValue={setUsername}
-                onChangeText={(username) => setUsername(username)}
             />
             <CustomInput
                 placeholder="Password"
-
                 value={password}
                 setValue={setPassword}
                 secureTextEntry={true}

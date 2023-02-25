@@ -10,6 +10,7 @@ const CustomInput = ({value, setValue, placeholder,secureTextEntry}) => {
             placeholder={placeholder} 
             style={styles.input} 
             secureTextEntry={secureTextEntry}
+            autoCapitalize='none'
             />
             <Text style={styles.text}></Text>
             
