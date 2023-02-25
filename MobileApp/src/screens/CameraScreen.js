@@ -24,17 +24,7 @@ export default function App() {
 
 
   // const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.torch)
-  const __handleFlashMode = () => {
 
-    if (flashMode === 'off') {
-      setFlashMode(Camera.Constants.FlashMode.torch)
-    } else if (flashMode === 'on') {
-      setFlashMode(Camera.Constants.FlashMode.off)
-
-    } else {
-      setFlashMode(Camera.Constants.FlashMode.off)
-    }
-  }
 
 
   useEffect(() => {
@@ -102,7 +92,7 @@ export default function App() {
                 : Camera.Constants.FlashMode.off
             )
           }
-          title = "FlashLight"
+          title = "flashlight"
           color={flash === Camera.Constants.FlashMode.off ? 'gray' : '#fff'}
         />
       </View>

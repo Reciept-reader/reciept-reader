@@ -37,14 +37,10 @@ function EditToDB() {
     if(dateDB == '') {
         dateDB = new Date().toLocaleDateString('en-US')
     }
-
+    
     return (
       <View style={styles.view}>
-        <TextInput 
-        style={styles.input} 
-        placeholder={store_nameDB}
-        value={store_nameDB}
-        />
+        <TextInput style={styles.input} placeholder={store_nameDB}/>
         <TextInput style={styles.input} placeholder={dateDB}/>
         <TextInput style={styles.input} placeholder={totalDB}/>
         <Button onPress={postdata(receiptData)} title="Click me!"></Button>

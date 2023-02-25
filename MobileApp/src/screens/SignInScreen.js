@@ -5,8 +5,10 @@ import CustomInput from '../components/CustomInput/CustomInput';
 import CustomButton from '../components/CustomButton/CustomButton';
 import {signIn} from '../functions/accountFun';
 import { createReceiptData, createItemData, createCustomItemData, insertReceipt, deleteReceipt , editReceipt, getReceipt, getReceipts,
-    insertItem, editItemsReceipt, getItem, getItemsReceipt, deleteItemsReceipt, deleteCustomItem, deleteCustomAll, upsertCustomItem,
-    upsertCustomAll, getCustomItem, getCustomAll, getCustomItemsUser } from '../functions/userDataFun'
+insertItem, editItemsReceipt, getItem, getItemsReceipt, deleteItemsReceipt, deleteCustomItem, deleteCustomAll, upsertCustomItem,
+upsertCustomAll, getCustomItem, getCustomAll, getCustomItemsUser } from '../functions/userDataFun'
+
+
 import { useNavigation } from '@react-navigation/native';
 import HomeScreen from '../screens/HomeScreen';
 //import Signup from './Signup';
@@ -20,11 +22,16 @@ const SignInScreen = () => {
     
     onSignInPressed = async (user, pass) => {
         retVal = await signIn('john', 'password')
-        retVal = JSON.parse(retVal)
-        alert(`Welcome : ${retVal.username} Youre ID is : ${retVal.user_id}`)
+        alert(retVal)
         //navigation.navigate('HomeScreen')
     };
 
+    
+    onSignUpPressed = () => {
+        // retVal = await signIn('john', 'password')
+        // alert(retVal);
+        navigation.navigate('Signup')
+    };
     
     const onForgotPassswordPressed = () => {
         navigation.navigate('ForgotPassword')

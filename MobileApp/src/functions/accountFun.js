@@ -95,4 +95,4 @@ export async function changeUsername(user_id, username, new_username) {
 
 
 
-export default { signIn , changePassword, changeUsername }
+export default { signIn , signUp, changePassword, changeUsername }
