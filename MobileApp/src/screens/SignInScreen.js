@@ -3,10 +3,15 @@ import { View, Text, Image, StyleSheet, useWindowDimensions, Button } from 'reac
 import Logo from '../../assets1/logo2.png';
 import CustomInput from '../components/CustomInput/CustomInput';
 import CustomButton from '../components/CustomButton/CustomButton';
-import {signUp, signIn} from '../functions/accountFun';
+import {signIn} from '../functions/accountFun';
+import { createReceiptData, createItemData, createCustomItemData, insertReceipt, deleteReceipt , editReceipt, getReceipt, getReceipts,
+insertItem, editItemsReceipt, getItem, getItemsReceipt, deleteItemsReceipt, deleteCustomItem, deleteCustomAll, upsertCustomItem,
+upsertCustomAll, getCustomItem, getCustomAll, getCustomItemsUser } from '../functions/userDataFun'
+
+
 import { useNavigation } from '@react-navigation/native';
 import HomeScreen from '../screens/HomeScreen';
-
+//import Signup from './Signup';
 const SignInScreen = () => {
 
     const [username, setUsername] = useState('');
@@ -20,6 +25,7 @@ const SignInScreen = () => {
         alert(retVal)
         //navigation.navigate('HomeScreen')
     };
+
     
     onSignUpPressed = () => {
         // retVal = await signIn('john', 'password')
@@ -54,8 +60,7 @@ const SignInScreen = () => {
             />
          <Button tyle={styles.buttonContainer2} title="Forgot your password?" onPress={onForgotPassswordPressed} />
             <CustomButton text="Sign In" onPress={ () => onSignInPressed(username, password)} />
-           
-        <CustomButton text="Sign up" onPress={onSignInPressed} />
+
         </View>
     );
 };
