@@ -11,7 +11,7 @@ upsertCustomAll, getCustomItem, getCustomAll, getCustomItemsUser } from '../func
 
 import { useNavigation } from '@react-navigation/native';
 import HomeScreen from '../screens/HomeScreen';
-//import Signup from './Signup';
+
 const SignInScreen = () => {
 
     const [username, setUsername] = useState('');
@@ -62,6 +62,8 @@ const SignInScreen = () => {
             />
          <Button tyle={styles.buttonContainer2} title="Forgot your password?" onPress={onForgotPassswordPressed} />
             <CustomButton text="Sign In" onPress={ () => onSignInPressed(username, password)} />
+            <CustomButton text="Sign Up" onPress={ () => onSignUpPressed()} />
+
 
         </View>
     );
