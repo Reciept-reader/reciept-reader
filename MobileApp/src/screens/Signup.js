@@ -34,6 +34,12 @@ function Signup() {
             value={username}
             setValue={setUsername}
         />
+         <CustomInput
+            placeholder="Useremail"
+
+            value={username}
+            setValue={setUsername}
+        />
         <CustomInput
             placeholder="Create password"
 
