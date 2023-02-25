@@ -21,10 +21,10 @@ const SignInScreen = () => {
         alert(`Welcome : ${retVal.username} Youre ID is : ${retVal.user_id}`)
         //navigation.navigate('HomeScreen')
     };
-    onSignInPressed = (user, pass) => {
+    onSignUpPressed = () => {
         // retVal = await signIn('john', 'password')
         // alert(retVal);
-        navigation.navigate('HomeScreen')
+        navigation.navigate('Signup')
     };
     
     
