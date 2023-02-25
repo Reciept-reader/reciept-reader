@@ -43,10 +43,10 @@ const SignInScreen = () => {
     };
 
     
-    onSignUpPressed = () => {
+    onCreateAccountPressed = () => {
         // retVal = await signIn('john', 'password')
         // alert(retVal);
-        navigation.navigate('Signup')
+        navigation.navigate('CreateAccount')
     };
     
     const onForgotPassswordPressed = () => {
@@ -74,7 +74,7 @@ const SignInScreen = () => {
             />
          <Button tyle={styles.buttonContainer2} title="Forgot your password?" onPress={onForgotPassswordPressed} />
             <CustomButton text="Sign In" onPress={ () => onSignInPressed(username, password)} />
-            <CustomButton text="Sign Up" onPress={ () => onSignUpPressed()} />
+            <CustomButton text="Create Account" onPress={ () => onCreateAccountPressed()} />
 
 
         </View>
