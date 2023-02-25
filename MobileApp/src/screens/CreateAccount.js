@@ -3,21 +3,37 @@ import { View, Text, Image, StyleSheet, useWindowDimensions, Button } from 'reac
 import Logo from '../../assets1/logo2.png';
 import CustomInput from '../components/CustomInput/CustomInput';
 import CustomButton from '../components/CustomButton/CustomButton';
+import {signUp} from '../functions/accountFun'
 import { useNavigation } from '@react-navigation/native';
 
 function Signup() {
     const { height } = useWindowDimensions();
-    const [username, setUsername] = useState({
-        user:'',
-        passeord:'',
-        confirmPassword: ''
-    });
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [password_check, setPassword_check] = useState('')
     const navigation = useNavigation();
 
-    const [password, setPassword] = useState('')
-    onSignUpPressed = () => {
-        // retVal = await signIn('john', 'password')
-        // alert(retVal);
+    onSignUpPressed = async (user, pass1, pass2) => {
+        
+        // check to see if all fields have data
+        if (user == '' && pass1 == '' && pass2) {
+            alert('Please provide a username and password')
+        }
+        else if (user == '') {
+            alert('Please provide a username')
+        }
+        else if (pass1 == '' || pass2 == '') {
+            alert('Please provide both passwords')
+        }
+        else if (pass1 != pass2) {
+            alert('Both passwords must match')
+        }
+        else {
+            retVal = await signUp(user, pass1)
+            retVal = JSON.parse(retVal)
+            alert(`Welcome: ${retVal.username} User ID is : ${retVal.user_id}`)
+            navigation.navigate('HomeScreen')
+        }
         navigation.navigate('HomeScreen')
     };
     return (
@@ -45,22 +61,15 @@ function Signup() {
         <CustomInput
             placeholder="Confirm Password"
 
-            value={password}
-            setValue={setPassword}
+            value={password_check}
+            setValue={setPassword_check}
             secureTextEntry={true}
         />
-        <CustomButton text="Sign Up" onPress={onSignUpPressed} />
-
-
-     {/* <Button tyle={styles.buttonContainer2} title="Forgot your password?" onPress={onForgotPassswordPressed} />
-        <CustomButton text="Sign In" onPress={onSignInPressed} />
-       
-    <CustomButton text="Sign up" onPress={onSignInPressed} /> */}
-
-
+        <CustomButton text="Sign Up" onPress={onSignUpPressed(username, password, password_check)} />
     </View>
     );
   }
+
   const styles = StyleSheet.create({
     root: {
         alignItems: 'center',
