@@ -1,7 +1,6 @@
 import { Text, View, StyleSheet, Button, TextInput } from 'react-native';
 import React, {useState} from 'react';
 
-const [receiptItems, addItem] = useState([])
 
 const receiptData = {
     user_id: '3',
