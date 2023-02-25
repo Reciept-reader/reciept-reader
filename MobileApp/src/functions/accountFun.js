@@ -19,7 +19,7 @@ export async function signUp(username, password) {
       throw error;
     }
   }
-  
+
   return JSON.stringify({ user_id: user[0].user_id, username: user[0].username });
 };
 
@@ -107,6 +107,25 @@ export async function changeUsername(user_id, username, new_username) {
     return 'Username changed';
 };
 
+/* Forgot password
+Takes in a username and newpassword to sign up 
+If the username doesnt exist return cant find user 
+If the username exist
+*/
+export async function forgotPassword(username, newPassword) {
+  const supabase = await createSupaClient();
+  const { data: user, error } = await supabase
+    .from("users")
+    .update({ password: newPassword })
+    .eq('username', username)
+    .select()
 
+  if (error) {
+      throw error;
+      return 'cant update password'
+  }
 
-export default { signIn , signUp , changePassword, changeUsername }
+  return (user[0]) ? 0 : -1;
+};
+
+export default { signIn , signUp , changePassword, changeUsername, forgotPassword }
