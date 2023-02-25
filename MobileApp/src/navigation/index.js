@@ -10,7 +10,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import ExpensesScreen from '../screens/ExpensesScreen';
 import EditToDB from '../screens/EditToDB';
 import ForgotPassword from '../screens/ForgotPassword';
-import Signup from '../screens/Signup';
+import CreateAccount from '../screens/CreateAccount';
 
 const Stack = createNativeStackNavigator();
 const Navigation =() => {
@@ -19,7 +19,7 @@ const Navigation =() => {
             <Stack.Navigator>
                 <Stack.Screen name = "Sign In" component={SignInScreen} options={{ title: '' }}  />
                 <Stack.Screen name = "HomeScreen" component={HomeScreen} options={{ title: '' }} />
-                <Stack.Screen name = "Signup" component={Signup} options={{ title: '' }}  />
+                <Stack.Screen name = "CreateAccount" component={CreateAccount} options={{ title: '' }}  />
 
                 <Stack.Screen name = "ForgotPassword" component={ForgotPassword} options={{ title: '' }}  />
                 <Stack.Screen name = "ExpenseScreen" component={ExpensesScreen} options={{ title: '' }} />
