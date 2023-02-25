@@ -22,7 +22,7 @@ const SignInScreen = () => {
     
     onSignInPressed = async (user, pass) => {
         
-        // check to see if all fields have data
+    //check to see if all fields have data
         if (user == '' && pass == '') {
             alert('Please provide a username and password')
         }
@@ -33,13 +33,15 @@ const SignInScreen = () => {
             alert('Please provide a password')
         }
         else {
-            retVal = await signIn(user, pass)
-            reVal = JSON.parse(retVal)
-            alert(retVal)
+            try {
+                retVal = await signIn(user, pass)
+                retVal = JSON.parse(retVal)
+                alert(`Welcome: ${retVal.username} User ID is : ${retVal.user_id}`)
+                navigation.navigate('HomeScreen')
+            } catch (error) {
+                alert("Invalid login credentials")
+            }
         }
-        
-        //alert(`Welcome: ${retVal.username} User ID is : ${retVal.user_id}`)
-        //navigation.navigate('HomeScreen')
     };
 
     

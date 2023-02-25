@@ -23,6 +23,8 @@ export async function signIn(username, password) {
 
   if (error) {
       throw error
+      return "login credentials don't exist";
+
   }
   
   if (user[0].user_id === undefined) {
