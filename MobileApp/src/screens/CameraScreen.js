@@ -6,7 +6,7 @@ import * as MediaLibrary from 'expo-media-library';
 import { useNavigation } from '@react-navigation/native';
 import EditToDB from './EditToDB';
 import * as ImagePicker from 'expo-image-picker';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import Torch from 'react-native-torch'
 import React from 'react'
 export default function App() {
@@ -93,11 +93,12 @@ export default function App() {
             )
           }
           title = "flashlight"
+          Ionicons = "camera-outline"
           color={flash === Camera.Constants.FlashMode.off ? 'gray' : '#fff'}
         />
       </View>
       <View style={styles.buttonContainer}>
-        <Button title="" onPress={takePic} />
+        <Button title="" onPress={takePic}  />
       </View>
       <View style={styles.buttonContainer2}>
         <Button title="Upload pic" onPress={pickImage} />
