@@ -43,7 +43,6 @@ function EditToDB() {
         <TextInput 
         style={styles.input} 
         placeholder={store_nameDB}
-        value={store_nameDB}
         />
         <TextInput style={styles.input} placeholder={dateDB}/>
         <TextInput style={styles.input} placeholder={totalDB}/>
