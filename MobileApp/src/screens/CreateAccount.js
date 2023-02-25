@@ -31,7 +31,7 @@ function Signup() {
             try {
             retVal = await signUp(user, pass1)
             retVal = JSON.parse(retVal)
-            alert(`Welcome: ${retVal.username} User ID is : ${retVal.user_id}`)
+            alert(`Account Successfully Created.\nWelcome: ${retVal.username} User ID is : ${retVal.user_id}`)
             navigation.navigate('HomeScreen')
             } catch (error) {
                 alert("Username taken")

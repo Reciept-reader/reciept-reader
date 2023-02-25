@@ -9,6 +9,8 @@ import * as ImagePicker from 'expo-image-picker';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Torch from 'react-native-torch'
 import React from 'react'
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 export default function App() {
   let cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState();
@@ -83,8 +85,9 @@ export default function App() {
     <Camera style={styles.container} ref={cameraRef} flashMode={flash}>
       <View style={styles.flash}>
 
-        <Button
-        
+        <Icon.Button 
+          name = 'flash'
+          size ={30}
           onPress={() =>
             setFlash(
               flash === Camera.Constants.FlashMode.off
@@ -92,10 +95,12 @@ export default function App() {
                 : Camera.Constants.FlashMode.off
             )
           }
-          title = "flashlight"
-          Ionicons = "camera-outline"
           color={flash === Camera.Constants.FlashMode.off ? 'gray' : '#fff'}
-        />
+
+          >
+        
+          </Icon.Button>
+        
       </View>
       <View style={styles.buttonContainer}>
         <Button title="" onPress={takePic}  />
