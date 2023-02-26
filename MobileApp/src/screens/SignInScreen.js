@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
         position:'absolute',
         alignSelf:'center'
       },
+      
 });
 
 export default SignInScreen;

@@ -122,9 +122,25 @@ export default function App() {
           color={flash === Camera.Constants.FlashMode.off ? "gray" : "#fff"}
         ></Icon.Button>
       </View>
-      <View style={styles.buttonContainer}>
-        <Button title="" onPress={takePic} />
-      </View>
+      <View style={{
+        alignSelf: 'center',
+        flex: 1,
+        alignItems: 'center',
+        bottom: 0,
+        position: "absolute",
+                }}>
+        <TouchableOpacity onPress={takePic} style={{
+            width: 70,
+            height: 70,
+            bottom: 0,
+            borderRadius: 50,
+            backgroundColor: '#fff'
+            
+            }}
+           
+       />
+       </View>
+   
       <View style={styles.buttonContainer2}>
         <Button title="Upload pic" onPress={pickImage} />
       </View>
@@ -136,6 +152,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
   },
   buttonContainer: {
     width: 70,
