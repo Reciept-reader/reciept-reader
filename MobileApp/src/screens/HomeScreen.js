@@ -12,52 +12,71 @@ import ProfileScreen from "../screens/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
 
-function Dash() {
-    return (
-        <View style={styles.container}>
-        {/* <View style={styles.rectStack}> */}
+function Dash({ route, navigation }) {
+  const userid = route.params;
+  return (
+    <View style={styles.container}>
+    {/* <View style={styles.rectStack}> */}
+    
+    <Tab.Navigator 
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === 'Dashboard') {
+          iconName = focused
+            ? 'home'
+            : 'home-outline';
+        } else if (route.name === 'Camera') {
+          iconName = focused 
+          ? 'camera' 
+          : 'camera-outline'; 
+        } 
+        else if(route.name == 'Profile'){
+          iconName= focused
+          ? 'person'
+          : 'person-outline';
+        }
+        else if (route.name == 'Expense'){
+          iconName  = focused
+          ? 'menu'
+          : 'menu-outline'
+        }
+        return <Ionicons name={iconName} size={size} color={color} />;
         
-          <Tab.Navigator 
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+      },
+      tabBarActiveTintColor: 'blue',
+      tabBarInactiveTintColor: 'gray',
+      })}>
 
-            if (route.name === 'Dashboard') {
-              iconName = focused
-                ? 'home'
-                : 'home-outline';
-            } else if (route.name === 'Camera') {
-              iconName = focused 
-              ? 'camera' 
-              : 'camera-outline'; 
-            } 
-            else if(route.name == 'Profile'){
-              iconName= focused
-              ? 'person'
-              : 'person-outline';
-            }
-            else if (route.name == 'Expense'){
-              iconName  = focused
-              ? 'menu'
-              : 'menu-outline'
-            }
-            return <Ionicons name={iconName} size={size} color={color} />;
-            
-          },
-          tabBarActiveTintColor: 'blue',
-          tabBarInactiveTintColor: 'gray',
-        })}
-      >
-        <Tab.Screen name="Dashboard" component={Dashboard} options={{ headerShown: false }}/>
-        <Tab.Screen name="Expense" component={ExpensesScreen} options={{ headerShown: false }}/>
-        <Tab.Screen name="Camera" component={CameraScreen} options={{ headerShown: false }}/>
-        <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }}/>
+      <Tab.Screen 
+        name="Dashboard" 
+        component={Dashboard} 
+        options={{ headerShown: false }}
+        />
+      <Tab.Screen 
+        name="Expense" 
+        component={ExpensesScreen} 
+        options={{ headerShown: false }}
+        initialParams={{userid: userid.userid}}
+      />
+      <Tab.Screen name="Camera" 
+        component={CameraScreen} 
+        options={{ headerShown: false }}
+        initialParams={{userid: userid.userid}}
+      />
+      <Tab.Screen 
+        name="Profile" 
+        component={ProfileScreen} 
+        options={{ headerShown: false }} 
+        initialParams={{userid: userid.userid}}
+      />
 
-      </Tab.Navigator>
-        {/* </View> */}
-      </View>
-    );  
-  }
+    </Tab.Navigator>
+      {/* </View> */}
+    </View>
+  );  
+}
 
 
 

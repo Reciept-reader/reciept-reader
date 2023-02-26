@@ -11,12 +11,17 @@ const receiptData = {
     items: [
 
         {item_name: 'pizza', price: 99},
-        {item_name: 'nerd', price: 88},
-        {item_name: 'more food', price: 77}
+        {item_name: 'cheese', price: 88},
+        {item_name: 'milk', price: 77}
     ]
 };
 
 function postdata(input) {
+    let s_store = store_nameDB
+    let s_total = totalDB
+    if (s_store.trim() == '') s_store = receiptData.store_name
+    if (s_total.trim() == '') s_total = receiptData.total
+
     // const options = {
     //     method: 'POST',
     //     headers: {
@@ -27,6 +32,7 @@ function postdata(input) {
     // };
 
     // fetch('https://ixxtmhjztlfsfjorurfi.functions.supabase.co/reciept', options);
+    
     alert('you clicked me!')
     
 }
@@ -44,10 +50,7 @@ function EditToDB() {
     }
     
     itemsDB = receiptData.items
-    if (itemsDB.length > 0) {
-        let i = 0
-    }
-
+    
     return (
       <View style={styles.view}>
         <TextInput 
@@ -65,12 +68,15 @@ function EditToDB() {
         />
         
         {itemsDB.map((item, index) => 
-
+            <>
             <TextInput
             key={`item${index}`}
             style={styles.input}
             placeholder={item.item_name} />
-            
+            <TextInput key={`price${index}`}
+            style={styles.input}
+            placeholder={`${item.price}`} />
+            </>
         )} 
 
         <TextInput 

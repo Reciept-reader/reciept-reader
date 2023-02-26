@@ -9,16 +9,14 @@ insertItem, editItemsReceipt, getItem, getItemsReceipt, deleteItemsReceipt, dele
 upsertCustomAll, getCustomItem, getCustomAll, getCustomItemsUser } from '../functions/userDataFun'
 
 
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 import HomeScreen from '../screens/HomeScreen';
 
-const SignInScreen = () => {
+const SignInScreen = ({navigation}) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const { height } = useWindowDimensions();
-
-    const navigation = useNavigation();
     
     onSignInPressed = async (user, pass) => {
         
@@ -36,8 +34,8 @@ const SignInScreen = () => {
             try {
                 retVal = await signIn(user, pass)
                 retVal = JSON.parse(retVal)
-                alert(`Welcome: ${retVal.username} User ID is : ${retVal.user_id}`)
-                navigation.navigate('HomeScreen')
+                // alert(`Welcome: ${retVal.username} User ID is : ${retVal.user_id}`)
+                navigation.replace('HomeScreen', {userid: retVal.user_id})
             } catch (error) {
                 alert("Invalid login credentials")
             }
@@ -46,8 +44,6 @@ const SignInScreen = () => {
 
     
     onCreateAccountPressed = () => {
-        // retVal = await signIn('john', 'password')
-        // alert(retVal);
         navigation.navigate('CreateAccount')
     };
     
@@ -56,7 +52,7 @@ const SignInScreen = () => {
     };
     
     const onBackdoorPressed = () => {
-        navigation.navigate('HomeScreen')
+        navigation.replace('HomeScreen', {userid: 45}) // 45 is admin, pass
     };
 
     return (

@@ -4,9 +4,11 @@ import Logo from '../../assets1/logo2.png';
 import CustomButton from '../components/CustomButton/CustomButton';
 import { useNavigation } from '@react-navigation/native';
 
-function ProfileScreen() {
-    const navigation = useNavigation();
+function ProfileScreen({ route, navigation }) {
 
+    // const navigation = useNavigation();
+    const userParams = route.params;
+    alert(userParams.userid)
     const onSignInPressed =() => {
         navigation.navigate('Sign In')
         };
@@ -16,7 +18,7 @@ function ProfileScreen() {
             };
     return (
 
-        <View style={style.cotainer}>
+        <View style={style.container}>
             <View style={style.infoContainer}>
                 <Text style={style.header} >Welcome</Text>
                 <Text style={style.userInfo}>User Name:</Text>
