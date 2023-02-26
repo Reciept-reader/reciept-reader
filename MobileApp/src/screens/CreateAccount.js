@@ -32,7 +32,7 @@ function Signup() {
             retVal = await signUp(user, pass1)
             retVal = JSON.parse(retVal)
             alert(`Account Successfully Created.\nWelcome: ${retVal.username} User ID is : ${retVal.user_id}`)
-            navigation.navigate('HomeScreen', {id: retVal.user_id})
+            navigation.replace('HomeScreen', {id: retVal.user_id})
             } catch (error) {
                 alert("Username taken")
             }

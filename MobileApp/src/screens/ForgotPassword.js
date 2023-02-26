@@ -34,7 +34,7 @@ function ForgotPassword() {
             //alert(retVal)
             if(retVal == 0) {
                 alert('Password Successfully Changed.')
-                navigation.navigate('Sign In')
+                navigation.replace('Sign In')
             }
             else {
                 alert('Password unable to be updated')

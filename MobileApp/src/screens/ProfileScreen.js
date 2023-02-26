@@ -9,11 +9,11 @@ function ProfileScreen({ route, navigation }) {
     // const navigation = useNavigation();
     const userParams = route.params;
     alert(userParams.userid)
-    const onSignInPressed =() => {
-        navigation.navigate('Sign In')
+    const onSignOutPressed = () => {
+        navigation.replace('Sign In')
         };
 
-        const onAboutPressed =() => {
+        const onAboutPressed = () => {
             navigation.navigate('About')
             };
     return (
@@ -21,13 +21,13 @@ function ProfileScreen({ route, navigation }) {
         <View style={style.container}>
             <View style={style.infoContainer}>
                 <Text style={style.header} >Welcome</Text>
-                <Text style={style.userInfo}>User Name:</Text>
+                <Text style={style.userInfo}>User Name: {(userParams.userid).toString()}</Text>
                 <Text style={style.userInfo}>Reciept Amount:</Text>
             </View>
             
             <View style = {style.buttonsContainer}>
                 <CustomButton style={style.aboutButton} text ="About" onPress={onAboutPressed}/>
-                <CustomButton style={style.exitButton} text ="Sign Out" onPress={onSignInPressed}/>
+                <CustomButton style={style.exitButton} text ="Sign Out" onPress={onSignOutPressed}/>
             </View>
         </View>
     );
