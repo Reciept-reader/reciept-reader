@@ -18,6 +18,7 @@ export default function App() {
   const [photo, setPhoto] = useState();
   const navigation = useNavigation();
 
+  
 
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
@@ -66,9 +67,14 @@ export default function App() {
   if (photo) {
 
 
+
     let savePhoto = () => {
+      let pic =[];
+      
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
         navigation.navigate('EditToDB')
+        pic.append(photo.uri)
+        
       });
     };
 
