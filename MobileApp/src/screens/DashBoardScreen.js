@@ -2,7 +2,7 @@ import { React } from 'react';
 import { View, FlatList, Image, StyleSheet, Text, Dimensions, ScrollView, ButtonList,TouchableOpacity } from 'react-native';
 import tempImage from '../receipts/costco1.png';
 import { useNavigation } from '@react-navigation/native';
-
+import Photos from '../components/Photos'
 
 const images = [
   {id: '1'},
@@ -12,28 +12,27 @@ const images = [
   {id: '5'},
 ];
 
-function Dashboard() {
+const Dashboard = (props) => {
 
   const naviga = useNavigation();
-onShowImage = () => {
-  // retVal = await signIn('john', 'password')
-  // alert(retVal);
+  onShowImage = () => {
+  
   naviga.navigate('ShowImage')
 };
     return (  
       <ScrollView style={styles.scrollView}>
         <Text style={styles.title}>Budget $500</Text>
-      <View style={styles.container}>
+      
       <Text style={styles.title}>Previous Receipts</Text>
-
+      <View style={styles.container}>
       <FlatList
         horizontal
         data={images}
-        
+      
         renderItem={({item}) => {
          return <TouchableOpacity onPress={()=> onShowImage()}>
          
-         
+
             <Image
               source={tempImage}
               style={styles.item}
