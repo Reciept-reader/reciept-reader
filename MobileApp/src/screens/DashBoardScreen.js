@@ -1,7 +1,7 @@
 import { React } from 'react';
 import { View, FlatList, Image, StyleSheet, Text, Dimensions, ScrollView, ButtonList,TouchableOpacity } from 'react-native';
 import tempImage from '../receipts/costco1.png';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native'; 
 import Photos from '../components/Photos'
 
 const images = [
@@ -11,21 +11,40 @@ const images = [
   {id: '4'},
   {id: '5'},
 ];
-
+let deviceHeight = Dimensions.get('window').height;
+let deviceWidth = Dimensions.get('window').width;
 const Dashboard = (props) => {
 
-  const naviga = useNavigation();
-  onShowImage = () => {
+  const navigation = useNavigation();
+//   onShowImage = () => {
   
-  naviga.navigate('ShowImage')
-};
+//   naviga.navigate('ShowImage')
+// };
     return (  
       <ScrollView style={styles.scrollView}>
         <Text style={styles.title}>Budget $500</Text>
       
       <Text style={styles.title}>Previous Receipts</Text>
-      <View style={styles.container}>
-      <FlatList
+      <View style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
+      
+      {Photos.map((image, index) => (
+
+      <TouchableOpacity key ={index} onPress ={() => {
+            props.navigation.navigate('ShowImage', {url: image.url})
+          }}>
+          <Image source ={image.url} style={styles.item}/>
+
+          
+
+          </TouchableOpacity>
+         
+      )  )  
+      
+      
+      
+      }
+      
+      {/* <FlatList
         horizontal
         data={images}
       
@@ -40,7 +59,7 @@ const Dashboard = (props) => {
           </TouchableOpacity>
         }}
         keyExtractor={item => item.id}
-      />
+      /> */}
     
       </View>
       </ScrollView>
