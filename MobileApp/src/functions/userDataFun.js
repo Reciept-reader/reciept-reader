@@ -481,7 +481,8 @@ export async function mostRecentReceipts(userId, count) {
     if (data[0].receipt_id == undefined || data.length == 0) return -1 //no receipts
     if (error) return -1
 
-    const jsonStringArray = data.reverse().map(row => JSON.stringify({receipt_id: row.receipt_id, url: row.url}));
+    //const jsonStringArray = data.reverse().map(row => JSON.stringify({receipt_id: row.receipt_id, url: row.url}));
+    const jsonStringArray = data.reverse()
     return jsonStringArray
 }
 

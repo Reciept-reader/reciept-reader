@@ -1,28 +1,15 @@
 import React from 'react'
 import { View, Dimensions, ImageBackground } from 'react-native'
 
-import tempImage from '../receipts/costco1.png';
-
-let deviceHeight = Dimensions.get('window').height;
-let deviceWidth = Dimensions.get('window').width;
-const ShowImage = (props) => {
-
-return (
-    <View>
-
-        <ImageBackground 
-        source = {props.route.params.url}
-        style ={{height: deviceHeight, width: deviceWidth}}
-        />
-
-    </View>
-
-
-
-)
-
-
-
+const ShowImage = ({ route }) => {
+    const input = route.params.url
+    return (
+        <View>
+            <ImageBackground 
+            source={{uri:input}}
+            style ={{height: '100%', width: '100%'}}
+            />
+        </View>
+    )
 }
-
 export default ShowImage;
