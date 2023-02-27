@@ -1,44 +1,29 @@
 import { Text, View, StyleSheet, Button, TextInput } from 'react-native';
 import React, {useState} from 'react';
 
+const EditToDB = ({ route, navigation }) => {
+    const receiptData = route.params.receiptData;
+    const userid = route.params.userid;
 
-
-const receiptData = {
-    user_id: '3',
-    store_name: 'Safeway',
-    date: '',
-    total: '100',
-    items: [
-
-        {item_name: 'pizza', price: 99},
-        {item_name: 'cheese', price: 88},
-        {item_name: 'milk', price: 77}
-    ]
-};
-
-function postdata(input) {
-    let s_store = store_nameDB
-    let s_total = totalDB
-    if (s_store.trim() == '') s_store = receiptData.store_name
-    if (s_total.trim() == '') s_total = receiptData.total
-
-    // const options = {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4eHRtaGp6dGxmc2Zqb3J1cmZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzUyOTczNTcsImV4cCI6MTk5MDg3MzM1N30.o7s0gThwzgZ7OdeskinJc5Fz9A95fuUek22E1isUoYE',
-    //     },
-    //     body: JSON.stringify(input),
-    // };
-
-    // fetch('https://ixxtmhjztlfsfjorurfi.functions.supabase.co/reciept', options);
+    const postdata = (input) => {
+        let s_store = store_nameDB
+        let s_total = totalDB
+        if (s_store.trim() == '') s_store = receiptData.store_name
+        if (s_total.trim() == '') s_total = receiptData.total
     
-    alert('you clicked me!')
+        // const options = {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4eHRtaGp6dGxmc2Zqb3J1cmZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzUyOTczNTcsImV4cCI6MTk5MDg3MzM1N30.o7s0gThwzgZ7OdeskinJc5Fz9A95fuUek22E1isUoYE',
+        //     },
+        //     body: JSON.stringify(input),
+        // };
     
-}
-
-
-function EditToDB() {
+        // fetch('https://ixxtmhjztlfsfjorurfi.functions.supabase.co/reciept', options);
+        
+        navigation.replace('HomeScreen', {userid: userid})
+    }
     
     const [store_nameDB, onChangeName] = useState('')
     const [dateDB, onChangeDate] = useState('')
@@ -67,13 +52,13 @@ function EditToDB() {
         onChangeText={onChangeDate}
         />
         
-        {itemsDB.map((item, index) => 
+        {itemsDB.map((item) => 
             <>
             <TextInput
-            key={`item${index}`}
+            key={`item${item.id}`}
             style={styles.input}
             placeholder={item.item_name} />
-            <TextInput key={`price${index}`}
+            <TextInput key={`price${item.id}`}
             style={styles.input}
             placeholder={`${item.price}`} />
             </>

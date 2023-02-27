@@ -11,7 +11,6 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
-import { useNavigation } from "@react-navigation/native";
 import EditToDB from "./EditToDB";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -19,12 +18,13 @@ import Torch from "react-native-torch";
 import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-export default function App() {
+export default function App({ route, navigation }) {
+  const userParams = route.params;
+  
   let cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
-  const navigation = useNavigation();
 
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
@@ -88,8 +88,25 @@ export default function App() {
   if (photo) {
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        navigation.navigate("EditToDB");
-      });
+        // some kind of pass to the OCR that returns receipt data
+        
+      }).then(() => {
+        // somehow needs to be received from OCR
+        receiptData = {
+          user_id: userParams.userid,
+          store_name: 'Safeway',
+          date: '',
+          total: '100',
+          items: [
+
+              {item_name: 'pizza', price: 99},
+              {item_name: 'cheese', price: 88},
+              {item_name: 'milk', price: 77}
+          ]
+        };
+        navigation.replace("EditToDB", {userid: userParams.userid, receiptData: receiptData});
+      }
+      );
     };
 
     return (
