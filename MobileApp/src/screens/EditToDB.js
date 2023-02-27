@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Button, TextInput } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, TextInput } from 'react-native';
 import React, {useState} from 'react';
 import CustomButton from '../components/CustomButton/CustomButton';
 
@@ -63,6 +63,7 @@ const EditToDB = ({ route, navigation }) => {
     
     return (
       <View style={styles.view}>
+        <ScrollView>
         <Text style={styles.header}>Your Receipt Data</Text>
         <TextInput 
         style={styles.input}
@@ -102,6 +103,7 @@ const EditToDB = ({ route, navigation }) => {
         />
         
         <CustomButton onPress={ () => postdata(receiptData)} text="Save"></CustomButton>
+        </ScrollView>
       </View>
     );
 }
