@@ -14,7 +14,7 @@ function ProfileScreen({ route, navigation, props }) {
     const userParams = route.params;
     alert(userParams.userid)
     
-    const [username, setUsername] = useState("");
+    const [username, setUsername] = useState(userParams.userid);
     const [recieptCount, setRecieptCount] = useState(0);
 
     useEffect(() => {
@@ -38,7 +38,7 @@ function ProfileScreen({ route, navigation, props }) {
         <View style={style.container}>
             <View style={style.infoContainer}>
                 <Text style={style.header} >Welcome</Text>
-                <Text style={style.userInfo}>User Name: {(userParams.userid).toString()}</Text>
+                <Text style={style.userInfo}>User Name: {username}</Text>
                 <Text style={style.userInfo}>Reciept Amount: {recieptCount} </Text>
             </View>
             
