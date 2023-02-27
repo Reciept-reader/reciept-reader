@@ -50,8 +50,8 @@ Takes in receipt data and items and posts them to the db
 uses edge function to manage receipt addition and items at the same time
 */
 export async function insertReceipt(receiptData, itemsData) {
-    let receipt = receiptData.items = itemsData
-    const res = await receiptEdge(receipt)
+    receiptData.items = itemsData
+    const res = await receiptEdge(receiptData)
     return res
 }
 
@@ -451,9 +451,40 @@ export async function getCustomItemsUser(userId) {
     return jsonStringArray
 }
 
+/*
+USER GENERAL DATA
+*/
 
+//returns the "count" most recent receipts by added date not receipt date 
+//returns the receipt url and receipt_id
+export async function mostRecentReceipts(userId, count) {
+    
+}
+
+
+//returns username and receipt count for a user
+export async function usernameAndCount(userId) {
+    const supabase = await createSupaClient();
+    const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('username')
+        .eq('user_id', userId);
+
+    const { count: receiptCount, error: receiptError } = await supabase
+        .from('receipt')
+        .select('*', { count: 'exact' })
+        .eq('user_id', userId);
+
+    if (userData[0] == undefined) return -1;
+    if (userError || receiptError) {
+    // handle errors
+    return -1
+    }
+
+    return JSON.stringify({username: userData[0].username , receipt_count: receiptCount});
+}
 
 
 export default { createReceiptData, createItemData, createCustomItemData, insertReceipt, deleteReceipt , editReceipt, getReceipt, getReceipts,
         insertItem, editItemsReceipt, getItem, getItemsReceipt, deleteItemsReceipt, deleteCustomItem, deleteCustomAll, upsertCustomItem,
-        upsertCustomAll, getCustomItem, getCustomAll, getCustomItemsUser }
+        upsertCustomAll, getCustomItem, getCustomAll, getCustomItemsUser, usernameAndCount }
