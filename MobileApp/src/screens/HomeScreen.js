@@ -53,6 +53,7 @@ function Dash({ route, navigation }) {
         name="Dashboard" 
         component={Dashboard} 
         options={{ headerShown: false }}
+        initialParams={{userid: userid.userid}}
         />
       <Tab.Screen 
         name="Expense" 

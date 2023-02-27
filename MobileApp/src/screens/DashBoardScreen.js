@@ -13,10 +13,14 @@ const images = [
 ];
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
-const Dashboard = (props) => {
+const Dashboard = ({props, navigation, route}) => {
 
-  const navigation = useNavigation();
-
+  //const navigation = useNavigation();
+  const userParams = route.params;
+    alert(userParams.userid)
+    
+  // const USERID = route.params.userid
+  // alert(USERID)
     return (  
       <View style={styles.scrollView}>
         <Text style={styles.title}>Budget $500</Text>
