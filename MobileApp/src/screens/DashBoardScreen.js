@@ -16,16 +16,13 @@ let deviceWidth = Dimensions.get('window').width;
 const Dashboard = (props) => {
 
   const navigation = useNavigation();
-//   onShowImage = () => {
-  
-//   naviga.navigate('ShowImage')
-// };
+
     return (  
-      <ScrollView style={styles.scrollView}>
+      <View style={styles.scrollView}>
         <Text style={styles.title}>Budget $500</Text>
       
       <Text style={styles.title}>Previous Receipts</Text>
-      <View style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
+      <ScrollView horizontal={true} style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
       
       {Photos.map((image, index) => (
 
@@ -61,8 +58,8 @@ const Dashboard = (props) => {
         keyExtractor={item => item.id}
       /> */}
     
-      </View>
       </ScrollView>
+      </View>
     );  
   }
 
