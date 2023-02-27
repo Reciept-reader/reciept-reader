@@ -457,8 +457,32 @@ USER GENERAL DATA
 
 //returns the "count" most recent receipts by added date not receipt date 
 //returns the receipt url and receipt_id
+/*
+ try {
+    retVal = await mostRecentReceipts(3, 120)
+    retVal = retVal.map(row => JSON.parse(row));
+    for (row of retVal){
+        alert(`${row.receipt_id}ID hosted at url: ${row.url}`)
+        }
+    } catch (error) {
+        alert("No receipts")
+    }
+*/
 export async function mostRecentReceipts(userId, count) {
+    const supabase = await createSupaClient();
+    const { data: data, error: error } = await supabase
+        .from('receipt')
+        .select('receipt_id, url')
+        .eq('user_id', userId)
+        .order('receipt_id', { ascending: false})
+        .limit(count)
     
+    if (data[0] == null) return -1
+    if (data[0].receipt_id == undefined || data.length == 0) return -1 //no receipts
+    if (error) return -1
+
+    const jsonStringArray = data.reverse().map(row => JSON.stringify({receipt_id: row.receipt_id, url: row.url}));
+    return jsonStringArray
 }
 
 
@@ -487,4 +511,4 @@ export async function usernameAndCount(userId) {
 
 export default { createReceiptData, createItemData, createCustomItemData, insertReceipt, deleteReceipt , editReceipt, getReceipt, getReceipts,
         insertItem, editItemsReceipt, getItem, getItemsReceipt, deleteItemsReceipt, deleteCustomItem, deleteCustomAll, upsertCustomItem,
-        upsertCustomAll, getCustomItem, getCustomAll, getCustomItemsUser, usernameAndCount }
+        upsertCustomAll, getCustomItem, getCustomAll, getCustomItemsUser, usernameAndCount, mostRecentReceipts }
