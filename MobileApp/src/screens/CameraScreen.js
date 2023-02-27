@@ -13,6 +13,7 @@ import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import EditToDB from "./EditToDB";
 import * as ImagePicker from "expo-image-picker";
+import { ImageEditor } from "expo-image-editor";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Torch from "react-native-torch";
 import React from "react";
@@ -31,6 +32,9 @@ export default function App({ route, navigation }) {
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
 
   // const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.torch)
+
+  const [imageUri, setImageToBeCroppedUri] = useState(undefined);
+  const [editorVisible, setEditorVisible] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -66,11 +70,11 @@ export default function App({ route, navigation }) {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
       quality: 1,
     });
-
+    if (!result?.canceled) {
+      launchEditor(result.uri);
+    }
     // get secure url from our server
     const { url } = await fetch("http://localhost:8080/s3Url").then((res) =>
       res.json()
@@ -85,6 +89,46 @@ export default function App({ route, navigation }) {
     });
     console.log(response2);
   };
+  //function to launch the image editor
+  const launchEditor = (uri) => {
+    // Then set the image uri
+    setImageToBeCroppedUri(uri);
+    // And set the image editor to be visible
+    setEditorVisible(true);
+  };
+
+  if(imageUri){
+    return (
+      <View>
+       <Image
+        style={{ height: 300, width: 300 }}
+        source={{ imageUri }}
+      />
+          <ImageEditor
+            visible={editorVisible}
+            onCloseEditor={() => {
+              //todo
+              // When the editor is closed, set the editor to be invisible and display the camera screen
+            }}
+            imageUri={imageUri}
+            fixedCropAspectRatio={9 / 16}
+            mode="crop-only"
+            lockAspectRatio={false}
+            minimumCropDimensions={{
+              width: 100,
+              height: 100,
+            }}
+            onEditingComplete={(image) => {
+              // When the image is cropped
+              setPhoto(image)
+              setImageToBeCroppedUri(null)
+            }}
+          />
+        
+      </View>
+    );
+  }
+  
   if (photo) {
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
@@ -119,6 +163,7 @@ export default function App({ route, navigation }) {
           <Button title="Save/Upload" onPress={savePhoto} />
         ) : undefined}
         <Button title="Re-take" onPress={() => setPhoto(undefined)} />
+        <Button title="Crop" onPress={() => launchEditor(photo.uri)} />
       </SafeAreaView>
     );
   }
