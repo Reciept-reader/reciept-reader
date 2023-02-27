@@ -1,24 +1,36 @@
 import { Text, View, StyleSheet, Button, TextInput } from 'react-native';
 import React, {useState} from 'react';
+import CustomButton from '../components/CustomButton/CustomButton';
 
 const EditToDB = ({ route, navigation }) => {
     const receiptData = route.params.receiptData;
     const userid = route.params.userid;
 
-    const postdata = (input) => {
+    const updateReceipt = () => {
         let s_store = store_nameDB
         let s_total = totalDB
         if (s_store.trim() == '') s_store = receiptData.store_name
         if (s_total.trim() == '') s_total = receiptData.total
-    
-        // const options = {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4eHRtaGp6dGxmc2Zqb3J1cmZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzUyOTczNTcsImV4cCI6MTk5MDg3MzM1N30.o7s0gThwzgZ7OdeskinJc5Fz9A95fuUek22E1isUoYE',
-        //     },
-        //     body: JSON.stringify(input),
-        // };
+        let s_items = [...receiptData.items]
+
+        const s_ReceiptData = {
+            user_id: userid,
+            store_name: s_store,
+            date: '',
+            total: s_total,
+            items: s_items
+        }
+        return s_ReceiptData
+    }
+    const postdata = (input) => { 
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4eHRtaGp6dGxmc2Zqb3J1cmZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzUyOTczNTcsImV4cCI6MTk5MDg3MzM1N30.o7s0gThwzgZ7OdeskinJc5Fz9A95fuUek22E1isUoYE',
+            },
+            body: JSON.stringify(input),
+        };
     
         // fetch('https://ixxtmhjztlfsfjorurfi.functions.supabase.co/reciept', options);
         
@@ -38,6 +50,7 @@ const EditToDB = ({ route, navigation }) => {
     
     return (
       <View style={styles.view}>
+        <Text style={styles.header}>Your Receipt Data</Text>
         <TextInput 
         style={styles.input}
         placeholder={receiptData.store_name}
@@ -71,7 +84,7 @@ const EditToDB = ({ route, navigation }) => {
         onChangeText={onChangeTotal}
         />
         
-        <Button onPress={ () => postdata(receiptData)} title="Click me!"></Button>
+        <CustomButton onPress={ () => postdata(receiptData)} text="Save"></CustomButton>
       </View>
     );
 }
@@ -96,6 +109,9 @@ const styles = StyleSheet.create( {
         fontWeight: 'bold',
         color: 'black',
         textDecorationColor:'black',
+    },
+    header:{
+        fontSize: 36,
     },
 });
 export default EditToDB;
