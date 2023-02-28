@@ -19,8 +19,11 @@ serve(async (req) => {
   switch (data.command) {
     case "delete":
       // Delete the row with the given item_name for the user
-      // this allows multiple items to point towards the same name 
-      // and still delete one 
+      // this allows multiple other item_name's to point towards the custom_name 
+      // delete will only delete the item_name to custom_name relationship for this item
+      // this will also delete every instance in items of this exact item_name -> custom_name relationship
+      // by deleting the custom_name from every item row that has item_name 
+      // takes in on delete command a user_id and item_name
       const { data: deletedData, error: deleteError } = await supabase
       .from('item_custom_name')
       .delete()
@@ -47,11 +50,14 @@ serve(async (req) => {
       break;
 
 
-    // delete_all, the user can delete all items that point 
-    // towards a single custom name effectively allowing the user 
+    // delete_all, the user can delete all item_name's that point 
+    // towards a single custom_name effectively allowing the user 
     // to completely rid of any custom name by deleting all occurances of it
+    // inside the items. No matter the item_name if custom_name == custom_name passed
+    // delete it from the item row
+    // takes in on delete_all command a user_id and custom_name
     case "delete_all":
-      const { data: deleteAllData, error: deleteAllError } = await supabase.from('item_custom_name')
+      const { data: deleteAllData, error: deleteAllError } = await supabase
       .from('item_custom_name')
       .delete()
       .eq('user_id', data.user_id)
@@ -78,21 +84,27 @@ serve(async (req) => {
       break;
 
 
-    case "insert":
+    case "upsert": // || 'insert' logically 
       // Upsert custom name for the given user and item name
       // On conflict of item_name update the custom_name it points to 
+      // as well as on success going into items and every occurance of 
+      // this item_name update the custom_name to from the old name || null 
+      // to this new custom_name inserted
+      // takes in on upsert command a user_id, item_name, and custom_name
       const { data: insertResult, error: insertError } = await supabase
         .from('item_custom_name')
-        .insert({ 
+        .upsert({
           user_id: data.user_id,
           item_name: data.item_name,
-          custom_name: data.custom_name 
-          });
+          custom_name: data.custom_name,
+        }, { onConflict: 'user_id, item_name' });
 
       if (insertError) {
         console.error('Error inserting custom name:', insertError.message);
         return new Response(JSON.stringify({ message: insertError.message }));
       }
+
+      //on success of insert or update change all the receipt items
 
       return new Response(JSON.stringify({message: 'hiii'}));
 
@@ -112,16 +124,20 @@ serve(async (req) => {
       break;
 
 
-    case "upsert":
-
+    case "update_all":
+      //update_all the inverse of delete_all takes in a custom_name instead of 
+      // an item_name and updates the custom_name for every instance of 
+      // item_name -> custom_name that exist where custom_name == custom_name 
+      // as well as going through all receipt items after and for every occurance 
+      // of this old custom_name update it to the new custom_name
+      // takes in on upsert command a userId and customName
       const { updateData, updateError } = await supabase
       .from('item_custom_name')
-      .upsert({ 
-        user_id: data.user_id,
-        item_name: data.item_name,
-        custom_name: data.custom_name
-      }, { onConflict: 'user_id, item_name'}
-      );
+      .update({ 
+        custom_name: data.custom_name,
+      })
+      .eq('user_id', data.user_id)
+      .eq('custom_name', data.old_custom_name)
 
       if (updateError) {
         console.error('Error upserting custom name:', updateError.message);
@@ -134,7 +150,7 @@ serve(async (req) => {
       .from('item')
       .update({custom_name: data.custom_name})
       .eq('user_id', data.user_id)
-      .eq('item_name', data.item_name)
+      .eq('custom_name', data.old_custom_name)
 
       if (customUpsertErr) {
         console.error('Error deleting column name in item:', customUpsertErr.message);
