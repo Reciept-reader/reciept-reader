@@ -1,0 +1,8 @@
+version: '1'
+services:
+  app:
+    container_name: docker-tesseract-ocr
+    restart: always
+    build: .
+    ports:
+      - '80:3000'
