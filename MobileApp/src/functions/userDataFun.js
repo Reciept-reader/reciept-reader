@@ -35,12 +35,14 @@ export function createItemData({itemName, customName, price}) {
 }
 //let retVal = createItemData({userId: 1})
 //no need to pass command
-export function createCustomItemData({command, userId, itemName, customName}) {
+//old custom only for update all
+export function createCustomItemData({command, userId, itemName, customName, oldCustomName}) {
     let customItem = {
         "command": command || undefined,
         "user_id": userId || undefined,
         "item_name": itemName || undefined,
         "custom_name": customName || undefined,
+        "old_custom_name": oldCustomName || undefined,
     }
     return customItem
 }
@@ -368,7 +370,7 @@ export async function deleteCustomAll(userId, customName) {
 }
 
 /*
-upsert custom 
+upsert custom **THIS IS THE SAME AS UPDATE AND INSERT IN ONE**
 Takes in an item name and custom name and inserts or updates that items custom name to the new one
 Will also insert or update all previous occurances of that item name to be the new custom item name in items
 */
@@ -380,13 +382,13 @@ export async function upsertCustomItem(userId, itemName, customName) {
 
 
 /*
-upsert custom on all items
+update custom on all items
 Takes in a custom name and updates that custom name to the new one
 across all items that have that custom name
 also update all previous occurances of that custom name to be the new custom name in items
 */
-export async function upsertCustomAll(userId, customName) {
-    let customItem = createCustomItemData({command: 'upsert_all', userId: userId, customName: customName})
+export async function upsertCustomAll(userId, customName, oldCustomName) {
+    let customItem = createCustomItemData({command: 'update_all', userId: userId, customName: customName, oldCustomName: oldCustomName})
     let res = await customEdge(customItem)
     return res
 }
