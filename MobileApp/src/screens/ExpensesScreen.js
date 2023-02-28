@@ -29,7 +29,7 @@ const ExpensesScreen = ({ route, navigation }) => {
    * Screen. The payload on this screen is called "userParams" 
    */
   const userParams = route.params;
-  alert(userParams.userid);
+  //alert(userParams.userid);
   
   const [data, setData] = useState({
     labels: ['', '', '', ''],
@@ -85,7 +85,7 @@ const ExpensesScreen = ({ route, navigation }) => {
 
       const startDate = startOfMonth.toISOString().substring(0, 10);
       const endDate = endOfMonth.toISOString().substring(0, 10);
-      alert(`${startDate} & ${endDate}`);
+//       alert(`${startDate} & ${endDate}`);
       let sum = await dateGrab(3, startDate, endDate);
       if (sum == -1) { sum = 0 }
 
