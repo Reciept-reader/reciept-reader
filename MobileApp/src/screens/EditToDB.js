@@ -1,12 +1,38 @@
-import { Text, View, StyleSheet, ScrollView, TextInput } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, TextInput, Button } from 'react-native';
 import React, {useState} from 'react';
 import CustomButton from '../components/CustomButton/CustomButton';
 
 const EditToDB = ({ route, navigation }) => {
     const receiptData = route.params.receiptData;
     const userid = route.params.userid;
+    
     const [itemContent, setItemContent] = useState(receiptData.items)
+    const [store_nameDB, onChangeName] = useState('')
+    const [dateDB, onChangeDate] = useState('')
+    const [totalDB, onChangeTotal] = useState('')
 
+    const changeItemContent = (text, index) => {
+        let newItemContent = [...itemContent]
+        newItemContent[index].item_name = text
+        setItemContent(newItemContent)
+    }
+
+    const changePriceContent = (text, index) => {
+        let newItemContent = [...itemContent]
+        newItemContent[index].price = text
+        setItemContent(newItemContent)
+    }
+    
+    const removeInput = (index) => {
+        let input = [...itemContent];
+        input.splice(index, 1)
+        setItemContent(input)
+    }
+    
+    const addInput = () => {
+        let newInput = {item_name: 'Item Name', price: 'Price'}
+        return setItemContent([...itemContent, newInput])
+    }
     const updateReceipt = () => {
         let s_store = store_nameDB
         let s_total = totalDB
@@ -18,7 +44,7 @@ const EditToDB = ({ route, navigation }) => {
             store_name: s_store,
             date: '',
             total: s_total,
-            items: itemContent
+            items: undefined
         }
         return s_ReceiptData
     };
@@ -30,7 +56,7 @@ const EditToDB = ({ route, navigation }) => {
         //         'Content-Type': 'application/json',
         //         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4eHRtaGp6dGxmc2Zqb3J1cmZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzUyOTczNTcsImV4cCI6MTk5MDg3MzM1N30.o7s0gThwzgZ7OdeskinJc5Fz9A95fuUek22E1isUoYE',
         //     },
-        //     body: JSON.stringify(input),
+        //     body: input,
         // };
     
         // fetch('https://ixxtmhjztlfsfjorurfi.functions.supabase.co/reciept', options);
@@ -38,22 +64,6 @@ const EditToDB = ({ route, navigation }) => {
             alert(`item: ${itemContent[i].item_name} price: ${itemContent[i].price}`)
         }
         navigation.replace('HomeScreen', {userid: userid})
-    }
-    
-    const [store_nameDB, onChangeName] = useState('')
-    const [dateDB, onChangeDate] = useState('')
-    const [totalDB, onChangeTotal] = useState('')
-
-    const changeItemContent = (text, index) => {
-        const newItemContent = [...itemContent]
-        newItemContent[index].item_name = text
-        setItemContent(newItemContent)
-    }
-
-    const changePriceContent = (text, index) => {
-        const newItemContent = [...itemContent]
-        newItemContent[index].price = text
-        setItemContent(newItemContent)
     }
     
     if(receiptData.date == '') {
@@ -79,19 +89,20 @@ const EditToDB = ({ route, navigation }) => {
         onChangeText={onChangeDate}
         />
         
-        {receiptData.items.map((item, index) => 
+        {itemContent.map((item, index) => 
             <>
-            <TextInput
-            key={`item${item.id}`}
-            style={styles.input}
-            placeholder={item.item_name} 
-            onChangeText={text => changeItemContent(text, index)}
-            />
-            <TextInput key={`price${item.id}`}
-            style={styles.input}
-            placeholder={`${item.price}`} 
-            onChangeText={text => changePriceContent(text, index)}
-            />
+                <TextInput
+                key={`item${item.id}`}
+                style={styles.input}
+                placeholder={item.item_name} 
+                onChangeText={text => changeItemContent(text, index)}
+                />
+                <TextInput key={`price${item.id}`}
+                style={styles.input}
+                placeholder={`${item.price}`} 
+                onChangeText={text => changePriceContent(text, index)}
+                />
+                <Button title='Delete' onPress={() => removeInput(index)} />
             </>
         )} 
 
@@ -103,6 +114,7 @@ const EditToDB = ({ route, navigation }) => {
         />
         
         <CustomButton onPress={ () => postdata(receiptData)} text="Save"></CustomButton>
+        <CustomButton onPress={ () => addInput(receiptData)} text="Add Input"></CustomButton>
         </ScrollView>
       </View>
     );
