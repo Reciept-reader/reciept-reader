@@ -30,4 +30,4 @@ export async function dateGrabber(userId, startDate, endDate) {
         }
         return sum;
 }
-export default { dateGrab };
+export default { dateGrabber };
