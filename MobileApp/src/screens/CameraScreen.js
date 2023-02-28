@@ -18,7 +18,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Torch from "react-native-torch";
 import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
-
+import { uploadReceipt } from '../functions/bucketFun';
 export default function App({ route, navigation }) {
   const userParams = route.params;
   
@@ -69,13 +69,21 @@ export default function App({ route, navigation }) {
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      base64: true,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
     });
+
+
+    //UPLOADS TO STORAGE **********
+    const storageName= "example12"
+    await uploadReceipt(result, storageName);
+    //************ JACOB WHERE DOES THIS GO?? */
+
     if (!result?.canceled) {
       launchEditor(result.uri);
     }
-    // get secure url from our server
+    // get secure url from our server 
     const { url } = await fetch("http://localhost:8080/s3Url").then((res) =>
       res.json()
     );
@@ -130,7 +138,8 @@ export default function App({ route, navigation }) {
   }
   
   if (photo) {
-    let savePhoto = () => {
+    let savePhoto = async () => {
+      await uploadReceipt(photo)
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
         // some kind of pass to the OCR that returns receipt data
         
