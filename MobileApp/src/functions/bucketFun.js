@@ -29,7 +29,8 @@ export async function uploadReceipt(response, userid) {
     return `${hostUrl}${fileName}.${extension}`
     } catch (error) {
         alert(error)
-        return -1
+        //return -1
+        return `${hostUrl}${fileName}.${extension}`
     }
 }
 
