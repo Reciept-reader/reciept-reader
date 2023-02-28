@@ -4,11 +4,9 @@ import Logo from '../../assets1/logo2.png';
 import CustomButton from '../components/CustomButton/CustomButton';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
-import { usernameAndCount } from '../functions/userDataFun';
+import  usernameAndCount  from '../functions/userDataFun.js';
 
-function ProfileScreen({ route, navigation, props }) {
-
-    
+function ProfileScreen({ route, navigation}) {
 
     // const navigation = useNavigation();
     const userParams = route.params;
@@ -19,12 +17,18 @@ function ProfileScreen({ route, navigation, props }) {
 
     useEffect(() => {
         async function fetchData() {
-            const {username, recieptCount} = await usernameAndCount(params.userid);
-            setUsername(username);
-            setRecieptCount(recieptCount);
+            try{
+                const response = await usernameAndCount(userParams.userid);
+                const {username, recieptCount:reciept_count} = JSON.parse(response);
+                setUsername(username);
+                setRecieptCount(reciept_count);
+            }
+            catch(error){
+                alert("Error fetching data:",  error);
+            }
         }
         fetchData();
-    }, []);
+    }, [userParams.userid]);
 
     const onSignOutPressed = () => {
         navigation.replace('Sign In')

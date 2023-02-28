@@ -1,47 +1,48 @@
-import { React } from 'react';
-import { View, FlatList, Image, StyleSheet, Text, Dimensions, ScrollView, ButtonList,TouchableOpacity } from 'react-native';
+import { React, useState, useEffect } from 'react';
+import { View, FlatList, StyleSheet, Image, Text, Dimensions, ScrollView, ButtonList,TouchableOpacity } from 'react-native';
 import tempImage from '../receipts/costco1.png';
 import { useNavigation } from '@react-navigation/native'; 
-import Photos from '../components/Photos'
-
-const images = [
-  {id: '1'},
-  {id: '2'},
-  {id: '3'},
-  {id: '4'},
-  {id: '5'},
-];
+import { mostRecentReceipts } from '../functions/userDataFun';
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
-const Dashboard = (props) => {
+const Dashboard = ({props, navigation, route}) => {
+  const tempPhotos = [
+    {url: 'https://placeholder.com/90x160'}
+  ]
+  const userid = route.params.userid;
+  const [Photos, setPhotos] = useState(tempPhotos);
+  const ShowImage = (input) => {
+    navigation.navigate('ShowImage', {url: input})
+  }
 
-  const navigation = useNavigation();
+  useEffect( () => {
+    async function fetchImages() {
+      let newPhotos = await mostRecentReceipts(userid, 5);
+      setPhotos(newPhotos);
+    }
+    fetchImages();
+}, []);
 
-    return (  
-      <View style={styles.scrollView}>
-        <Text style={styles.title}>Budget $500</Text>
-      
-      <Text style={styles.title}>Previous Receipts</Text>
-      <ScrollView horizontal={true} style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-      
-      {Photos.map((image, index) => (
+  return (  
+    <View style={styles.scrollView}>
+      <Text style={styles.title}>Budget $500</Text>
+    
+    <Text style={styles.title}>Previous Receipts</Text>
+    <ScrollView horizontal={true} style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
+    
+    {Photos.map((image, index) => (
 
-      <TouchableOpacity key ={index} onPress ={() => {
-            props.navigation.navigate('ShowImage', {url: image.url})
-          }}>
-          <Image source ={image.url} style={styles.item}/>
+    <TouchableOpacity key ={index} onPress={() => ShowImage(image.url)}>
+        <Image source={{uri:image.url}} style={styles.item}/>
 
-          
+        
 
-          </TouchableOpacity>
-         
-      )  )  
-      
-      
-      
-      }
-      
-      {/* <FlatList
+        </TouchableOpacity>
+        
+    )  )  
+    }
+    
+    {/* <FlatList
         horizontal
         data={images}
       

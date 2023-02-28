@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, useWindowDimensions, Button } from 'reac
 import Logo from '../../assets1/logo2.png';
 import CustomInput from '../components/CustomInput/CustomInput';
 import CustomButton from '../components/CustomButton/CustomButton';
-import {signIn} from '../functions/accountFun';
+import { signIn } from '../functions/accountFun';
 import { createReceiptData, createItemData, createCustomItemData, insertReceipt, deleteReceipt , editReceipt, getReceipt, getReceipts,
 insertItem, editItemsReceipt, getItem, getItemsReceipt, deleteItemsReceipt, deleteCustomItem, deleteCustomAll, upsertCustomItem,
 upsertCustomAll, getCustomItem, getCustomAll, getCustomItemsUser } from '../functions/userDataFun'
@@ -34,7 +34,6 @@ const SignInScreen = ({navigation}) => {
             try {
                 retVal = await signIn(user, pass)
                 retVal = JSON.parse(retVal)
-                // alert(`Welcome: ${retVal.username} User ID is : ${retVal.user_id}`)
                 navigation.replace('HomeScreen', {userid: retVal.user_id})
             } catch (error) {
                 alert("Invalid login credentials")
@@ -52,7 +51,7 @@ const SignInScreen = ({navigation}) => {
     };
     
     const onBackdoorPressed = () => {
-        navigation.replace('HomeScreen', {userid: 45}) // 45 is admin, pass
+        navigation.replace('HomeScreen', {userid: 0}) // 0 is admin, admin
     };
 
     return (
