@@ -14,7 +14,6 @@ let retVal = createReceiptData({userId: 1})
 */
 export function createReceiptData({userId, storeName, total, date, items, url}) {
     let receipt = {
-        "command": undefined,
         "user_id": userId || undefined, 
         "store_name": storeName || undefined,
         "total": total || undefined,
@@ -59,18 +58,18 @@ BUILD OBJECTS IF NEEDED USE HELPER OBJECT CREATORS
 LEAVE RECEIPT ITEMS AS undefined , leave command as undefined
 THE REST SHOULD BE FILLED OUT AS MUCH AS YOU CAN date WILL AUTO POPULATE ON THE EDGE
 let receipt = {
-            "command": undefined,
             "user_id": 0, 
-            "store_name": 'xxx',
-            "total": 1,
+            "store_name": 'yyy',
+            "total": 0.099,
             "date": undefined,
-            "items": undefined
-        }
+            "items": undefined,
+            "url": '123.asfsdfs/sdfagafg',
+}
 
 let item = [{
-            "item_name": 'iii', 
+            "item_name": 'xyz', 
             "custom_name": undefined,
-            "price": 0.99,
+            "price": .99,
 }]
 
 await insertReceipt(receipt, item)
