@@ -9,7 +9,7 @@ export async function uploadReceipt(response, userid) {
   try {
     user = await usernameAndCount(userid)
     const hostUrl = 'https://ixxtmhjztlfsfjorurfi.supabase.co/storage/v1/object/public/receipts/'
-    const fileName = `img${user.receipt_count + 1}` //storageName
+    const fileName = `${userid}img${user.receipt_count + 1}` //storageName
     //ABOVE IS HARD CODED BECAUSE OF WEIRD UNDEFINED ERROR 
     
     const id = uuid({ random: secureRandom })
