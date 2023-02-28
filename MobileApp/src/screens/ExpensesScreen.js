@@ -18,7 +18,7 @@ const chartConfig = {
   }
 };
 
-const ExpensesScreen({ route, navigation }) {
+const ExpensesScreen = ({ route, navigation }) => {
   /**
    * the function "ExpensesScreen" takes in two parameters:
    * route, and navigation. Navigation allows you to navigate to other pages,
