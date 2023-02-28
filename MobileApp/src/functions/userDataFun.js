@@ -353,7 +353,10 @@ Will also delete all previous occurances of that custom name for the item name i
 */
 export async function deleteCustomItem(userId, itemName) {
     let customItem = createCustomItemData({command: 'delete', userId: userId, itemName: itemName})
-    let res = await customEdge(customItem)
+    alert(customItem.user_id)
+    alert(customItem.item_name)
+
+    let res = await customEdge(JSON.stringify(customItem))
     return res
 }
 
@@ -365,7 +368,7 @@ with that name also delete all previous occurances of that custom name for every
 */
 export async function deleteCustomAll(userId, customName) {
     let customItem = createCustomItemData({command: 'delete_all', userId: userId, customName: customName})
-    let res = await customEdge(customItem)
+    let res = await customEdge(JSON.stringify(customItem))
     return res
 }
 
@@ -518,8 +521,8 @@ export async function mostRecentReceipts(userId, count) {
     if (error) return -1
 
     //const jsonStringArray = data.reverse().map(row => JSON.stringify({receipt_id: row.receipt_id, url: row.url}));
-    const jsonStringArray = data.reverse()
-    return jsonStringArray
+    //const jsonStringArray = data.reverse()
+    return data
 }
 
 
