@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
 import CustomButton from '../components/CustomButton/CustomButton';
 import { Dimensions } from 'react-native';
-import { dateGrab } from '../functions/aggregationFun';
+import { dateGrabber } from '../functions/aggregationFun';
 
 const chartConfig = {
   backgroundColor: '#f5f5f5',
