@@ -39,26 +39,8 @@ const Dashboard = ({props, navigation, route}) => {
 
         </TouchableOpacity>
         
-    )  )  
-    }
-    
-    {/* <FlatList
-        horizontal
-        data={images}
-      
-        renderItem={({item}) => {
-         return <TouchableOpacity onPress={()=> onShowImage()}>
-         
-
-            <Image
-              source={tempImage}
-              style={styles.item}
-            />
-          </TouchableOpacity>
-        }}
-        keyExtractor={item => item.id}
-      /> */}
-    
+    ))  
+    }   
       </ScrollView>
       </View>
     );  

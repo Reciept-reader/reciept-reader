@@ -72,31 +72,37 @@ export default function App({ route, navigation }) {
       base64: true,
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
+      allowsEditing: true,
     });
 
 
     //UPLOADS TO STORAGE **********
-    const storageName= "example12"
-    await uploadReceipt(result, userParams.userid);
+    //const storageName= "example12"
+    setPhoto(result)
+    let urlSupa = await uploadReceipt(result, userParams.userid);
+    alert(urlSupa)
     //************ JACOB WHERE DOES THIS GO?? */
 
-    if (!result?.canceled) {
-      launchEditor(result.uri);
-    }
+    // if (!result?.canceled) {
+    //   launchEditor(result.uri);
+    // }
+    
     // get secure url from our server 
-    const { url } = await fetch("http://localhost:8080/s3Url").then((res) =>
-      res.json()
-    );
-    const response = await fetch(result.assets[0].uri);
-    const blob = await response.blob();
-    console.log(url, blob, blob.type);
-    // post the image direclty to the s3 bucket
-    const response2 = await fetch(url, {
-      method: "PUT",
-      body: blob,
-    });
-    console.log(response2);
+    // const { url } = await fetch("http://localhost:8080/s3Url").then((res) =>
+    //   res.json()
+    // );
+    // const response = await fetch(result.assets[0].uri);
+    // const blob = await response.blob();
+    // console.log(url, blob, blob.type);
+    // // post the image direclty to the s3 bucket
+    // const response2 = await fetch(url, {
+    //   method: "PUT",
+    //   body: blob,
+    // });
+    // console.log(response2);
+    
   };
+/*
   //function to launch the image editor
   const launchEditor = (uri) => {
     // Then set the image uri
@@ -136,10 +142,10 @@ export default function App({ route, navigation }) {
       </View>
     );
   }
-  
+*/
   if (photo) {
     let savePhoto = async () => {
-      const url = await uploadReceipt(photo, userParams.userid)
+      let url = await uploadReceipt(photo, userParams.userid)
       alert(url)
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
         // some kind of pass to the OCR that returns receipt data
