@@ -3,8 +3,11 @@ import { View, FlatList, StyleSheet, Image, Text, Dimensions, ScrollView, Button
 import tempImage from '../receipts/costco1.png';
 import { useNavigation } from '@react-navigation/native'; 
 import { mostRecentReceipts } from '../functions/userDataFun';
+import CustomButton from '../components/CustomButton/CustomButton';
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
+
+
 const Dashboard = ({props, navigation, route}) => {
   const tempPhotos = [
     {url: 'https://placeholder.com/90x160'}
@@ -22,11 +25,15 @@ const Dashboard = ({props, navigation, route}) => {
     }
     fetchImages();
 }, []);
-
+const setBudget = () => {
+  navigation.navigate('ShowBudget')
+};
   return (  
     <View style={styles.scrollView}>
+    <View>
       <Text style={styles.title}>Budget $500</Text>
-    
+      <CustomButton text ="Set Budget" onPress={setBudget}/>
+      </View>
     <Text style={styles.title}>Previous Receipts</Text>
     <ScrollView horizontal={true} style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
     
