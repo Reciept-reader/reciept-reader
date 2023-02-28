@@ -5,32 +5,33 @@ import CustomButton from '../components/CustomButton/CustomButton';
 const EditToDB = ({ route, navigation }) => {
     const receiptData = route.params.receiptData;
     const userid = route.params.userid;
+    
     const [itemContent, setItemContent] = useState(receiptData.items)
     const [store_nameDB, onChangeName] = useState('')
     const [dateDB, onChangeDate] = useState('')
     const [totalDB, onChangeTotal] = useState('')
 
     const changeItemContent = (text, index) => {
-        const newItemContent = [...itemContent]
+        let newItemContent = [...itemContent]
         newItemContent[index].item_name = text
         setItemContent(newItemContent)
     }
 
     const changePriceContent = (text, index) => {
-        const newItemContent = [...itemContent]
+        let newItemContent = [...itemContent]
         newItemContent[index].price = text
         setItemContent(newItemContent)
     }
     
     const removeInput = (index) => {
-        let data = [...itemContent];
-        data.splice(index, 1)
-        setItemContent(data)
+        let input = [...itemContent];
+        input.splice(index, 1)
+        setItemContent(input)
     }
     
-    const addInput = (index) => {
+    const addInput = () => {
         let newInput = {item_name: 'Item Name', price: 'Price'}
-        return [...itemContent, newInput]
+        return setItemContent([...itemContent, newInput])
     }
     const updateReceipt = () => {
         let s_store = store_nameDB
@@ -101,7 +102,7 @@ const EditToDB = ({ route, navigation }) => {
                 placeholder={`${item.price}`} 
                 onChangeText={text => changePriceContent(text, index)}
                 />
-                <Button title='Button' onPress={removeInput(index)}>Remove</Button>
+                <Button title='Delete' onPress={() => removeInput(index)} />
             </>
         )} 
 
@@ -113,6 +114,7 @@ const EditToDB = ({ route, navigation }) => {
         />
         
         <CustomButton onPress={ () => postdata(receiptData)} text="Save"></CustomButton>
+        <CustomButton onPress={ () => addInput(receiptData)} text="Add Input"></CustomButton>
         </ScrollView>
       </View>
     );
