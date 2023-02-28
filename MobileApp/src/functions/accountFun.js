@@ -1,4 +1,23 @@
 import { createSupaClient } from './databaseFun.js'
+import bcrypt from 'react-native-bcrypt';
+
+
+/*
+Encrypts the user password
+*/
+async function hashPassword(password) {
+  const saltRounds = 10;
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(password, saltRounds, (err, hash) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(hash);
+      }
+    });
+  });
+}
+
 
 /* Sign up function
 Takes in a username and password to sign up 
@@ -6,28 +25,40 @@ If the username doesnt exist works
 If the username already exists return that they cant sign-up with that username 
 */
 export async function signUp(username, password) {
-  const supabase = await createSupaClient();
-  const { data: user, error } = await supabase
-    .from("users")
-    .insert({ username, password })
-    .select();
+  try {
+    // Hash the password using bcrypt
+    const hashedPassword = await hashPassword(password);
 
-  if (error) {
-    if (error.message.includes("duplicate key value violates unique constraint")) {
-      return "username taken";
-    } else {
-      throw error;
+    // Insert the new user into the database using Supabase
+    const supabase = await createSupaClient();
+    const { data: user, error } = await supabase
+      .from("users")
+      .insert({ username, password: hashedPassword })
+      .select();
+
+    if (error) {
+      if (error.message.includes("duplicate key value violates unique constraint")) {
+        return "username taken";
+      } else {
+        throw error;
+      }
     }
-  }
 
-  return JSON.stringify({ user_id: user[0].user_id, username: user[0].username });
-};
+    return JSON.stringify({ user_id: user[0].user_id, username: user[0].username });
+
+  } catch (error) {
+    console.error(error);
+    return -1;
+  }
+}
+
 
 /* Sign in function
 Takes in a user entered username and password 
 Checks to see if the combination exists 
 If so returns the user_id and logs the user in 
 If false returns "login credenials dont exist" for the app to tell the user
+Username is unique so will only return one row no need to pass password can compare after
 */
 export async function signIn(username, password) {
   const supabase = await createSupaClient();
@@ -35,19 +66,29 @@ export async function signIn(username, password) {
     .from("users")
     .select()
     .eq("username", username)
-    .eq("password", password)
 
   if (error) {
       throw error
       return "login credentials don't exist";
-
   }
   
   if (user[0].user_id === undefined) {
     return "login credentials don't exist";
   }
 
-  return JSON.stringify({ user_id: user[0].user_id, username: user[0].username });
+  //decrpyt compare
+  const isMatch = await bcrypt.compare(password, user[0].password, (err, isMatch) => {
+    if (err) {
+      alert(err)
+      return -1;
+    }
+    if (isMatch) {
+      return JSON.stringify({ user_id: user[0].user_id, username: user[0].username });
+    } else {
+      return -1
+    }
+  });
+  return -1
 };
 
 

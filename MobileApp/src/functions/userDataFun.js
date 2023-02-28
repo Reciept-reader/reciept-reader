@@ -1,4 +1,4 @@
-import { createSupaClient } from './databaseFun.js'
+import { createSupaClient, receiptEdge, customEdge } from './databaseFun.js'
 
 /*
 Helper Functions for inserting , updating , and deleting receipts 
@@ -7,29 +7,35 @@ Helper Functions for inserting , updating , and deleting user custom items
 
 /*
 Data creation for making templates for the data
+
+
+let retVal = createReceiptData({userId: 1})
+//no need to pass command
 */
-export function createReceiptData({userId, storeName, total, date, items}) {
+export function createReceiptData({userId, storeName, total, date, items, url}) {
     let receipt = {
+        "command": undefined,
         "user_id": userId || undefined, 
         "store_name": storeName || undefined,
         "total": total || undefined,
         "date": date || undefined,
-        "items": items || undefined
+        "items": items || undefined,
+        "url": url || undefined
     }
-    receipt = JSON.stringify(receipt)
     return receipt
 }
 
+//let retVal = createItemData({itemName: 1})
 export function createItemData({itemName, customName, price}) {
     let item = {
         "item_name": itemName || undefined, 
         "custom_name": customName || undefined,
         "price": price || undefined,
     }
-    item = JSON.stringify(item)
     return item
 }
-
+//let retVal = createItemData({userId: 1})
+//no need to pass command
 export function createCustomItemData({command, userId, itemName, customName}) {
     let customItem = {
         "command": command || undefined,
@@ -37,7 +43,6 @@ export function createCustomItemData({command, userId, itemName, customName}) {
         "item_name": itemName || undefined,
         "custom_name": customName || undefined,
     }
-    customItem = JSON.stringify(customItem)
     return customItem
 }
 
@@ -48,22 +53,60 @@ export function createCustomItemData({command, userId, itemName, customName}) {
 Insert Receipt 
 Takes in receipt data and items and posts them to the db 
 uses edge function to manage receipt addition and items at the same time
+
+
+BUILD OBJECTS IF NEEDED USE HELPER OBJECT CREATORS 
+LEAVE RECEIPT ITEMS AS undefined , leave command as undefined
+THE REST SHOULD BE FILLED OUT AS MUCH AS YOU CAN date WILL AUTO POPULATE ON THE EDGE
+let receipt = {
+            "command": undefined,
+            "user_id": 0, 
+            "store_name": 'xxx',
+            "total": 1,
+            "date": undefined,
+            "items": undefined
+        }
+
+let item = [{
+            "item_name": 'iii', 
+            "custom_name": undefined,
+            "price": 0.99,
+}]
+
+await insertReceipt(receipt, item)
 */
 export async function insertReceipt(receiptData, itemsData) {
     receiptData.items = itemsData
-    const res = await receiptEdge(receiptData)
+    receiptData.command = 'insert'
+    const res = await receiptEdge(JSON.stringify(receiptData))
     return res
 }
 
 /*
 Delete Receipt 
-Takes in receipt data and deletes the receipt and items from the db
-uses edge functon to manage deleting at the same time
+Takes in a receipt id and deletes the receipt and its items 
+returns -1 for fail and 0 for success
 */
-export async function deleteReceipt(receiptData) {
-    let receipt = receiptData.items = itemsData
-    const res = await receiptEdge(receipt)
-    return res
+export async function deleteReceipt(receiptId) {
+    const supabase = await createSupaClient();
+    const {data: itemData, error: itemError} = await supabase
+        .from('item')
+        .delete()
+        .eq('receipt_id', receiptId)
+
+    if (itemError) {
+        return -1
+    }
+    const {data: receiptData, error: receiptError} = await supabase
+        .from('receipt')
+        .delete()
+        .eq('receipt_id', receiptId)
+
+    if (receiptError) {
+        return -1
+    }
+
+    return 0
 }
 
 
@@ -110,8 +153,8 @@ export async function getReceipt(userId, receiptId) {
     if (data[0] == undefined) {
         return -1 //receipt does not exist
     }
-    
-    return JSON.stringify({receipt_id: data[0].receipt_id, store_name: data[0].store_name, total: data[0].total, date: data[0].date})  
+    return ({receipt_id: data[0].receipt_id, store_name: data[0].store_name, total: data[0].total, date: data[0].date})  
+
 }
 
 
@@ -120,29 +163,31 @@ get all receipts
 Takes in a user_id and returns all receipts associated with that account 
 
 EXAMPLE how to loop through all the receipt results 
-
+try{
 retVal = await getReceipts(3)
 if (retVal == -1) throw error;
-retVal = retVal.map(item => JSON.parse(item));
 for (let item of retVal) {
     alert(`${item.receipt_id} , ${item.store_name}`)
+}
 } catch(error) {
     alert("No receipts exist for user")
 }
-
 */
 export async function getReceipts(userId) {
     const supabase = await createSupaClient();
     const {data, error} = await supabase
         .from('receipt')
-        .select('receipt_id, store_name, total, date')
+        .select('receipt_id, store_name, total, date, url')
         .eq('user_id', userId)
+        .order('receipt_id', { ascending: false})
+
 
     if (error) throw error;
 
     if (data[0] == undefined) return -1;
 
-    const jsonStringData = data.map(item => JSON.stringify({receipt_id: item.receipt_id, store_name: item.store_name, total: item.total, date: item.date}));
+    //const jsonStringData = data.map(item => ({receipt_id: item.receipt_id, store_name: item.store_name, total: item.total, date: item.date}));
+    const jsonStringData = data.reverse()
     return jsonStringData  
 }
 
@@ -156,10 +201,8 @@ Inserts item on receipt_id and user_id
 
 try {
     item = createItemData({itemName: 'candy', price: 99999999})
-    item = JSON.parse(item)
     retVal = await insertItem(3, 115, item)
     if (retVal == -1) throw error;
-    retVal = JSON.parse(retVal)
     alert(`${retVal.item_name} added to receipt`)
 } catch(error) {
     alert("Insert unsuccessful")
@@ -175,7 +218,7 @@ export async function insertItem(userId, receiptId, item) {
     if (error) throw error;
     if (data[0] == undefined) return -1
 
-    return JSON.stringify({item_name: data[0].item_name}) 
+    return ({item_name: data[0].item_name}) 
 }
 
 /*
@@ -183,13 +226,11 @@ edit item
 takes in a user_id , receipt_id , item_id , and item object {}
 
 try {
-    item = await getItem(3, 115, 287) **Can also create item object**
-    item = JSON.parse(item)
+    item = await getItem(0, 162, 437)
     item.item_name = "notPizza"
 
-    retVal = await editItemsReceipt(3, 115, 287, item)
+    retVal = await editItemsReceipt(0, 162, 437, item)
     if (retVal == -1) throw error;
-    retVal = JSON.parse(retVal)
     alert(`${retVal.item_name} edited`)
 } catch(error) {
     alert("Edit unsuccessful")
@@ -208,7 +249,7 @@ export async function editItemsReceipt(userId, receiptId, itemId, item) {
     if (error) throw error;
     if (data[0] == undefined) return -1
 
-    return JSON.stringify({item_name: data[0].item_name})  
+    return ({item_name: data[0].item_name})  
 }
 
 /*
@@ -221,7 +262,6 @@ EXAMPLE
 try {
     retVal = await getItem(3, 114, 284)
     if (retVal == -1) throw error;
-    retVal = JSON.parse(retVal)
     alert(`${retVal.item_name} , ${retVal.price}`)
 } catch(error) {
     alert("No item exist")
@@ -239,7 +279,7 @@ export async function getItem(userId, receiptId, itemId) {
     if (error) throw error;
     if (data[0] == undefined) return -1;
 
-    return JSON.stringify({item_name: data[0].item_name, custom_name: data[0].custom_name, price: data[0].price})
+    return ({item_name: data[0].item_name, custom_name: data[0].custom_name, price: data[0].price})
 }
 
 /*
@@ -250,9 +290,8 @@ Returns all the items associated with this receipt
 EXAMPLE
 
 try {
-    retVal = await getItemsReceipt(3, 114)
+    retVal = await getItemsReceipt(0, 162)
     if (retVal == -1) throw error;
-    retVal = retVal.map(item => JSON.parse(item));
     for (let item of retVal) {
         alert(`${item.item_name} , ${item.price}`)
     }
@@ -271,7 +310,7 @@ export async function getItemsReceipt(userId, receiptId) {
     if (error) throw error;
     if (data[0] == undefined) return -1;
 
-    const jsonStringArray = data.map(item => JSON.stringify({item_name: item.item_name, custom_name: item.custom_name, price: item.price}))
+    const jsonStringArray = data.reverse().map(item => ({item_name: item.item_name, custom_name: item.custom_name, price: item.price}))
     return jsonStringArray
 }
 
@@ -283,7 +322,6 @@ EXAMPLE
 try {
     retVal = await deleteItemsReceipt(3, 114, 286)
     if (retVal == -1) throw error;
-    retVal = JSON.parse(retVal)
     alert(`${retVal.item_name} deleted`)
 } catch(error) {
     alert("Delete unsuccessful")
@@ -300,7 +338,7 @@ export async function deleteItemsReceipt(userId, receiptId, itemId) {
         .select()
 
     if (error) throw error;
-    return (data[0] == undefined) ? -1 : JSON.stringify({item_name: data[0].item_name});
+    return (data[0] == undefined) ? -1 : ({item_name: data[0].item_name});
 
 }
 
@@ -362,9 +400,8 @@ returns the item_name to custom_name relationships
 
 EXAMPLE **********
 try {
-    retVal = await getCustomItem(3, "letuce")
+    retVal = await getCustomItem(3, "lettuce")
     if (retVal == -1) throw error;
-    retVal = JSON.parse(retVal)
     alert(`${retVal.item_name} , ${retVal.custom_name}`)
 } catch(error) {
     alert("Couldnt find item")
@@ -384,7 +421,7 @@ export async function getCustomItem(userId, itemName) {
         return -1
     }
 
-    return JSON.stringify({item_name: data[0].item_name, custom_name: data[0].custom_name})
+    return ({item_name: data[0].item_name, custom_name: data[0].custom_name})
 }
 
 
@@ -397,10 +434,9 @@ EXAMPLE
 try{
     retVal = await getCustomAll(3, 'salad')
     if (retVal == -1) throw error;
-    retVal = retVal.map(item => JSON.parse(item));
     for (let item of retVal) {
         alert(`${item.item_name} , ${item.custom_name}`)
-} catch(error) {
+} }catch(error) {
     alert("No custom names with this value exist")
 }
 */
@@ -415,8 +451,8 @@ export async function getCustomAll(userId, customName) {
     if (error) throw error;
     if (data[0] == undefined) return -1;
 
-    const jsonStringArray = data.map(item => JSON.stringify({item_name: item.item_name, custom_name: item.custom_name}));
-    return jsonStringArray
+    //const jsonStringArray = data.map(item => ({item_name: item.item_name, custom_name: item.custom_name}));
+    return data
 }
 
 
@@ -429,7 +465,6 @@ EXAMPLE
 try {
     retVal = await getCustomItemsUser(3)
     if (retVal == -1) throw error;
-    retVal = retVal.map(item => JSON.parse(item));
     for (let item of retVal) {
         alert(`${item.item_name} , ${item.custom_name}`)
     }
@@ -447,8 +482,8 @@ export async function getCustomItemsUser(userId) {
     if (error) throw error;
     if (data[0] == undefined) return -1;
     
-    const jsonStringArray = data.map(item => JSON.stringify({item_name: item.item_name, custom_name: item.custom_name}));
-    return jsonStringArray
+    //const jsonStringArray = data.map(item => ({item_name: item.item_name, custom_name: item.custom_name}));
+    return data
 }
 
 /*
@@ -481,7 +516,8 @@ export async function mostRecentReceipts(userId, count) {
     if (data[0].receipt_id == undefined || data.length == 0) return -1 //no receipts
     if (error) return -1
 
-    const jsonStringArray = data.reverse().map(row => JSON.stringify({receipt_id: row.receipt_id, url: row.url}));
+    //const jsonStringArray = data.reverse().map(row => JSON.stringify({receipt_id: row.receipt_id, url: row.url}));
+    const jsonStringArray = data.reverse()
     return jsonStringArray
 }
 
@@ -505,7 +541,7 @@ export async function usernameAndCount(userId) {
     return -1
     }
 
-    return JSON.stringify({username: userData[0].username , receipt_count: receiptCount});
+    return ({username: userData[0].username , receipt_count: receiptCount});
 }
 
 

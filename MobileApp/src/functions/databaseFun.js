@@ -41,7 +41,7 @@ to interact with the receipt edge function
 */
 export async function receiptEdge(receiptData) {
     let receipt_options = POST_OPTIONS
-    receipt_options.body = JSON.stringify(receiptData)
+    receipt_options.body = receiptData
     const res = await fetchData(RECEIPT_URL, receipt_options)
     return res
 }
@@ -53,7 +53,7 @@ to interact with the custom edge function
 */
 export async function customEdge(itemData) {
     let custom_options = POST_OPTIONS
-    custom_options.body = JSON.stringify(itemData)
+    custom_options.body = JSON.parse(itemData)
     const res = await fetchData(RECEIPT_URL, custom_options)
     return res
 }
