@@ -1,7 +1,7 @@
 import { createSupaClient } from './databaseFun.js'
 
 
-export async function dateGrab(userId, startDate, endDate) {
+export async function dateGrabber(userId, startDate, endDate) {
     const supabase = await createSupaClient()
     
     const {data, error} = await supabase
