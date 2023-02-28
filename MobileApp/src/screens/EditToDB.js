@@ -46,7 +46,8 @@ const EditToDB = ({ route, navigation }) => {
             store_name: s_store,
             date: dateDB,
             total: s_total,
-            items: undefined
+            items: undefined,
+            url: receiptData.url,
         }
         return s_ReceiptData
     };

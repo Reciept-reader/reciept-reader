@@ -139,7 +139,8 @@ export default function App({ route, navigation }) {
   
   if (photo) {
     let savePhoto = async () => {
-      await uploadReceipt(photo, userParams.userid)
+      const url = await uploadReceipt(photo, userParams.userid)
+      alert(url)
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
         // some kind of pass to the OCR that returns receipt data
         
@@ -150,6 +151,7 @@ export default function App({ route, navigation }) {
           store_name: 'Safeway',
           date: '',
           total: '100',
+          url: url,
           items: [
 
               {item_name: 'pizza', price: 99},
