@@ -12,6 +12,8 @@ import EditToDB from '../screens/EditToDB';
 import ForgotPassword from '../screens/ForgotPassword';
 import CreateAccount from '../screens/CreateAccount';
 import ShowImage from '../screens/ShowImage';
+import BudgetScreen from '../screens/BudgetScreen';
+
 const Stack = createNativeStackNavigator();
 const Navigation =() => {
     return (
@@ -21,6 +23,7 @@ const Navigation =() => {
                 <Stack.Screen name = "HomeScreen" component={HomeScreen} options={{ title: '' }} />
                 <Stack.Screen name = "CreateAccount" component={CreateAccount} options={{ title: '' }}  />
                 <Stack.Screen name = "ShowImage" component={ShowImage} options={{ title: '' }}  />
+                <Stack.Screen name = "ShowBudget" component={BudgetScreen} options={{ title: '' }}  />
 
                 <Stack.Screen name = "ForgotPassword" component={ForgotPassword} options={{ title: '' }}  />
                 <Stack.Screen name = "ExpenseScreen" component={ExpensesScreen} options={{ title: '' }} />
