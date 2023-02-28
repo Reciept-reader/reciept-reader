@@ -77,7 +77,7 @@ export default function App({ route, navigation }) {
 
     //UPLOADS TO STORAGE **********
     const storageName= "example12"
-    await uploadReceipt(result, storageName);
+    await uploadReceipt(result, userParams.userid);
     //************ JACOB WHERE DOES THIS GO?? */
 
     if (!result?.canceled) {
@@ -139,7 +139,7 @@ export default function App({ route, navigation }) {
   
   if (photo) {
     let savePhoto = async () => {
-      await uploadReceipt(photo)
+      await uploadReceipt(photo, userParams.userid)
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
         // some kind of pass to the OCR that returns receipt data
         

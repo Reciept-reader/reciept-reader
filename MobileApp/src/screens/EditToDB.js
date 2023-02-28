@@ -2,6 +2,8 @@ import { Text, View, StyleSheet, ScrollView, TextInput, Button } from 'react-nat
 import React, {useState} from 'react';
 import CustomButton from '../components/CustomButton/CustomButton';
 
+import { insertReceipt } from '../functions/userDataFun';
+
 const EditToDB = ({ route, navigation }) => {
     const receiptData = route.params.receiptData;
     const userid = route.params.userid;
@@ -42,24 +44,16 @@ const EditToDB = ({ route, navigation }) => {
         const s_ReceiptData = {
             user_id: userid,
             store_name: s_store,
-            date: '',
+            date: dateDB,
             total: s_total,
             items: undefined
         }
         return s_ReceiptData
     };
 
-    const postdata = (input) => { 
-        // const options = {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4eHRtaGp6dGxmc2Zqb3J1cmZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzUyOTczNTcsImV4cCI6MTk5MDg3MzM1N30.o7s0gThwzgZ7OdeskinJc5Fz9A95fuUek22E1isUoYE',
-        //     },
-        //     body: input,
-        // };
-    
-        // fetch('https://ixxtmhjztlfsfjorurfi.functions.supabase.co/reciept', options);
+    const postdata = async () => { 
+        let s_ReceiptData = updateReceipt()
+        await insertReceipt(s_ReceiptData, itemContent)
         for (let i in itemContent) {
             alert(`item: ${itemContent[i].item_name} price: ${itemContent[i].price}`)
         }
@@ -113,7 +107,7 @@ const EditToDB = ({ route, navigation }) => {
         onChangeText={onChangeTotal}
         />
         
-        <CustomButton onPress={ () => postdata(receiptData)} text="Save"></CustomButton>
+        <CustomButton onPress={ () => postdata()} text="Save"></CustomButton>
         <CustomButton onPress={ () => addInput(receiptData)} text="Add Input"></CustomButton>
         </ScrollView>
       </View>
