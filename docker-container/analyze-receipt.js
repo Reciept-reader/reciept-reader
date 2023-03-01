@@ -1,7 +1,8 @@
 import { createWorker } from 'tesseract.js';
 
-const worker = await createWorker();
 async function analyze_receipt(input) {
+  
+    const worker = await createWorker();
     await worker.loadLanguage('eng');
     await worker.initialize('eng');
     /**
