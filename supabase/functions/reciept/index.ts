@@ -22,8 +22,9 @@ serve(async (req) => {
   .insert({
       user_id: data.user_id,
       store_name: data.store_name,
-      total: parseFloat(data.total),
+      total: Number.parseFloat(data.total).toFixed(2),
       date: (data.date || new Date().toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric',})),
+      url: data.url,
     })
   .select('*'); 
 
@@ -40,7 +41,8 @@ serve(async (req) => {
     user_id: data.user_id,
     receipt_id: receiptId,
     item_name: item.item_name,
-    price: parseFloat(item.price),
+    custom_name: item.custom_name || undefined,
+    price: Number.parseFloat(item.price).toFixed(2),
   }));
 
   //bulk insert with receipt id as a constant 
@@ -56,7 +58,7 @@ serve(async (req) => {
   }
 
   return new Response(JSON.stringify({message: "Why are you here"}));
-
+  
 })
 
 

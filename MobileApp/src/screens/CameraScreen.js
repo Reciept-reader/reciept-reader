@@ -18,7 +18,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Torch from "react-native-torch";
 import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
-
+import { uploadReceipt } from '../functions/bucketFun';
 export default function App({ route, navigation }) {
   const userParams = route.params;
   
@@ -69,26 +69,40 @@ export default function App({ route, navigation }) {
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      base64: true,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
+      allowsEditing: true,
     });
-    if (!result?.canceled) {
-      launchEditor(result.uri);
-    }
-    // get secure url from our server
-    const { url } = await fetch("http://localhost:8080/s3Url").then((res) =>
-      res.json()
-    );
-    const response = await fetch(result.assets[0].uri);
-    const blob = await response.blob();
-    console.log(url, blob, blob.type);
-    // post the image direclty to the s3 bucket
-    const response2 = await fetch(url, {
-      method: "PUT",
-      body: blob,
-    });
-    console.log(response2);
+
+
+    //UPLOADS TO STORAGE **********
+    //const storageName= "example12"
+    setPhoto(result)
+    let urlSupa = await uploadReceipt(result, userParams.userid);
+    alert(urlSupa)
+    //************ JACOB WHERE DOES THIS GO?? */
+
+    // if (!result?.canceled) {
+    //   launchEditor(result.uri);
+    // }
+    
+    // get secure url from our server 
+    // const { url } = await fetch("http://localhost:8080/s3Url").then((res) =>
+    //   res.json()
+    // );
+    // const response = await fetch(result.assets[0].uri);
+    // const blob = await response.blob();
+    // console.log(url, blob, blob.type);
+    // // post the image direclty to the s3 bucket
+    // const response2 = await fetch(url, {
+    //   method: "PUT",
+    //   body: blob,
+    // });
+    // console.log(response2);
+    
   };
+/*
   //function to launch the image editor
   const launchEditor = (uri) => {
     // Then set the image uri
@@ -128,9 +142,11 @@ export default function App({ route, navigation }) {
       </View>
     );
   }
-  
+*/
   if (photo) {
-    let savePhoto = () => {
+    let savePhoto = async () => {
+      let url = await uploadReceipt(photo, userParams.userid)
+      alert(url)
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
         // some kind of pass to the OCR that returns receipt data
         
@@ -141,6 +157,7 @@ export default function App({ route, navigation }) {
           store_name: 'Safeway',
           date: '',
           total: '100',
+          url: url,
           items: [
 
               {item_name: 'pizza', price: 99},

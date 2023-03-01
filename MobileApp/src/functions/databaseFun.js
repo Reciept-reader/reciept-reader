@@ -53,8 +53,8 @@ to interact with the custom edge function
 */
 export async function customEdge(itemData) {
     let custom_options = POST_OPTIONS
-    custom_options.body = JSON.parse(itemData)
-    const res = await fetchData(RECEIPT_URL, custom_options)
+    custom_options.body = itemData
+    const res = await fetchData(CUSTOM_URL, custom_options)
     return res
 }
 

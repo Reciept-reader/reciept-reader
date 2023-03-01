@@ -16,6 +16,7 @@
     "@react-navigation/native-stack": "^6.9.10",
     "@supabase/supabase-js": "^2.0.4",
     "aws-sdk": "^2.1323.0",
+    "base64-arraybuffer": "^1.0.2",
     "bcrypt": "^5.1.0",
     "crypto": "^1.0.1",
     "expo": "^47.0.13",
@@ -49,7 +50,9 @@
     "react-native-web": "^0.18.12",
     "react-navigation-stack": "^2.10.4",
     "recoil": "*",
-    "util": "^0.12.5"
+    "secure-random": "^1.1.2",
+    "util": "^0.12.5",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

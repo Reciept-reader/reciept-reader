@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
 import CustomButton from '../components/CustomButton/CustomButton';
 import { Dimensions } from 'react-native';
-import { dateGrab } from '../functions/aggregationFun';
+import { dateGrabber } from '../functions/aggregationFun';
 
 const chartConfig = {
   backgroundColor: '#f5f5f5',
@@ -41,6 +41,65 @@ const ExpensesScreen = ({ route, navigation }) => {
   });
 
   
+  const dateGrab = async(userId, startDate, endDate) => {
+    let sum = 0;
+    let done = 0;
+    let newStart = startDate;
+    const endMonth = endDate.split('-')[1];
+
+    while (done == 0) {
+      let startMonth = newStart.split('-')[1];
+      let year = newStart.split('-')[0];
+      let nextMonth = '';
+
+      if (parseInt(startMonth, 10) < 9) { 
+        nextMonth = (parseInt(startMonth, 10) + 1).toString().padStart(2, '0');
+      } else {
+        if (parseInt(startMonth, 10) == 9) {
+          nextMonth = '10';
+        } else if (parseInt(startMonth, 10) == 10) {
+          nextMonth = '11';
+        } else if (parseInt(startMonth, 10) == 11) {
+          nextMonth = '12';
+        } else if (parseInt(startMonth, 10) == 12) {
+          nextMonth = '01';
+        }
+      }
+
+      let newEnd = '';
+      
+      if ( startMonth != endMonth ) {
+        if (parseInt(startMonth, 10) == 2){
+          newEnd = year + '-' + startMonth + '-' + '28';
+        } else if (parseInt(startMonth, 10) == 4) {
+          newEnd = year + '-' + startMonth + '-' + '30';
+        } else if (parseInt(startMonth, 10) == 6) {
+          newEnd = year + '-' + startMonth + '-' + '30';
+        } else if (parseInt(startMonth, 10) == 9) {
+          newEnd = year + '-' + startMonth + '-' + '30';
+        } else if (parseInt(startMonth, 10) == 11) {
+          newEnd = year + '-' + startMonth + '-' + '30';
+        } else {
+          newEnd = year + '-' + startMonth + '-' + '31';
+        }
+
+        let total = await dateGrabber(userId, newStart, newEnd);
+        if (total < 0) { total = 0 }
+        sum += total;
+        newStart = year + '-' + nextMonth + '-' + '01';
+
+      } else {
+        let total = await dateGrabber(userId, newStart, endDate);
+        if (total < 0) { total = 0 }
+        sum += total;
+        done = 1;
+      }
+    }
+    if (sum < 0) {sum = 0}
+    if (isNaN(sum) == true) {sum = 0}
+    return sum;
+  }
+
   const updateWeekly = async () => {
     let newData = [0,0,0,0];
     let i = 3;
@@ -60,14 +119,10 @@ const ExpensesScreen = ({ route, navigation }) => {
       const startDate = startOfWeek.toISOString().substring(0, 10);
       const endDate = endOfWeek.toISOString().substring(0, 10);
 
-      let sum = await dateGrab(3, startDate, endDate);
-      if (sum == -1) { sum = 0 }
-
-      newData[i] = sum;
+      newData[i] = await dateGrab(3, startDate, endDate);
       today.setDate(today.getDate() - 7);
       i--;
     }
-      
     const newLabels = ['W1', 'W2', 'W3', 'W4'];
     setData({ labels: newLabels, datasets: [{ data: newData, color: (opacity = 1) => `rgba(255, 255, 255, ${opacity * 0.5})` }] });
   };
@@ -85,11 +140,8 @@ const ExpensesScreen = ({ route, navigation }) => {
 
       const startDate = startOfMonth.toISOString().substring(0, 10);
       const endDate = endOfMonth.toISOString().substring(0, 10);
-//       alert(`${startDate} & ${endDate}`);
-      let sum = await dateGrab(3, startDate, endDate);
-      if (sum == -1) { sum = 0 }
 
-      newData[a] = sum;
+      newData[a] = await dateGrab(3, startDate, endDate);
       a--;
     }
     
@@ -100,6 +152,7 @@ const ExpensesScreen = ({ route, navigation }) => {
   const updateQuarter = async () => {
     const today = new Date();
     let a = 3;
+    let newData = [0,0,0,0];
 
     // Loop through the previous three quarters
     for (let i = 0; i < 4; i++) {
@@ -111,24 +164,38 @@ const ExpensesScreen = ({ route, navigation }) => {
       const startDate = startQuarter.toISOString().substring(0, 10);
       const endDate = endQuarter.toISOString().substring(0, 10);
 
-      let sum = await dateGrab(3, startDate, endDate);
-      if (sum == -1) { sum = 0 }
-      
-      newData[a] = sum;
+      newData[a] = await dateGrab(3, startDate, endDate);
       a--;
     }
     const newLabels = ['Q1', 'Q2', 'Q3', 'Q4'];
     setData({ labels: newLabels, datasets: [{ data: newData, color: (opacity = 1) => `rgba(255, 255, 255, ${opacity * 0.5})` }] });
   };
 
-  const updateYearly = () => {
+  const updateYearly = async () => {
+    const today = new Date();
+    let a = 3;
+    let newData = [0,0,0,0];
 
-    const newData = [3, 3, 2, 2];
+    for (let i = 0; i < 4; i++) {
+      const year = today.getFullYear() - i;
+      
+      // Calculate the start and end dates of the year
+      const startOfYear = new Date(year, 0, 1);
+      const endOfYear = new Date(year, 11, 31);
+
+      // Convert the dates to the required format
+      const startDate = startOfYear.toISOString().substring(0, 10);
+      const endDate = endOfYear.toISOString().substring(0, 10);
+      
+      newData[a] = await dateGrab(3, startDate, endDate);
+      a--;
+    }
+
     const newLabels = ['Y1', 'Y2', 'Y3', 'Y4'];
     setData({ labels: newLabels, datasets: [{ data: newData, color: (opacity = 1) => `rgba(255, 255, 255, ${opacity * 0.5})` }] });
   };
 
-  const updateStore = () => {
+  const updateStore = async () => {
 
     const newData = [4, 3, 2, 1];
     const newLabels = ['Walmart', 'Safeway', 'Fred Meyer', 'Best Buy'];
@@ -154,5 +221,6 @@ const ExpensesScreen = ({ route, navigation }) => {
     </View>
   );
 };
+
 
 export default ExpensesScreen;
