@@ -28,13 +28,13 @@ export default function App({ route, navigation }) {
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
 
-  const [image, setImage] = useState(null);
+  //const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
 
   // const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.torch)
 
-  const [imageUri, setImageToBeCroppedUri] = useState(undefined);
+  const [image, setImageToBeCroppedUri] = useState(undefined);
   const [editorVisible, setEditorVisible] = useState(false);
 
   useEffect(() => {
@@ -103,29 +103,44 @@ export default function App({ route, navigation }) {
     // console.log(response2);
     
   };
-/*
+
   //function to launch the image editor
-  const launchEditor = (uri) => {
+  const launchEditor = (imageObject) => {
     // Then set the image uri
-    setImageToBeCroppedUri(uri);
+    setImageToBeCroppedUri(imageObject);
     // And set the image editor to be visible
     setEditorVisible(true);
   };
 
-  if(imageUri){
+  //function to convert image uri to base64
+  function imageUriToBase64(uri, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+      var reader = new FileReader();
+      reader.onloadend = function() {
+        callback(reader.result);
+      }
+      reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', uri);
+    xhr.responseType = 'blob';
+    xhr.send();
+  }
+
+  if(image){
     return (
       <View>
        <Image
-        style={{ height: 300, width: 300 }}
-        source={{ imageUri }}
+        style={ styles.preview }
+        source={{ uri: "data:image/jpg;base64," + image.base64}}
       />
           <ImageEditor
             visible={editorVisible}
             onCloseEditor={() => {
-              //todo
-              // When the editor is closed, set the editor to be invisible and display the camera screen
+              setEditorVisible(false);
+              setImageToBeCroppedUri(null);
             }}
-            imageUri={imageUri}
+            imageUri={image.uri}
             fixedCropAspectRatio={9 / 16}
             mode="crop-only"
             lockAspectRatio={false}
@@ -133,17 +148,24 @@ export default function App({ route, navigation }) {
               width: 100,
               height: 100,
             }}
-            onEditingComplete={(image) => {
+            onEditingComplete={(cropResult) => {
               // When the image is cropped
-              setPhoto(image)
+              // Get the cropped image uri and base64
+              imageUriToBase64(cropResult.uri, function(base64String) {
+                const updatedCroppedImageUri = {
+                  ...cropResult,
+                  base64: base64String
+                }
+              setPhoto(updatedCroppedImageUri);
               setImageToBeCroppedUri(null)
+            });
             }}
           />
         
       </View>
     );
   }
-*/
+
   if (photo) {
     let savePhoto = async () => {
       let url = await uploadReceipt(photo, userParams.userid)
@@ -174,13 +196,13 @@ export default function App({ route, navigation }) {
       <SafeAreaView style={styles.container}>
         <Image
           style={styles.preview}
-          source={{ uri: "data:image/jpg;base64," + photo.base64 }}
+          source={{ uri: photo.base64.startsWith("data:image") ? photo.base64 : "data:image/jpg;base64," + photo.base64 }}
         />
         {hasMediaLibraryPermission ? (
           <Button title="Save/Upload" onPress={savePhoto} />
         ) : undefined}
         <Button title="Re-take" onPress={() => setPhoto(undefined)} />
-        <Button title="Crop" onPress={() => launchEditor(photo.uri)} />
+        <Button title="Crop" onPress={() => launchEditor(photo)} />
       </SafeAreaView>
     );
   }

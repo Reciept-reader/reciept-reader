@@ -4,6 +4,7 @@ import tempImage from '../receipts/costco1.png';
 import { useNavigation } from '@react-navigation/native'; 
 import { mostRecentReceipts } from '../functions/userDataFun';
 import CustomButton from '../components/CustomButton/CustomButton';
+import AllReceipts from './AllReceipts';
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
 
@@ -17,6 +18,9 @@ const Dashboard = ({props, navigation, route}) => {
   const ShowImage = (input) => {
     navigation.navigate('ShowImage', {url: input})
   }
+  const goToAllReceipts = () => {
+    navigation.navigate('AllReceipts', {userid: userid})
+  }
 
   useEffect( () => {
     async function fetchImages() {
@@ -28,29 +32,28 @@ const Dashboard = ({props, navigation, route}) => {
 const setBudget = () => {
   navigation.navigate('ShowBudget')
 };
-  return (  
-    <View style={styles.scrollView}>
+return (
+  <View style={styles.scrollView}>
     <View>
       <Text style={styles.title}>Budget $500</Text>
       <CustomButton text ="Set Budget" onPress={setBudget}/>
-      </View>
-    <Text style={styles.title}>Previous Receipts</Text>
-    <ScrollView horizontal={true} style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-    
-    {Photos.map((image, index) => (
-
-    <TouchableOpacity key ={index} onPress={() => ShowImage(image.url)}>
-        <Image source={{uri:image.url}} style={styles.item}/>
-
-        
-
-        </TouchableOpacity>
-        
-    ))  
-    }   
+    </View>
+    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      <ScrollView horizontal={true} style={{flex: 1}}>
+        <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+          {Photos.map((image, index) => (
+            <TouchableOpacity key={index} onPress={() => ShowImage(image.url)}>
+              <Image source={{uri:image.url}} style={styles.item}/>
+            </TouchableOpacity>
+          ))}
+        </View>
       </ScrollView>
-      </View>
-    );  
+      <TouchableOpacity style={styles.button} onPress={goToAllReceipts}>
+        <Text style={styles.buttonText}>...</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+);
   }
 
 
@@ -73,7 +76,19 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     marginHorizontal: 20,
-  }
+  },
+  button: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    width: 50,
+    marginLeft: 16,
+  },
+  buttonText: {
+    color: 'blue',
+    fontWeight: 'bold',
+    fontSize: 24,
+  },
 });
   
 export default Dashboard;
