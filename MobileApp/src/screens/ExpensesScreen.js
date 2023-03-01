@@ -119,7 +119,7 @@ const ExpensesScreen = ({ route, navigation }) => {
       const startDate = startOfWeek.toISOString().substring(0, 10);
       const endDate = endOfWeek.toISOString().substring(0, 10);
 
-      newData[i] = await dateGrab(3, startDate, endDate);
+      newData[i] = await dateGrab(userParams.userid, startDate, endDate);
       today.setDate(today.getDate() - 7);
       i--;
     }
@@ -141,7 +141,7 @@ const ExpensesScreen = ({ route, navigation }) => {
       const startDate = startOfMonth.toISOString().substring(0, 10);
       const endDate = endOfMonth.toISOString().substring(0, 10);
 
-      newData[a] = await dateGrab(3, startDate, endDate);
+      newData[a] = await dateGrab(userParams.userid, startDate, endDate);
       a--;
     }
     
@@ -164,7 +164,7 @@ const ExpensesScreen = ({ route, navigation }) => {
       const startDate = startQuarter.toISOString().substring(0, 10);
       const endDate = endQuarter.toISOString().substring(0, 10);
 
-      newData[a] = await dateGrab(3, startDate, endDate);
+      newData[a] = await dateGrab(userParams.userid, startDate, endDate);
       a--;
     }
     const newLabels = ['Q1', 'Q2', 'Q3', 'Q4'];
@@ -187,7 +187,7 @@ const ExpensesScreen = ({ route, navigation }) => {
       const startDate = startOfYear.toISOString().substring(0, 10);
       const endDate = endOfYear.toISOString().substring(0, 10);
       
-      newData[a] = await dateGrab(3, startDate, endDate);
+      newData[a] = await dateGrab(userParams.userid, startDate, endDate);
       a--;
     }
 
