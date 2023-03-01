@@ -188,8 +188,8 @@ export async function getReceipts(userId) {
     if (data[0] == undefined) return -1;
 
     //const jsonStringData = data.map(item => ({receipt_id: item.receipt_id, store_name: item.store_name, total: item.total, date: item.date}));
-    const jsonStringData = data.reverse()
-    return jsonStringData  
+    //const jsonStringData = data.reverse()
+    return data  
 }
 
 //ITEMS
