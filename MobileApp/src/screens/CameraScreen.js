@@ -17,9 +17,9 @@ import { ImageEditor } from "expo-image-editor";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Torch from "react-native-torch";
 import React from "react";
-import fetch from 'node-fetch';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { uploadReceipt } from '../functions/bucketFun';
+import { getDataFromOCR } from '../functions/connectToOCRFun';
 export default function App({ route, navigation }) {
   const userParams = route.params;
   
@@ -171,24 +171,16 @@ export default function App({ route, navigation }) {
       let url = await uploadReceipt(photo, userParams.userid)
       //alert(url)
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        //pass to the OCR that returns receipt data based off url
-
-      const sendImageToOcr = async () => {
-
-        const response = await fetch('http://localhost:3000', {
-            method: 'POST',
-            body: JSON.stringify( { "url": url } ),
-            headers: { 'Content-Type': 'application/json' }
-            
-        });
-        const data = await response.json();
-    
-        return data;
-      }
       
-      let receiptData = sendImageToOcr();
-
-      navigation.replace("EditToDB", {userid: userParams.userid, receiptData: receiptData});
+      //pass to the OCR that returns receipt data based off url
+      getDataFromOCR(url).then((data) => {
+        navigation.replace("EditToDB", {userid: userParams.userid, receiptData: data});
+      }
+      ).catch((reason) => { //Connection failed
+        alert("Could not connect to the OCR");
+        console.log("Couldn't connect to OCR: " + reason);
+      });
+      //end OCR pass
 
       })};
 
