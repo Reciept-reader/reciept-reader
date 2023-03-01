@@ -213,10 +213,14 @@ const ExpensesScreen = ({ route, navigation }) => {
         fromZero
         chartConfig={chartConfig}
       />
+      <View style={{ flexDirection:"row"}}>
       <CustomButton text ="Weekly" onPress={updateWeekly}/>
       <CustomButton text ="Monthly" onPress={updateMonthly}/>
+      </View>
+      <View style={{ flexDirection:"row"}}>
       <CustomButton text ="Quarterly" onPress={updateQuarter}/>
       <CustomButton text ="Yearly" onPress={updateYearly}/>
+      </View>
       <CustomButton text ="Top Stores" onPress={updateStore}/>
     </View>
   );
