@@ -17,6 +17,7 @@ import { ImageEditor } from "expo-image-editor";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Torch from "react-native-torch";
 import React from "react";
+import fetch from 'node-fetch';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { uploadReceipt } from '../functions/bucketFun';
 export default function App({ route, navigation }) {
@@ -146,29 +147,28 @@ export default function App({ route, navigation }) {
   if (photo) {
     let savePhoto = async () => {
       let url = await uploadReceipt(photo, userParams.userid)
-      alert(url)
+      //alert(url)
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        // some kind of pass to the OCR that returns receipt data
-        
-      }).then(() => {
-        // somehow needs to be received from OCR
-        receiptData = {
-          user_id: userParams.userid,
-          store_name: 'Safeway',
-          date: '',
-          total: '100',
-          url: url,
-          items: [
+        //pass to the OCR that returns receipt data based off url
 
-              {item_name: 'pizza', price: 99},
-              {item_name: 'cheese', price: 88},
-              {item_name: 'milk', price: 77}
-          ]
-        };
-        navigation.replace("EditToDB", {userid: userParams.userid, receiptData: receiptData});
+      const sendImageToOcr = async () => {
+
+        const response = await fetch('http://localhost:3000', {
+            method: 'POST',
+            body: JSON.stringify( { "url": url } ),
+            headers: { 'Content-Type': 'application/json' }
+            
+        });
+        const data = await response.json();
+    
+        return data;
       }
-      );
-    };
+      
+      let receiptData = sendImageToOcr();
+
+      navigation.replace("EditToDB", {userid: userParams.userid, receiptData: receiptData});
+
+      })};
 
     return (
       <SafeAreaView style={styles.container}>

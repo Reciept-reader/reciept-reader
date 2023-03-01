@@ -1,7 +1,7 @@
 import Jimp from 'jimp';
 
 // Location of the preprocessed image
-const preprocessedImage = "./test.jpg";
+const preprocessedImage = "./processedReceipt.jpg";
 async function preprocess(input)
 {
   Jimp.read(input).then(image => {
