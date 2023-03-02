@@ -59,7 +59,7 @@ export default function App({ route, navigation }) {
 
   let takePic = async () => {
     let options = {
-      quality: 1,
+      quality: 0.35,
       base64: true,
       exif: false,
     };
@@ -72,8 +72,8 @@ export default function App({ route, navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       base64: true,
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 1,
-      allowsEditing: true,
+      quality: 0.35,
+      allowsEditing: false,
     });
 
 
