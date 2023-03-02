@@ -194,13 +194,6 @@ const ExpensesScreen = ({ route, navigation }) => {
     const newLabels = ['Y1', 'Y2', 'Y3', 'Y4'];
     setData({ labels: newLabels, datasets: [{ data: newData, color: (opacity = 1) => `rgba(255, 255, 255, ${opacity * 0.5})` }] });
   };
-
-  const updateStore = async () => {
-
-    const newData = [4, 3, 2, 1];
-    const newLabels = ['Walmart', 'Safeway', 'Fred Meyer', 'Best Buy'];
-    setData({ labels: newLabels, datasets: [{ data: newData, color: (opacity = 1) => `rgba(255, 255, 255, ${opacity * 0.5})` }] });
-  };
   
   return (
     <View style={style.container}>
@@ -221,7 +214,6 @@ const ExpensesScreen = ({ route, navigation }) => {
       <CustomButton text ="Quarterly" onPress={updateQuarter}/>
       <CustomButton text ="Yearly" onPress={updateYearly}/>
       </View>
-      <CustomButton text ="Top Stores" onPress={updateStore}/>
     </View>
   );
 

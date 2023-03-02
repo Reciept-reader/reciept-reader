@@ -1,8 +1,6 @@
-
-import { getItems } from './databaseFunctions/database.js'
 import levenshtein from 'fast-levenshtein';
 
-const dict = ["Walmart", "Safeway", "FredMeyer", "GroceryOutlet", "Target", "Total", "Subtotal","Balance"]
+const dict = ["Walmart", "Safeway", "FredMeyer", "GroceryOutlet"]
 
 /*
 Inputs a word and a list of words to match it to
@@ -77,7 +75,9 @@ async function extractItems(match, store){
     //extracts non digit text following a 10-11 digit number
     const fmExtractName = /(?<=\b\d{9,11}\b)\b.+\b/
     //  characters that are not digits, dots, or dollar signs. 
-    const simple = /[^0-9.$]+/
+    const simple = /[^0-9.$]+/g
+    //extracts a standalone character
+    const standaloneChar = /\b\w\b/gm
 
     let price = " "
     let correspondingItem = ""
@@ -88,8 +88,10 @@ async function extractItems(match, store){
     if(store == "FredMeyer"){
         nameExtract = item_name.match(fmExtractName)
         if (nameExtract && nameExtract[0]) {
-            correspondingItem = nameExtract[0].trim();
-            // Do something with correspondingItem
+            correspondingItem = nameExtract[0].replace(extractDouble, '');
+            correspondingItem = correspondingItem.replace(standaloneChar, '');
+            correspondingItem = correspondingItem.trimStart()
+           
           }
           if (priceExtract && priceExtract[0]) {
             price = parseFloat(priceExtract[0].trim())
@@ -103,6 +105,9 @@ async function extractItems(match, store){
         nameExtract = item_name.match(sfExtractName)
 
         correspondingItem = nameExtract[0]
+        correspondingItem = correspondingItem.replace(standaloneChar, '');
+        correspondingItem = correspondingItem.trimStart()
+        correspondingItem = correspondingItem.trimEnd()
         price = parseFloat(priceExtract[0])
 
         retunrArr = [correspondingItem, price]
@@ -144,7 +149,7 @@ async function extractData(lines) {
     // extracts date in the format 02/02/2222
     const dateRegex = /\b\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4}\b/g
     // extracts a double proceeding "balance", "total", "sum" etc... a '$' is optinoal
-    const totalRegex = /(balance|total|grand\stotal|sum|bal|subtotal|balance:|total:|grand:\stotal:|sum:|bal:|subtotal:)\s+(\$)?(\d+([.,])?\d+)/
+    const totalRegex = /(balance|total|grand\stotal|sum|bal|subtotal|balance:|total:|grand:\stotal:|sum:|bal:|subtotal:)\s+(\$)?(\d+([.,])?\d+)/gi
     // extracts a double 
     const extractDouble = /\d+\.\d+/g
     // extracts one of these store names
@@ -155,7 +160,7 @@ async function extractData(lines) {
     let total = ""
     let store = ""
     //call the db to access all user names for levenshtein
-    const itemNameToAlias = await getItems()
+    //const itemNameToAlias = await getItems()
     //determine the store name
     for (const line of lines) {
         
@@ -186,10 +191,14 @@ async function extractData(lines) {
         
         const itemMatch = String(line).match( await selectRegex(store))
         if (itemMatch) {
-            console.log(itemMatch[0])
             const itemData = await extractItems(itemMatch, store)
-            items.push({"name": await itemScan(itemData[0], itemNameToAlias), "price": itemData[1]})
+            
+            items.push({"name": itemData[0], "price": itemData[1]})
+            //items.push({"name": await itemScan(itemData[0], itemNameToAlias), "price": itemData[1]})
             continue
+            
+            
+            
         }
         
 

@@ -13,6 +13,7 @@ import ForgotPassword from '../screens/ForgotPassword';
 import CreateAccount from '../screens/CreateAccount';
 import ShowImage from '../screens/ShowImage';
 import BudgetScreen from '../screens/BudgetScreen';
+import AllReceipts from '../screens/AllReceipts';
 
 const Stack = createNativeStackNavigator();
 const Navigation =() => {
@@ -30,6 +31,7 @@ const Navigation =() => {
                 <Stack.Screen name = "ProfileScreen" component={ProfileScreen} options={{ title: '' }} />
                 <Stack.Screen name = "About" component={About}  options={{ title: 'About', headerTintColor: '#fff', headerStyle: {backgroundColor: '#051549'} }}/>
                 <Stack.Screen name = "EditToDB" component={EditToDB} options={{ title: '' }} />
+                <Stack.Screen name = "AllReceipts" component={AllReceipts} options={{ title: '' }} />
             </Stack.Navigator>
         </NavigationContainer>
     )

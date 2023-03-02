@@ -19,6 +19,7 @@ import Torch from "react-native-torch";
 import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { uploadReceipt } from '../functions/bucketFun';
+import { getDataFromOCR } from '../functions/connectToOCRFun';
 export default function App({ route, navigation }) {
   const userParams = route.params;
   
@@ -168,29 +169,20 @@ export default function App({ route, navigation }) {
   if (photo) {
     let savePhoto = async () => {
       let url = await uploadReceipt(photo, userParams.userid)
-      alert(url)
+      //alert(url)
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        // some kind of pass to the OCR that returns receipt data
-        
-      }).then(() => {
-        // somehow needs to be received from OCR
-        receiptData = {
-          user_id: userParams.userid,
-          store_name: 'Safeway',
-          date: '',
-          total: '100',
-          url: url,
-          items: [
-
-              {item_name: 'pizza', price: 99},
-              {item_name: 'cheese', price: 88},
-              {item_name: 'milk', price: 77}
-          ]
-        };
-        navigation.replace("EditToDB", {userid: userParams.userid, receiptData: receiptData});
+      
+      //pass to the OCR that returns receipt data based off url
+      getDataFromOCR(url).then((data) => {
+        navigation.replace("EditToDB", {userid: userParams.userid, receiptData: data});
       }
-      );
-    };
+      ).catch((reason) => { //Connection failed
+        alert("Could not connect to the OCR");
+        console.log("Couldn't connect to OCR: " + reason);
+      });
+      //end OCR pass
+
+      })};
 
     return (
       <SafeAreaView style={styles.container}>
