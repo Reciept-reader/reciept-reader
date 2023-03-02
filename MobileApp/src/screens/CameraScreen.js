@@ -226,7 +226,7 @@ export default function App({ route, navigation }) {
        </View>
    
       <View style={styles.buttonContainer2}>
-        <Button title="Upload pic" onPress={pickImage} />
+        <Button title="Upload..." onPress={pickImage} />
       </View>
       <StatusBar style="auto" />
     </Camera>
