@@ -541,14 +541,57 @@ export async function usernameAndCount(userId) {
 
     if (userData[0] == undefined) return -1;
     if (userError || receiptError) {
-    // handle errors
-    return -1
+        // handle errors
+        return -1
     }
 
     return ({username: userData[0].username , receipt_count: receiptCount});
 }
 
 
+/*
+Takes in a user id and a budget and edits it 
+error prevention on mobile side for asserting numeric 
+return 0 for success and -1 for fail
+*/
+export async function updateBudget(userId, budget) {
+    const supabase = await createSupaClient();
+    const { data: userData, error: userError } = await supabase
+        .from('users')
+        .update({'budget': budget})
+        .eq('user_id', userId)
+        .select()
+
+    if (userError) return -1 
+    if (userData[0] == undefined) return -1
+    
+    return 0
+}
+
+/*
+Gets a users budget based off of user id 
+If budget exist return the budget
+returns -1 on fail and 0 on success
+*/
+export async function getBudget(userId) {
+    const supabase = await createSupaClient();
+    const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('budget')
+        .eq('user_id', userId)
+        
+    //no budget exists
+    if (userData[0].budget == undefined) return -1;
+    if (userError) {
+    // handle errors
+        return -1
+    }
+
+    return userData[0].budget
+}
+
+
+
 export default { createReceiptData, createItemData, createCustomItemData, insertReceipt, deleteReceipt , editReceipt, getReceipt, getReceipts,
         insertItem, editItemsReceipt, getItem, getItemsReceipt, deleteItemsReceipt, deleteCustomItem, deleteCustomAll, upsertCustomItem,
-        upsertCustomAll, getCustomItem, getCustomAll, getCustomItemsUser, usernameAndCount, mostRecentReceipts }
+        upsertCustomAll, getCustomItem, getCustomAll, getCustomItemsUser, usernameAndCount, mostRecentReceipts, updateBudget, getBudget }

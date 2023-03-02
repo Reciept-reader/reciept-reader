@@ -4,9 +4,7 @@ import Logo from '../../assets1/logo2.png';
 import CustomInput from '../components/CustomInput/CustomInput';
 import CustomButton from '../components/CustomButton/CustomButton';
 import { signIn } from '../functions/accountFun';
-import { createReceiptData, createItemData, createCustomItemData, insertReceipt, deleteReceipt , editReceipt, getReceipt, getReceipts,
-insertItem, editItemsReceipt, getItem, getItemsReceipt, deleteItemsReceipt, deleteCustomItem, deleteCustomAll, upsertCustomItem,
-upsertCustomAll, getCustomItem, getCustomAll, getCustomItemsUser } from '../functions/userDataFun'
+
 
 
 // import { useNavigation } from '@react-navigation/native';
