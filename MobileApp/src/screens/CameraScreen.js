@@ -154,7 +154,7 @@ export default function App({ route, navigation }) {
               imageUriToBase64(cropResult.uri, function(base64String) {
                 const updatedCroppedImageUri = {
                   ...cropResult,
-                  base64: base64String
+                  base64: base64String.replace("data:image/jpeg;base64,", ""),
                 }
               setPhoto(updatedCroppedImageUri);
               setImageToBeCroppedUri(null)
@@ -179,7 +179,7 @@ export default function App({ route, navigation }) {
       <SafeAreaView style={styles.container}>
         <Image
           style={styles.preview}
-          source={{ uri: photo.base64.startsWith("data:image") ? photo.base64 : "data:image/jpg;base64," + photo.base64 }}
+          source={{ uri: "data:image/jpg;base64," + photo.base64 }}
         />
         {hasMediaLibraryPermission ? (
           <Button title="Save/Upload" onPress={savePhoto} />
