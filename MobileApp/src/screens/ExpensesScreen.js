@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View , StyleSheet} from 'react-native';
+import { View, Button, StyleSheet} from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
 import CustomButton from '../components/CustomButton/CustomButton';
 import { Dimensions } from 'react-native';
@@ -206,29 +206,43 @@ const ExpensesScreen = ({ route, navigation }) => {
         fromZero
         chartConfig={chartConfig}
       />
-      <View style={{flexDirection:"row", marginTop: 10, flexWrap: 'wrap'}}>
-      
-      <CustomButton text ="   Weekly                   " onPress={updateWeekly}/>
-      <CustomButton text ="   Monthly              " onPress={updateMonthly}/>
+
+      <View style={style.allButtons}>
+        <View style={style.button}>
+          <CustomButton text="Weekly" onPress={updateWeekly}/>
+        </View>
+        <View style={style.button}>
+          <CustomButton text="Monthly" onPress={updateMonthly}/>
+        </View>
       </View>
-      
       <View style={{ flexDirection:"row"}}>
-      <CustomButton text ="   Quarterly              " onPress={updateQuarter}/>
-      <CustomButton text ="   Yearly                  " onPress={updateYearly}/>
+        <View style={style.button}>
+          <CustomButton text ="Quarterly" onPress={updateQuarter}/>
+        </View>
+          <View style={style.button}>
+            <CustomButton text ="Yearly" onPress={updateYearly}/>
+          </View>
       </View>
     </View>
-  );
-
-  
+  );  
 };
 
 const style = StyleSheet.create({
   container:{
       flex: 1,
-      backhroundColor: "FFFFFF",
+      backgroundColor: "FFFFFF",
       alignItems: 'center',
-      height: '100%'
+      height: '100%',
+      padding: 24
   },
+  allButtons:{
+    flexDirection:"row", 
+    marginTop: 10, 
+    flexWrap: 'wrap',
+  },
+  button: {
+    width: '50%'
+  }
 })
 
 
