@@ -18,11 +18,11 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Torch from "react-native-torch";
 import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { uploadReceipt } from '../functions/bucketFun';
-import { getDataFromOCR } from '../functions/connectToOCRFun';
+import { uploadReceipt } from "../functions/bucketFun";
+import { getDataFromOCR } from "../functions/connectToOCRFun";
 export default function App({ route, navigation }) {
   const userParams = route.params;
-  
+
   let cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
@@ -76,19 +76,18 @@ export default function App({ route, navigation }) {
       allowsEditing: false,
     });
 
-
     //UPLOADS TO STORAGE **********
     //const storageName= "example12"
-    setPhoto(result)
+    setPhoto(result);
     let urlSupa = await uploadReceipt(result, userParams.userid);
-    alert(urlSupa)
+    alert(urlSupa);
     //************ JACOB WHERE DOES THIS GO?? */
 
     // if (!result?.canceled) {
     //   launchEditor(result.uri);
     // }
-    
-    // get secure url from our server 
+
+    // get secure url from our server
     // const { url } = await fetch("http://localhost:8080/s3Url").then((res) =>
     //   res.json()
     // );
@@ -101,7 +100,6 @@ export default function App({ route, navigation }) {
     //   body: blob,
     // });
     // console.log(response2);
-    
   };
 
   //function to launch the image editor
@@ -115,53 +113,52 @@ export default function App({ route, navigation }) {
   //function to convert image uri to base64
   function imageUriToBase64(uri, callback) {
     var xhr = new XMLHttpRequest();
-    xhr.onload = function() {
+    xhr.onload = function () {
       var reader = new FileReader();
-      reader.onloadend = function() {
+      reader.onloadend = function () {
         callback(reader.result);
-      }
+      };
       reader.readAsDataURL(xhr.response);
     };
-    xhr.open('GET', uri);
-    xhr.responseType = 'blob';
+    xhr.open("GET", uri);
+    xhr.responseType = "blob";
     xhr.send();
   }
 
-  if(image){
+  if (image) {
     return (
       <View>
-       <Image
-        style={ styles.preview }
-        source={{ uri: "data:image/jpg;base64," + image.base64}}
-      />
-          <ImageEditor
-            visible={editorVisible}
-            onCloseEditor={() => {
-              setEditorVisible(false);
-              setImageToBeCroppedUri(null);
-            }}
-            imageUri={image.uri}
-            fixedCropAspectRatio={9 / 16}
-            mode="crop-only"
-            lockAspectRatio={false}
-            minimumCropDimensions={{
-              width: 100,
-              height: 100,
-            }}
-            onEditingComplete={(cropResult) => {
-              // When the image is cropped
-              // Get the cropped image uri and base64
-              imageUriToBase64(cropResult.uri, function(base64String) {
-                const updatedCroppedImageUri = {
-                  ...cropResult,
-                  base64: base64String.replace("data:image/jpeg;base64,", ""),
-                }
+        <Image
+          style={styles.preview}
+          source={{ uri: "data:image/jpg;base64," + image.base64 }}
+        />
+        <ImageEditor
+          visible={editorVisible}
+          onCloseEditor={() => {
+            setEditorVisible(false);
+            setImageToBeCroppedUri(null);
+          }}
+          imageUri={image.uri}
+          fixedCropAspectRatio={9 / 16}
+          mode="crop-only"
+          lockAspectRatio={false}
+          minimumCropDimensions={{
+            width: 100,
+            height: 100,
+          }}
+          onEditingComplete={(cropResult) => {
+            // When the image is cropped
+            // Get the cropped image uri and base64
+            imageUriToBase64(cropResult.uri, function (base64String) {
+              const updatedCroppedImageUri = {
+                ...cropResult,
+                base64: base64String.replace("data:image/jpeg;base64,", ""),
+              };
               setPhoto(updatedCroppedImageUri);
-              setImageToBeCroppedUri(null)
+              setImageToBeCroppedUri(null);
             });
-            }}
-          />
-        
+          }}
+        />
       </View>
     );
   }
@@ -172,8 +169,12 @@ export default function App({ route, navigation }) {
       //pass to the OCR that returns receipt data based off url
       let receiptData = await getDataFromOCR(url);
       // await MediaLibrary.saveToLibraryAsync(photo.uri);
-      navigation.replace("EditToDB", {userid: userParams.userid, receiptData: receiptData, url: url});
-      };
+      navigation.replace("EditToDB", {
+        userid: userParams.userid,
+        receiptData: receiptData,
+        url: url,
+      });
+    };
 
     return (
       <SafeAreaView style={styles.container}>
@@ -206,25 +207,27 @@ export default function App({ route, navigation }) {
           color={flash === Camera.Constants.FlashMode.off ? "gray" : "#fff"}
         ></Icon.Button>
       </View>
-      <View style={{
-        alignSelf: 'center',
-        flex: 1,
-        alignItems: 'center',
-        bottom: 0,
-        position: "absolute",
-                }}>
-        <TouchableOpacity onPress={takePic} style={{
+      <View
+        style={{
+          alignSelf: "center",
+          flex: 1,
+          alignItems: "center",
+          bottom: 0,
+          position: "absolute",
+        }}
+      >
+        <TouchableOpacity
+          onPress={takePic}
+          style={{
             width: 70,
             height: 70,
             bottom: 0,
             borderRadius: 50,
-            backgroundColor: '#fff'
-            
-            }}
-           
-       />
-       </View>
-   
+            backgroundColor: "#fff",
+          }}
+        />
+      </View>
+
       <View style={styles.buttonContainer2}>
         <Button title="Upload..." onPress={pickImage} />
       </View>
@@ -236,7 +239,6 @@ export default function App({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
   },
   buttonContainer: {
     width: 70,
