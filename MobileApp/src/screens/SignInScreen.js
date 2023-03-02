@@ -33,7 +33,6 @@ const SignInScreen = ({navigation}) => {
         else {
             try {
                 retVal = await signIn(user, pass)
-                alert(retVal.user_id)
                 if (retVal.user_id == -1) {
                     throw "-1"
                 } else {
