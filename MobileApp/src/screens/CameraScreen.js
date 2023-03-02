@@ -168,21 +168,14 @@ export default function App({ route, navigation }) {
 
   if (photo) {
     let savePhoto = async () => {
-      let url = await uploadReceipt(photo, userParams.userid)
+      let url = await uploadReceipt(photo, userParams.userid);
       //alert(url)
-      MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-      
+      await MediaLibrary.saveToLibraryAsync(photo.uri);
+        
       //pass to the OCR that returns receipt data based off url
-      getDataFromOCR(url).then((data) => {
-        navigation.replace("EditToDB", {userid: userParams.userid, receiptData: data});
-      }
-      ).catch((reason) => { //Connection failed
-        alert("Could not connect to the OCR");
-        console.log("Couldn't connect to OCR: " + reason);
-      });
-      //end OCR pass
-
-      })};
+      let receiptData = await getDataFromOCR(url);
+      navigation.replace("EditToDB", {userid: userParams.userid, receiptData: receiptData});
+      };
 
     return (
       <SafeAreaView style={styles.container}>
