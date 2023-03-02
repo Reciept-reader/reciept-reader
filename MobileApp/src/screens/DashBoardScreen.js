@@ -22,6 +22,78 @@ const Dashboard = ({props, navigation, route}) => {
     navigation.navigate('AllReceipts', {userid: userid})
   }
 
+  const dateGrab = async(userId, startDate, endDate) => {
+    let sum = 0;
+    let done = 0;
+    let newStart = startDate;
+    const endMonth = endDate.split('-')[1];
+
+    while (done == 0) {
+      let startMonth = newStart.split('-')[1];
+      let year = newStart.split('-')[0];
+      let nextMonth = '';
+
+      if (parseInt(startMonth, 10) < 9) { 
+        nextMonth = (parseInt(startMonth, 10) + 1).toString().padStart(2, '0');
+      } else {
+        if (parseInt(startMonth, 10) == 9) {
+          nextMonth = '10';
+        } else if (parseInt(startMonth, 10) == 10) {
+          nextMonth = '11';
+        } else if (parseInt(startMonth, 10) == 11) {
+          nextMonth = '12';
+        } else if (parseInt(startMonth, 10) == 12) {
+          nextMonth = '01';
+        }
+      }
+
+      let newEnd = '';
+      
+      if ( startMonth != endMonth ) {
+        if (parseInt(startMonth, 10) == 2){
+          newEnd = year + '-' + startMonth + '-' + '28';
+        } else if (parseInt(startMonth, 10) == 4) {
+          newEnd = year + '-' + startMonth + '-' + '30';
+        } else if (parseInt(startMonth, 10) == 6) {
+          newEnd = year + '-' + startMonth + '-' + '30';
+        } else if (parseInt(startMonth, 10) == 9) {
+          newEnd = year + '-' + startMonth + '-' + '30';
+        } else if (parseInt(startMonth, 10) == 11) {
+          newEnd = year + '-' + startMonth + '-' + '30';
+        } else {
+          newEnd = year + '-' + startMonth + '-' + '31';
+        }
+
+        let total = await dateGrabber(userId, newStart, newEnd);
+        if (total < 0) { total = 0 }
+        sum += total;
+        newStart = year + '-' + nextMonth + '-' + '01';
+
+      } else {
+        let total = await dateGrabber(userId, newStart, endDate);
+        if (total < 0) { total = 0 }
+        sum += total;
+        done = 1;
+      }
+    }
+    if (sum < 0) {sum = 0}
+    if (isNaN(sum) == true) {sum = 0}
+    return sum;
+  }
+
+  let budget = 500;
+  const [totalSpent, setTotalSpent] = useState('Loading...');
+
+  let today = new Date();
+
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - today.getDay() + 1);
+  const weekStart = startOfWeek.toISOString().substring(0, 10);
+
+  const endOfWeek = new Date(today);
+  endOfWeek.setDate(today.getDate() - today.getDay() + 7);
+  const weekEnd = endOfWeek.toISOString().substring(0, 10);
+
   useEffect( () => {
     async function fetchImages() {
       let newPhotos = await mostRecentReceipts(userid, 5);
@@ -29,6 +101,12 @@ const Dashboard = ({props, navigation, route}) => {
         setPhotos(newPhotos);
       }
     }
+    async function budgetUpdate() {
+      let spendingUpdate = await dateGrab(userid, weekStart, weekEnd);
+      let formatSpend = spendingUpdate.toFixed(2);
+      setTotalSpent(formatSpend);
+    }
+    budgetUpdate();
     fetchImages();
 }, []);
 const setBudget = () => {
@@ -37,8 +115,10 @@ const setBudget = () => {
   return (  
     <View style={styles.scrollView}>
     <View>
-      <Text style={styles.title}>Budget $500</Text>
-      <CustomButton text ="Set Budget" onPress={setBudget}/>
+      <Text style={styles.title}>Budget: ${totalSpent} / ${budget}</Text>
+      <View style={{ flexDirection:"row"}}>
+        <CustomButton text ="Set Budget" onPress={setBudget}/>
+      </View>
     </View>
     <View style={{flexDirection: 'row', alignItems: 'center'}}>
       <ScrollView horizontal={true} style={{flex: 1}}>
