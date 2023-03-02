@@ -33,8 +33,12 @@ const SignInScreen = ({navigation}) => {
         else {
             try {
                 retVal = await signIn(user, pass)
-                retVal = JSON.parse(retVal)
-                navigation.replace('HomeScreen', {userid: retVal.user_id})
+                alert(retVal.user_id)
+                if (retVal.user_id == -1) {
+                    throw "-1"
+                } else {
+                    navigation.replace('HomeScreen', {userid: retVal.user_id})
+                }
             } catch (error) {
                 alert("Invalid login credentials")
             }

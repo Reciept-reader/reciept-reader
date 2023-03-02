@@ -68,28 +68,31 @@ export async function signIn(username, password) {
     .eq("username", username)
 
   if (error) {
-      throw error
-      return "login credentials don't exist";
+    throw error
+    return "login credentials don't exist";
   }
-  
+
   if (user[0].user_id === undefined) {
     return "login credentials don't exist";
   }
 
-  //decrpyt compare
-  const isMatch = await bcrypt.compare(password, user[0].password, (err, isMatch) => {
-    if (err) {
-      alert(err)
-      return -1;
-    }
-    if (isMatch) {
-      return JSON.stringify({ user_id: user[0].user_id, username: user[0].username });
-    } else {
-      return -1
-    }
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(password, user[0].password, (err, isMatch) => {
+      if (err) {
+        reject(err);
+      } else if (isMatch) {
+        resolve({ user_id: user[0].user_id, username: user[0].username });
+      } else {
+        resolve({ user_id: -1 });
+      }
+    });
   });
-  return -1
-};
+}
+
+
+
+
+
 
 
 /* Password change function
