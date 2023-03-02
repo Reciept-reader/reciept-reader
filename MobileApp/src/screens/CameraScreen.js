@@ -1,22 +1,18 @@
+import { Camera } from "expo-camera";
+import { ImageEditor } from "expo-image-editor";
+import * as ImagePicker from "expo-image-picker";
+import * as MediaLibrary from "expo-media-library";
 import { StatusBar } from "expo-status-bar";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  TouchableOpacity,
   Button,
   Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { useEffect, useRef, useState } from "react";
-import { Camera } from "expo-camera";
-import * as MediaLibrary from "expo-media-library";
-import EditToDB from "./EditToDB";
-import * as ImagePicker from "expo-image-picker";
-import { ImageEditor } from "expo-image-editor";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import Torch from "react-native-torch";
-import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { uploadReceipt } from "../functions/bucketFun";
 import { getDataFromOCR } from "../functions/connectToOCRFun";
@@ -86,20 +82,6 @@ export default function App({ route, navigation }) {
     // if (!result?.canceled) {
     //   launchEditor(result.uri);
     // }
-
-    // get secure url from our server
-    // const { url } = await fetch("http://localhost:8080/s3Url").then((res) =>
-    //   res.json()
-    // );
-    // const response = await fetch(result.assets[0].uri);
-    // const blob = await response.blob();
-    // console.log(url, blob, blob.type);
-    // // post the image direclty to the s3 bucket
-    // const response2 = await fetch(url, {
-    //   method: "PUT",
-    //   body: blob,
-    // });
-    // console.log(response2);
   };
 
   //function to launch the image editor

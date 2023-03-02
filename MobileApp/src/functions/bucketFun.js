@@ -17,6 +17,7 @@ export async function uploadReceipt(response, userid) {
     alert(fileName);
     //ABOVE IS HARD CODED BECAUSE OF WEIRD UNDEFINED ERROR
 
+    
     const id = uuid({ random: secureRandom });
     const extension = response.uri.split(".").pop();
     const data = await fetch(response.uri);
