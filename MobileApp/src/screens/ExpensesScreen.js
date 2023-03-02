@@ -206,13 +206,15 @@ const ExpensesScreen = ({ route, navigation }) => {
         fromZero
         chartConfig={chartConfig}
       />
-      <View style={{ width: '40%', flexDirection:"row", alignItems: 'flex-start', marginTop: 10}}>
-      <CustomButton text ="Weekly" onPress={updateWeekly}/>
-      <CustomButton text ="Monthly" onPress={updateMonthly}/>
+      <View style={{flexDirection:"row", marginTop: 10, flexWrap: 'wrap'}}>
+      
+      <CustomButton text ="   Weekly                   " onPress={updateWeekly}/>
+      <CustomButton text ="   Monthly              " onPress={updateMonthly}/>
       </View>
-      <View style={{ width: '40%', flexDirection:"row"}}>
-      <CustomButton text ="Quarterly" onPress={updateQuarter}/>
-      <CustomButton text ="Yearly" onPress={updateYearly}/>
+      
+      <View style={{ flexDirection:"row"}}>
+      <CustomButton text ="   Quarterly              " onPress={updateQuarter}/>
+      <CustomButton text ="   Yearly                  " onPress={updateYearly}/>
       </View>
     </View>
   );
@@ -222,9 +224,10 @@ const ExpensesScreen = ({ route, navigation }) => {
 
 const style = StyleSheet.create({
   container:{
-      flex: 0,
+      flex: 1,
       backhroundColor: "FFFFFF",
-      alignItems: 'center'
+      alignItems: 'center',
+      height: '100%'
   },
 })
 
