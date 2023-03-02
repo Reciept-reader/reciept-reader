@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -18,20 +18,27 @@ const Stack = createNativeStackNavigator();
 const Navigation =() => {
     return (
         <NavigationContainer >
-            <Stack.Navigator>
-                <Stack.Screen name = "Sign In" component={SignInScreen} options={{ title: '' }}  />
-                <Stack.Screen name = "HomeScreen" component={HomeScreen} options={{ title: '' }} />
-                <Stack.Screen name = "CreateAccount" component={CreateAccount} options={{ title: '' }}  />
-                <Stack.Screen name = "ShowImage" component={ShowImage} options={{ title: '' }}  />
-                <Stack.Screen name = "ShowBudget" component={BudgetScreen} options={{ title: '' }}  />
+            <Stack.Navigator >
+                <Stack.Screen name = "Sign In" component={SignInScreen} options={{headerStyle: {backgroundColor: '#051549'}}}  />
+                <Stack.Screen name = "HomeScreen" component={HomeScreen} options={{title: '',headerTintColor: '#fff', headerStyle: {backgroundColor: '#051549'}}} />
+                <Stack.Screen name = "CreateAccount" component={CreateAccount} options={{ title: 'Create Account', headerTintColor: '#fff', headerStyle: {backgroundColor: '#051549'} }}  />
+                <Stack.Screen name = "ShowImage" component={ShowImage}  options={{ title: 'Image', headerTintColor: '#fff', headerStyle: {backgroundColor: '#051549'} }}  />
+                <Stack.Screen name = "ShowBudget" component={BudgetScreen} options={{title: 'Budget',headerTintColor: '#fff', headerStyle: {backgroundColor: '#051549'}}}  />
 
-                <Stack.Screen name = "ForgotPassword" component={ForgotPassword} options={{ title: '' }}  />
-                <Stack.Screen name = "ExpenseScreen" component={ExpensesScreen} options={{ title: '' }} />
+                <Stack.Screen name = "ForgotPassword" component={ForgotPassword} options={{ title: 'Forgot Password', headerTintColor: '#fff', headerStyle: {backgroundColor: '#051549'} }} />
+                <Stack.Screen name = "ExpenseScreen" component={ExpensesScreen} options={{title: '',headerTintColor: '#fff', headerStyle: {backgroundColor: '#051549'}}} />
                 <Stack.Screen name = "ProfileScreen" component={ProfileScreen} options={{ title: '' }} />
-                <Stack.Screen name = "About" component={About} options={{ title: '' }} />
+                <Stack.Screen name = "About" component={About}  options={{ title: 'About', headerTintColor: '#fff', headerStyle: {backgroundColor: '#051549'} }}/>
                 <Stack.Screen name = "EditToDB" component={EditToDB} options={{ title: '' }} />
             </Stack.Navigator>
         </NavigationContainer>
     )
 }
+const styles = StyleSheet.create({
+root: {
+    
+    backgroundColor: '#051549',
+
+},
+})
 export default Navigation;

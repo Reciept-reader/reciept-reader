@@ -73,12 +73,16 @@ const SignInScreen = ({navigation}) => {
                 setValue={setPassword}
                 secureTextEntry={true}
             />
-         <Button tyle={styles.buttonContainer2} title="Forgot your password?" onPress={onForgotPassswordPressed} />
-            <CustomButton text="Sign In" onPress={ () => onSignInPressed(username, password)} />
+
+            <View style={{color:'#fff'}}>
+         <Button style={{color:'#fff'}} title="Forgot your password?" onPress={onForgotPassswordPressed} />
+         </View>
+         <View style={{ width: '100%' }}>
+            <CustomButton  text="Sign In" onPress={ () => onSignInPressed(username, password)} />
             <CustomButton text="Create Account" onPress={ () => onCreateAccountPressed()} />
             <CustomButton text="Secret Button" onPress={ () => onBackdoorPressed()} />
 
-
+            </View>
         </View>
     );
 };
@@ -88,23 +92,27 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20,
         paddingBottom: 40,
+        backgroundColor: '#051549',
+        height: '100%'
 
     },
     logo: {
         width: "70%",
         maxWidth: 300,
         maxHeight: 200,
+    
+
     },
     buttonContainer2: {
 
-        width: 70,
+        width: '100%',
         height: 70,
- 
+        color:'#fff',
         borderRadius: 50,
         backgroundColor: '#fff',
-        flex:1,
+        
         position:'absolute',
-        alignSelf:'center'
+        alignSelf:'right'
       },
       
 });

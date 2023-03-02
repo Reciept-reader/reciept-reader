@@ -52,7 +52,7 @@ function ForgotPassword() {
             style={[styles.logo, { height: height * 0.3 }]}
             resizeMode="contain"
         />
-        <CustomInput
+        <CustomInput 
             placeholder="Username"
             value={username}
             setValue={setUsername}
@@ -69,7 +69,9 @@ function ForgotPassword() {
             setValue={setPassword_check}
             secureTextEntry={true}
         />
-        <CustomButton text="Reset" onPress={ () => onResetPressed(username, password, password_check)}/>
+        <View style={{ width: '100%', marginTop: 10 }}>
+        <CustomButton text="Reset"  onPress={ () => onResetPressed(username, password, password_check)}/>
+        </View>
     </View>
     );
   }
@@ -78,6 +80,8 @@ function ForgotPassword() {
         alignItems: 'center',
         padding: 20,
         paddingBottom: 40,
+        height:'100%',
+        backgroundColor:'#051549'
 
     },
     logo: {

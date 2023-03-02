@@ -30,8 +30,8 @@ const setBudget = () => {
 };
   return (  
     <View style={styles.scrollView}>
-    <View>
-      <Text style={styles.title}>Budget $500</Text>
+    <View style={{ width: '50%', flexDirection: 'column'}}>
+      <Text style={styles.title}>Budget </Text>
       <CustomButton text ="Set Budget" onPress={setBudget}/>
       </View>
     <Text style={styles.title}>Previous Receipts</Text>
@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     marginHorizontal: 20,
+    
   }
 });
   

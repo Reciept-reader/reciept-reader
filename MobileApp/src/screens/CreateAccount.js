@@ -63,7 +63,9 @@ function Signup() {
             setValue={setPassword_check}
             secureTextEntry={true}
         />
+        <View style ={{width: '100%', marginTop: 10}}>
         <CustomButton text="Sign Up" onPress={ () => onSignUpPressed(username, password, password_check)} />
+        </View>
     </View>
     );
   }
@@ -73,6 +75,8 @@ function Signup() {
         alignItems: 'center',
         padding: 20,
         paddingBottom: 40,
+        height:'100%',
+        backgroundColor:'#051549'
 
     },
     logo: {
