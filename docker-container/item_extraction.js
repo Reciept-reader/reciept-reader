@@ -206,6 +206,9 @@ async function extractData(lines) {
         }
 
     }
+    if(items.length == 0){
+        items.push({"item_name": " ", "price": " "})
+    }
 
     return [items, date, total, store]
 }

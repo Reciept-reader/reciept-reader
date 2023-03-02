@@ -25,7 +25,12 @@ async function analyze_receipt(input) {
       await worker.terminate();
       return arr;
     }catch(error){
-      console.log("error occured")
+      return {
+        items: '',
+        total: '',
+        date: '',
+        store: ''
+      }
     }
   };
 
