@@ -193,7 +193,7 @@ async function extractData(lines) {
         if (itemMatch) {
             const itemData = await extractItems(itemMatch, store)
             
-            items.push({"name": itemData[0], "price": itemData[1]})
+            items.push({"item_name": itemData[0], "price": itemData[1]})
             //items.push({"name": await itemScan(itemData[0], itemNameToAlias), "price": itemData[1]})
             continue
             
