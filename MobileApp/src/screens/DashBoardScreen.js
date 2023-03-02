@@ -25,7 +25,9 @@ const Dashboard = ({props, navigation, route}) => {
   useEffect( () => {
     async function fetchImages() {
       let newPhotos = await mostRecentReceipts(userid, 5);
-      setPhotos(newPhotos);
+      if (newPhotos != -1){
+        setPhotos(newPhotos);
+      }
     }
     fetchImages();
 }, []);

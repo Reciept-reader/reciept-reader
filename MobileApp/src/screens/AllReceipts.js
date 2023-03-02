@@ -14,7 +14,9 @@ const AllReceipts = ({ navigation, route }) => {
     useEffect( () => {
         async function fetchImages() {
         let newPhotos = await getReceipts(userid);
+        if (newPhotos != -1) {
           setPhotos(newPhotos);
+        }
         }
         fetchImages();
     }, []);
