@@ -6,6 +6,8 @@ import { mostRecentReceipts } from '../functions/userDataFun';
 import CustomButton from '../components/CustomButton/CustomButton';
 import AllReceipts from './AllReceipts';
 import { dateGrabber } from '../functions/aggregationFun';
+import { ProgressChart } from 'react-native-chart-kit';
+
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
 
@@ -23,6 +25,12 @@ const Dashboard = ({props, navigation, route}) => {
     navigation.navigate('AllReceipts', {userid: userid})
   }
 
+/*
+  The function 'dateGrab' takes in the userID, a starting date, and an ending date for
+  the purpose of formatting the dates to work with the 'dateGrabber' function in aggregationFun.js .
+  'dateGrabber' only works when passed two dates of the same month, so 'dateGrab' creates a month start
+  and month end date, passes each set through 'dateGrabber', and adds up the sums to return to the user
+  */
   const dateGrab = async(userId, startDate, endDate) => {
     let sum = 0;
     let done = 0;
@@ -79,11 +87,19 @@ const Dashboard = ({props, navigation, route}) => {
     }
     if (sum < 0) {sum = 0}
     if (isNaN(sum) == true) {sum = 0}
+    if (sum > budget) {
+      alert("You've Gone Over Budget!");
+    }
+    newPercent = sum / budget;
+    let percentString = newPercent.toFixed(2);
+    newPercent = parseInt(percentString);
+    fixPercentage(newPercent);
     return sum;
   }
 
   let budget = 500;
   const [totalSpent, setTotalSpent] = useState('Loading...');
+  const [percentage, fixPercentage] = useState(0);
 
   let today = new Date();
 
@@ -117,6 +133,28 @@ const setBudget = () => {
     <View style={styles.scrollView}>
     <View>
       <Text style={styles.title}>Budget: ${totalSpent} / ${budget}</Text>
+      <ProgressChart
+        labels={['January']}
+        data={[percentage]}
+        width={Dimensions.get('window').width}
+        strokeWidth={25}
+        height={220}
+        chartConfig={{
+          formatYLabel: (value) => `$${value}`,
+          backgroundColor: '#f2f2f2',
+          backgroundGradientFrom: '#f2f2f2',
+          backgroundGradientTo: '#f2f2f2',
+          decimalPlaces: 2,
+          color: (opacity = 1) => `rgba(64, 76, 207, ${opacity})`,
+          style: {
+            borderRadius: 16,
+          },
+        }}
+        style={{
+          marginVertical: 8,
+          borderRadius: 16,
+        }}
+      />
       <View style={{ flexDirection:"row"}}>
         <CustomButton text ="Set Budget" onPress={setBudget}/>
       </View>
