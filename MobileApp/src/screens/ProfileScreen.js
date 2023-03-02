@@ -44,7 +44,7 @@ function ProfileScreen({ route, navigation}) {
                 <Text style={style.userInfo}>Reciept Amount: {recieptCount} </Text>
             </View>
             
-            <View style = {style.buttonsContainer}>
+            <View style = {{width: "40%"}}>
                 <CustomButton style={style.aboutButton} text ="About" onPress={onAboutPressed}/>
                 <CustomButton style={style.exitButton} text ="Sign Out" onPress={onSignOutPressed}/>
             </View>
@@ -56,6 +56,7 @@ const style = StyleSheet.create({
     container:{
         flex: 0,
         backhroundColor: "FFFFFF",
+        alignItems: 'center'
     },
 
     userInfo:{

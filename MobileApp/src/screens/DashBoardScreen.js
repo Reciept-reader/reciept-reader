@@ -32,8 +32,8 @@ const Dashboard = ({props, navigation, route}) => {
 const setBudget = () => {
   navigation.navigate('ShowBudget')
 };
-return (
-  <View style={styles.scrollView}>
+  return (  
+    <View style={styles.scrollView}>
     <View>
       <Text style={styles.title}>Budget $500</Text>
       <CustomButton text ="Set Budget" onPress={setBudget}/>
@@ -76,19 +76,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     marginHorizontal: 20,
-  },
-  button: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 50,
-    width: 50,
-    marginLeft: 16,
-  },
-  buttonText: {
-    color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 24,
-  },
+  }
 });
   
 export default Dashboard;

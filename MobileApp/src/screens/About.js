@@ -66,6 +66,7 @@ function About() {
       alignItems: 'center',
       justifyContent: 'center',
       padding: 10,
+      
     },
     title: {
       fontSize: 20,

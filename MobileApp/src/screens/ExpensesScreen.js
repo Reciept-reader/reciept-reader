@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View , StyleSheet} from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
 import CustomButton from '../components/CustomButton/CustomButton';
 import { Dimensions } from 'react-native';
@@ -196,7 +196,7 @@ const ExpensesScreen = ({ route, navigation }) => {
   };
   
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={style.container}>
       <BarChart
         data={data}
         width={Dimensions.get('window').width - 50}
@@ -206,17 +206,27 @@ const ExpensesScreen = ({ route, navigation }) => {
         fromZero
         chartConfig={chartConfig}
       />
-      <View style={{ flexDirection:"row"}}>
+      <View style={{ width: '40%', flexDirection:"row", alignItems: 'flex-start', marginTop: 10}}>
       <CustomButton text ="Weekly" onPress={updateWeekly}/>
       <CustomButton text ="Monthly" onPress={updateMonthly}/>
       </View>
-      <View style={{ flexDirection:"row"}}>
+      <View style={{ width: '40%', flexDirection:"row"}}>
       <CustomButton text ="Quarterly" onPress={updateQuarter}/>
       <CustomButton text ="Yearly" onPress={updateYearly}/>
       </View>
     </View>
   );
+
+  
 };
+
+const style = StyleSheet.create({
+  container:{
+      flex: 0,
+      backhroundColor: "FFFFFF",
+      alignItems: 'center'
+  },
+})
 
 
 export default ExpensesScreen;
