@@ -9,17 +9,16 @@ import  {usernameAndCount}  from '../functions/userDataFun.js';
 function ProfileScreen({ route, navigation}) {
 
     const userid = route.params.userid;
-    alert(userid)
     
-    const [username, setUsername] = useState(userid);
+    const [username, setUsername] = useState('');
     const [recieptCount, setRecieptCount] = useState(0);
 
     useEffect(() => {
         async function fetchData() {
             try{
-                const {username, recieptCount} = await usernameAndCount(userid);
+                const {username, receipt_count} = await usernameAndCount(userid);
                 setUsername(username);
-                setRecieptCount(recieptCount);
+                setRecieptCount(receipt_count);
             }
             catch(error){
                 alert("Error fetching data:",  error);
