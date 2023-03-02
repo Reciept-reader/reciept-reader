@@ -168,13 +168,11 @@ export default function App({ route, navigation }) {
 
   if (photo) {
     let savePhoto = async () => {
-      let url = await uploadReceipt(photo, userParams.userid);
-      //alert(url)
-      await MediaLibrary.saveToLibraryAsync(photo.uri);
-        
+      const url = await uploadReceipt(photo, userParams.userid);
       //pass to the OCR that returns receipt data based off url
       let receiptData = await getDataFromOCR(url);
-      navigation.replace("EditToDB", {userid: userParams.userid, receiptData: receiptData});
+      // await MediaLibrary.saveToLibraryAsync(photo.uri);
+      navigation.replace("EditToDB", {userid: userParams.userid, receiptData: receiptData, url: url});
       };
 
     return (
