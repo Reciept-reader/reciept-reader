@@ -1,39 +1,64 @@
 import { Text, View, StyleSheet, ScrollView, TextInput, Button } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import CustomButton from '../components/CustomButton/CustomButton';
 
 import { insertReceipt } from '../functions/userDataFun';
 
 const EditToDB = ({ route, navigation }) => {
+    // Get parameters passed from the Camera screen
     const receiptData = route.params.receiptData;
     const userid = route.params.userid;
+    const url = route.params.url
     
-    const [itemContent, setItemContent] = useState(receiptData.items)
-    const [store_nameDB, onChangeName] = useState('')
-    const [dateDB, onChangeDate] = useState('')
-    const [totalDB, onChangeTotal] = useState('')
+    // default item declaration used while adding an item or if there
+    // are no items scanned
+    const defaultItem = [{item_name: '', price: ''}]
 
+    // Use states for the items, store name, date, and total
+    // If the user updates any items, store name, date, total, the 
+    // app will replace the current stored value with the udpated value
+    const [itemContent, setItemContent] = useState(receiptData.items);
+    const [store_nameDB, onChangeName] = useState('');
+    const [dateDB, onChangeDate] = useState('');
+    const [totalDB, onChangeTotal] = useState('');
+    
+    // If there are no items read in the receipt, create a default
+    if(receiptData.items !== undefined) {
+        // setItemContent(receiptData.items);
+        // alert(receiptData.items)
+    }
+
+    // Changes the item content based on the index, not a valid
+    // solution for saving changes made by user.
+    // Changes the item naem
     const changeItemContent = (text, index) => {
         let newItemContent = [...itemContent]
         newItemContent[index].item_name = text
         setItemContent(newItemContent)
     }
 
+    // Changes the item content based on the index, not a valid
+    // solution for saving changes made by user.
+    // Changes the price
     const changePriceContent = (text, index) => {
         let newItemContent = [...itemContent]
         newItemContent[index].price = text
         setItemContent(newItemContent)
     }
     
+    // If the OCR reads an item that is invalid, or the user creates
+    // a custom item that they no longer want, removes entry from the
+    // page, and removes from the data
     const removeInput = (index) => {
         let input = [...itemContent];
         input.splice(index, 1)
         setItemContent(input)
     }
     
+    // Adds an input to the end of the list of items, to add a new
+    // item name, and price
     const addInput = () => {
-        let newInput = {item_name: 'Item Name', price: 'Price'}
-        return setItemContent([...itemContent, newInput])
+        return setItemContent([...itemContent, defaultItem])
     }
     const updateReceipt = () => {
         let s_store = store_nameDB
@@ -47,7 +72,7 @@ const EditToDB = ({ route, navigation }) => {
             date: dateDB,
             total: s_total,
             items: undefined,
-            url: receiptData.url,
+            url: url,
         }
         return s_ReceiptData
     };
@@ -70,6 +95,7 @@ const EditToDB = ({ route, navigation }) => {
       <View style={styles.view}>
         <ScrollView>
         <Text style={styles.header}>Your Receipt Data</Text>
+        <Text>Store Name: </Text>
         <TextInput 
         style={styles.input}
         placeholder={receiptData.store_name}
@@ -77,6 +103,7 @@ const EditToDB = ({ route, navigation }) => {
         onChangeText={onChangeName}
         />
 
+    <Text>Date: </Text>
         <TextInput 
         style={styles.input} 
         placeholder={receiptData.date}
@@ -84,7 +111,7 @@ const EditToDB = ({ route, navigation }) => {
         onChangeText={onChangeDate}
         />
         
-        {itemContent.map((item, index) => 
+        { itemContent.map((item, index) => 
             <>
                 <TextInput
                 key={`item${item.id}`}
@@ -101,6 +128,7 @@ const EditToDB = ({ route, navigation }) => {
             </>
         )} 
 
+        <Text>Price: </Text>
         <TextInput 
         style={styles.input} 
         placeholder={receiptData.total}
