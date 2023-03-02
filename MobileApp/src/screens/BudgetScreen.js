@@ -1,22 +1,27 @@
 import { Text, View, StyleSheet, ScrollView, TextInput, Button } from 'react-native';
 import React, {useState} from 'react';
 import CustomButton from '../components/CustomButton/CustomButton';
-
 import { insertReceipt } from '../functions/userDataFun';
 
 const Budget = ({ route }) => {
     const [budgetPrice, onChangeBudget] = useState('')
 
+    const updateBudget = async() => {
+
+    }
 
     return (
         <View style={styles.view} >
             <Text> Change Your Budget Below: </Text>
-           <TextInput 
+            <TextInput 
                 style={styles.input}
                 placeholder = '$500'
                 value = {budgetPrice}
                 onChangeText = {onChangeBudget}
             />
+            <View style={{width: '100%'}}>
+                <CustomButton onPress={ () => updateBudget()}text="Update Budget"></CustomButton>
+            </View>
         </View>
     )
 }
