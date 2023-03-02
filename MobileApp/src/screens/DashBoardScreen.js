@@ -155,7 +155,7 @@ const setBudget = () => {
           borderRadius: 16,
         }}
       />
-      <View style={{ flexDirection:"row"}}>
+      <View style={{ width: '100%' }}>
         <CustomButton text ="Set Budget" onPress={setBudget}/>
       </View>
     </View>
