@@ -1,6 +1,11 @@
 import { createSupaClient } from './databaseFun.js'
 
-
+/* Date Grabber
+Takes in a userID, Start Date, and End Date and retrieves every receipt between 
+both dates (inclusive) that belongs to the user with the corresponding userID.
+Then adds the totals for each receipt together to get the total amount spent 
+from the Start Date to the End Date.
+*/
 export async function dateGrabber(userId, startDate, endDate) {
     const supabase = await createSupaClient()
     
@@ -13,13 +18,20 @@ export async function dateGrabber(userId, startDate, endDate) {
         
 
         if (error) throw error;
-
+        
+        //Function will return -1 if no receipts are found
         if (data[0] == undefined) return -1;
-        //alert(`${data[1].total}`);
+        
+        /*
+          Variables to hold the length of the array of receipts, 
+          the sum, and an int for the while loop
+        */
         const length = data.length;
         let sum = 0;
         let i = 0;
         
+        //While loop for adding the sum 
+        //Inside of a try catch in the event that the receipts are invalid
         try {
           while (i < length) {
             sum += data[i].total;
@@ -28,6 +40,8 @@ export async function dateGrabber(userId, startDate, endDate) {
         } catch (error) {
           alert(`Something is wrong with one of your receipts.`);
         }
+        
+        //Returns the sum of the receipt totals (or 0 if something was wrong with the receipts)
         return sum;
 }
 export default { dateGrabber };
