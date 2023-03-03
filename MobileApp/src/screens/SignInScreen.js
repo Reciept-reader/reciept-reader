@@ -49,10 +49,6 @@ const SignInScreen = ({ navigation }) => {
     const onForgotPassswordPressed = () => {
         navigation.navigate('ForgotPassword')
     };
-    
-    const onBackdoorPressed = () => {
-        navigation.replace('HomeScreen', {userid: 0}) // 0 is admin, admin
-    };
 
     return (
         <View style={styles.root}>
@@ -80,8 +76,6 @@ const SignInScreen = ({ navigation }) => {
          <View style={{ width: '100%' }}>
             <CustomButton  text="Sign In" onPress={ () => onSignInPressed(username, password)} />
             <CustomButton text="Create Account" onPress={ () => onCreateAccountPressed()} />
-            <CustomButton text="Secret Button" onPress={ () => onBackdoorPressed()} />
-
             </View>
         </View>
     );
