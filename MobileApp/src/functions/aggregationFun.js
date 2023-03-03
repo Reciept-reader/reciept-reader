@@ -34,7 +34,11 @@ export async function dateGrabber(userId, startDate, endDate) {
         //Inside of a try catch in the event that the receipts are invalid
         try {
           while (i < length) {
-            sum += data[i].total;
+            if (isNaN(data[i].total) == true) {
+              sum += 0;
+            } else {
+              sum += data[i].total;
+            }
             i++;
           }
         } catch (error) {
