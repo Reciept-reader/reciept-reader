@@ -45,7 +45,7 @@ async function selectRegex(store) {
     // extracts a 10-11 digit number and the proceeding text within the line
     const fredMeyerRegex = /\b\d{9,11}\b\s*(.+?)(?=\b\d{9,11}\b|$)/gm
     // extracts text preceeding a capital letter seperated by whitespace up to the '[' character
-    const hasCapitalLetter = /([^[)]+)\s+(\$)?(\d+\.\d{2})\s+[A-Z]\b/g
+    const hasCapitalLetter = /([^[)]+)\s+(\$)?(\d+\.\d{1,2})\s+[A-Z]\b/g
     //can use either fredMeyerRegex or hasCapitalLetter
     const combinedRegex = new RegExp(fredMeyerRegex.source+ '|' + hasCapitalLetter.source);
     // extracts text if there is a double present in the line
@@ -158,7 +158,7 @@ async function extractData(lines) {
     const items = []
     let date = ""
     let total = ""
-    let store = ""
+    let store_name = ""
     //call the db to access all user names for levenshtein
     //const itemNameToAlias = await getItems()
     //determine the store name
@@ -170,7 +170,7 @@ async function extractData(lines) {
             const storeMatch = String( await levenshteinCorrection(words[i],dict)).match(storeRegex)
             if(storeMatch)
             {
-                store = storeMatch[0]
+                store_name = storeMatch[0]
                 break
             }
         }
@@ -210,7 +210,7 @@ async function extractData(lines) {
         items.push({"item_name": " ", "price": " "})
     }
 
-    return [items, date, total, store]
+    return [items, date, total, store_name]
 }
 
 
