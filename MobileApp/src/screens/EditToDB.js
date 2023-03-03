@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, ScrollView, TextInput, Button } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import CustomButton from '../components/CustomButton/CustomButton';
 
 import { insertReceipt } from '../functions/userDataFun';
@@ -22,12 +22,6 @@ const EditToDB = ({ route, navigation }) => {
     const [dateDB, onChangeDate] = useState('');
     const [totalDB, onChangeTotal] = useState('');
     
-    // If there are no items read in the receipt, create a default
-    if(receiptData.items !== undefined) {
-        // setItemContent(receiptData.items);
-        // alert(receiptData.items)
-    }
-
     // Changes the item content based on the index, not a valid
     // solution for saving changes made by user.
     // Changes the item naem
@@ -60,12 +54,16 @@ const EditToDB = ({ route, navigation }) => {
     const addInput = () => {
         return setItemContent([...itemContent, defaultItem])
     }
+
+    // Validation for the user input boxes, function checks use states
+    // of the store name, and total 
     const updateReceipt = () => {
         let s_store = store_nameDB
         let s_total = totalDB
         if (s_store.trim() == '') s_store = receiptData.store_name
         if (s_total.trim() == '') s_total = receiptData.total
-
+        
+        // returned value which gets sent to the Database
         const s_ReceiptData = {
             user_id: userid,
             store_name: s_store,
@@ -90,7 +88,7 @@ const EditToDB = ({ route, navigation }) => {
         receiptData.date = new Date().toLocaleDateString('en-US')
     }
     
-    
+    // what the user sees
     return (
       <View style={styles.view}>
         <ScrollView>
@@ -113,12 +111,14 @@ const EditToDB = ({ route, navigation }) => {
         
         { itemContent.map((item, index) => 
             <>
+                <Text>Item: </Text>
                 <TextInput
                 key={`item${item.id}`}
                 style={styles.input}
                 placeholder={item.item_name} 
                 onChangeText={text => changeItemContent(text, index)}
                 />
+                <Text>Price: </Text>
                 <TextInput key={`price${item.id}`}
                 style={styles.input}
                 placeholder={`${item.price}`} 
@@ -128,7 +128,7 @@ const EditToDB = ({ route, navigation }) => {
             </>
         )} 
 
-        <Text>Price: </Text>
+        <Text>Total: </Text>
         <TextInput 
         style={styles.input} 
         placeholder={receiptData.total}
@@ -146,6 +146,7 @@ const EditToDB = ({ route, navigation }) => {
 const styles = StyleSheet.create( {
     view: {
         alignItems: 'center',
+        // width: '100%',
         padding:20,
         paddingBottom:40,  
     },
