@@ -4,14 +4,12 @@ import Logo from '../../assets1/logo2.png';
 import CustomInput from '../components/CustomInput/CustomInput';
 import CustomButton from '../components/CustomButton/CustomButton';
 import {signUp} from '../functions/accountFun'
-import { useNavigation } from '@react-navigation/native';
 
-function Signup() {
+function Signup({ navigation }) {
     const { height } = useWindowDimensions();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [password_check, setPassword_check] = useState('')
-    const navigation = useNavigation();
 
     const onSignUpPressed = async (user, pass1, pass2) => {
         // check to see if all fields have data
@@ -30,9 +28,7 @@ function Signup() {
         else {
             try {
             retVal = await signUp(user, pass1)
-            retVal = JSON.parse(retVal)
-            alert(`Account Successfully Created.\nWelcome: ${retVal.username} User ID is : ${retVal.user_id}`)
-            navigation.replace('HomeScreen', {id: retVal.user_id})
+            navigation.replace('HomeScreen', {userid: retVal.user_id})
             } catch (error) {
                 alert("Username taken")
             }

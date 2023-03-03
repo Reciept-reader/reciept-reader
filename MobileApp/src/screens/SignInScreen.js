@@ -10,7 +10,7 @@ import { signIn } from '../functions/accountFun';
 // import { useNavigation } from '@react-navigation/native';
 import HomeScreen from '../screens/HomeScreen';
 
-const SignInScreen = ({navigation}) => {
+const SignInScreen = ({ navigation }) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
