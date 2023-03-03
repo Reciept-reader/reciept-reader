@@ -539,12 +539,13 @@ export async function usernameAndCount(userId) {
         .select('*', { count: 'exact' })
         .eq('user_id', userId);
 
-    if (userData[0] == undefined) return -1;
+    
+    if (userData == null) return ({username: "-1", receipt_count: (receiptCount || 0)});
     if (userError || receiptError) {
         // handle errors
-        return -1
+        return ({username: '-1', receipt_count: 0})
     }
-    return ({username: userData[0].username , receipt_count: (receiptCount || 0)});
+    return ({username: (userData[0].username || '-1') , receipt_count: (receiptCount || 0)});
 }
 
 

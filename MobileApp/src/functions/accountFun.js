@@ -44,7 +44,7 @@ export async function signUp(username, password) {
       }
     }
 
-    return JSON.stringify({ user_id: user[0].user_id, username: user[0].username });
+    return ({ user_id: user[0].user_id, username: user[0].username });
 
   } catch (error) {
     console.error(error);

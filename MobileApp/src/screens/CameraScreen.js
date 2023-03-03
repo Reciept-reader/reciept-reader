@@ -151,11 +151,15 @@ export default function App({ route, navigation }) {
       //pass to the OCR that returns receipt data based off url
       let receiptData = await getDataFromOCR(url);
       // await MediaLibrary.saveToLibraryAsync(photo.uri);
-      navigation.replace("EditToDB", {
+      if (receiptData.items.length > 2 || receiptData.store_name != undefined || receiptData.total != undefined) {
+        navigation.replace("EditToDB", {
         userid: userParams.userid,
         receiptData: receiptData,
         url: url,
       });
+      } else {
+        alert("receipt could not be scanned")
+      }
     };
 
     return (

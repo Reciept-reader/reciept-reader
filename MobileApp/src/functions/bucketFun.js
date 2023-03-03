@@ -8,12 +8,15 @@ import { usernameAndCount } from "./userDataFun.js";
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * max);
 };
+
+
+
 export async function uploadReceipt(response, userid) {
   try {
     const user = await usernameAndCount(userid);
     const hostUrl =
       "https://ixxtmhjztlfsfjorurfi.supabase.co/storage/v1/object/public/receipts/";
-    const fileName = `${userid}img${getRandomInt(100000)}`; //storageName
+    const fileName = `${userid}img${user.receipt_count}`; //storageName
     alert(fileName);
     //ABOVE IS HARD CODED BECAUSE OF WEIRD UNDEFINED ERROR
 
