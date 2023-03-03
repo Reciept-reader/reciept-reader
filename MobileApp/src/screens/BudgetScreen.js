@@ -4,11 +4,20 @@ import CustomButton from '../components/CustomButton/CustomButton';
 import { updateBudget, insertReceipt } from '../functions/userDataFun';
 import { useNavigation } from '@react-navigation/native'; 
 
-
+//Simple screen to let the user change their set budget
 const Budget = ({ props, route, navigation }) => {
+
+    //Variables for the userid as well as storing and updating the new budget
     const [budgetPrice, onChangeBudget] = useState(500);
     const userid = route.params.userid;
 
+    /*
+        Function to be called on button press that reads the text inside the text box and 
+        updates the user's budget in the database.
+        If the user inputs something that isn't a number, it throws an error.
+        If the user inputs a number, it updates the budget in the database 
+        and send the user back to the homescreen.
+    */
     const newBudget = async() => {
         if (isNaN(parseInt(budgetPrice)) == true ) {
             alert('Please input a number.');
@@ -18,6 +27,7 @@ const Budget = ({ props, route, navigation }) => {
         }
     }
 
+    //Objects inside the budget screen window. Has a title, text box, and submission button
     return (
         <View style={styles.view} >
             <Text> Change Your Budget Below (in $): </Text>
@@ -34,6 +44,7 @@ const Budget = ({ props, route, navigation }) => {
     )
 }
 
+//Style sheet fot the budget screen
 const styles = StyleSheet.create( {
     view: {
         alignItems: 'center',
