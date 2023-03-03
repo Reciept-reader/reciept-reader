@@ -108,7 +108,7 @@ const Dashboard = ({props, navigation, route}) => {
       if (sum > budInt) {
         fixPercentage(1.0);
         alert("You've Gone Over Budget!");
-        setPercentColor('255, 99, 71,');
+        setPercentColor('255, 0, 0,');
       } else {
         /*
          If the user has set a budget, this calculates how much of the budget 
@@ -121,7 +121,9 @@ const Dashboard = ({props, navigation, route}) => {
           fixPercentage(newPercent);
 
           if (newPercent > 0.66){
-            setPercentColor('255, 252, 127,');
+            setPercentColor('255, 0, 0,');
+          } else if (newPercent > 0.33){
+            setPercentColor('139, 128, 0,');
           }
 
         }
@@ -139,7 +141,7 @@ const Dashboard = ({props, navigation, route}) => {
   const [budget, newBudget] = useState('Loading...');
   const [totalSpent, setTotalSpent] = useState('Loading...');
   const [percentage, fixPercentage] = useState(0);
-  const [percentColor, setPercentColor] = useState('178, 222, 39,')
+  const [percentColor, setPercentColor] = useState('0, 128, 0,')
   let today = new Date();
 
   const startOfWeek = new Date(today);
