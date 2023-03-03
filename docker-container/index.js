@@ -54,10 +54,10 @@ async function main() {
         headers: { 'Content-Type': 'application/json' }
 */
 app.post("/", (req, res) => {
-  console.log("Recieved image url");
+  console.log("Recieved image url:");
+  console.log(req.body.url);
+  
   imageUrl = req.body.url;
-
-
 
   //Run OCR
   const test = async () => {
