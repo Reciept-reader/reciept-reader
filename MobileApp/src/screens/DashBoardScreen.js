@@ -167,7 +167,7 @@ const setBudget = () => {
   return (  
     <View style={styles.scrollView}>
     <View>
-      <Text style={styles.title}>Total Spent This Week: ${totalSpent} </Text>
+      <Text style={styles.title}>This Week's Spending: ${totalSpent} </Text>
       <Text style={styles.title}>This Week's Budget: ${budget}</Text>
       <ProgressChart
         labels={['January']}
