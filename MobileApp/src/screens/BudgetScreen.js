@@ -6,15 +6,13 @@ import { useNavigation } from '@react-navigation/native';
 
 //Simple screen to let the user change their set budget
 const Budget = ({ props, route, navigation }) => {
-
     //Variables for the userid as well as storing and updating the new budget
     const [budgetPrice, onChangeBudget] = useState(500);
     const userid = route.params.userid;
 
     /*
         Function to be called on button press that reads the text inside the text box and 
-        updates the user's budget in the database.
-        If the user inputs something that isn't a number, it throws an error.
+        updates the user's budget in the database. If the user inputs something that isn't a number, it throws an error.
         If the user inputs a number, it updates the budget in the database 
         and send the user back to the homescreen.
     */
@@ -57,11 +55,9 @@ const styles = StyleSheet.create( {
         borderColor: 'black',
         borderWidth: 1,
         borderRadius: 5,
-        
         height: 40,
         paddingHorizontal: 10,
         marginVertical: 10,
-
         fontWeight: 'bold',
         color: 'black',
         textDecorationColor:'black',
