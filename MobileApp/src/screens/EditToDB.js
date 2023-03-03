@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, ScrollView, TextInput, Button } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import CustomButton from '../components/CustomButton/CustomButton';
 
 import { insertReceipt } from '../functions/userDataFun';
@@ -55,12 +55,15 @@ const EditToDB = ({ route, navigation }) => {
         return setItemContent([...itemContent, defaultItem])
     }
 
+    // Validation for the user input boxes, function checks use states
+    // of the store name, and total 
     const updateReceipt = () => {
         let s_store = store_nameDB
         let s_total = totalDB
         if (s_store.trim() == '') s_store = receiptData.store_name
         if (s_total.trim() == '') s_total = receiptData.total
-
+        
+        // returned value which gets sent to the Database
         const s_ReceiptData = {
             user_id: userid,
             store_name: s_store,
@@ -143,6 +146,7 @@ const EditToDB = ({ route, navigation }) => {
 const styles = StyleSheet.create( {
     view: {
         alignItems: 'center',
+        // width: '100%',
         padding:20,
         paddingBottom:40,  
     },
