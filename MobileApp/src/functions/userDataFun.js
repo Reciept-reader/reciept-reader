@@ -544,8 +544,7 @@ export async function usernameAndCount(userId) {
         // handle errors
         return -1
     }
-
-    return ({username: userData[0].username , receipt_count: receiptCount});
+    return ({username: userData[0].username , receipt_count: (receiptCount || 0)});
 }
 
 
@@ -571,7 +570,7 @@ export async function updateBudget(userId, budget) {
 /*
 Gets a users budget based off of user id 
 If budget exist return the budget
-returns -1 on fail and 0 on success
+returns -1 on fail and budget number on success
 */
 export async function getBudget(userId) {
     const supabase = await createSupaClient();
