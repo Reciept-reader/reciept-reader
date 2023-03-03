@@ -10,8 +10,12 @@ const Budget = ({ props, route, navigation }) => {
     const userid = route.params.userid;
 
     const newBudget = async() => {
-        let updater = await updateBudget(0, 500);
-        alert(updater);
+        if (isNaN(parseInt(budgetPrice)) == true ) {
+            alert('Please input a number.');
+        } else {
+            let updater = await updateBudget(userid, budgetPrice);
+            navigation.replace('HomeScreen', {userid: userid});
+        }
     }
 
     return (
