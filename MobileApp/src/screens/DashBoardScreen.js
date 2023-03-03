@@ -89,19 +89,20 @@ const Dashboard = ({props, navigation, route}) => {
     if (isNaN(sum) == true) {sum = 0}
 
     let newBud = await getBudget(userId);
-    if (newBud == -1) {
+    let budInt = parseInt(newBud);
+    if (budInt == -1) {
       newBudget(0);
     } else {
-      newBudget(newBud);
-      if (sum > budget) {
+      newBudget(budInt);
+      if (sum > budInt) {
         alert("You've Gone Over Budget!");
       }
     }
     
-    if (budget > 0) {
-      newPercent = sum / budget;
+    if (budInt > 0) {
+      newPercent = sum / budInt;
       let percentString = newPercent.toFixed(2);
-      newPercent = parseInt(percentString);
+      newPercent = parseFloat(percentString);
       fixPercentage(newPercent);
     } else {
       alert("You need to set a budget!");
@@ -151,7 +152,7 @@ const setBudget = () => {
         labels={['January']}
         data={[percentage]}
         width={Dimensions.get('window').width}
-        strokeWidth={25}
+        strokeWidth={15}
         height={220}
         chartConfig={{
           formatYLabel: (value) => `$${value}`,
