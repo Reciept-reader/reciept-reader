@@ -158,7 +158,7 @@ async function extractData(lines) {
     const items = []
     let date = ""
     let total = ""
-    let store = ""
+    let store_name = ""
     //call the db to access all user names for levenshtein
     //const itemNameToAlias = await getItems()
     //determine the store name
@@ -170,7 +170,7 @@ async function extractData(lines) {
             const storeMatch = String( await levenshteinCorrection(words[i],dict)).match(storeRegex)
             if(storeMatch)
             {
-                store = storeMatch[0]
+                store_name = storeMatch[0]
                 break
             }
         }
@@ -189,9 +189,9 @@ async function extractData(lines) {
         }
 
         
-        const itemMatch = String(line).match( await selectRegex(store))
+        const itemMatch = String(line).match( await selectRegex(store_name))
         if (itemMatch) {
-            const itemData = await extractItems(itemMatch, store)
+            const itemData = await extractItems(itemMatch, store_name)
             
             items.push({"item_name": itemData[0], "price": itemData[1]})
             //items.push({"name": await itemScan(itemData[0], itemNameToAlias), "price": itemData[1]})
@@ -210,7 +210,7 @@ async function extractData(lines) {
         items.push({"item_name": " ", "price": " "})
     }
 
-    return [items, date, total, store]
+    return [items, date, total, store_name]
 }
 
 
@@ -225,7 +225,7 @@ async function createReceipt(lines) {
         'items': data[0],
         'total': data[2],
         'date': data[1],
-        'store': data[3] 
+        'store_name': data[3] 
     }
     return receipt
 }
