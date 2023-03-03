@@ -45,9 +45,7 @@ async function selectRegex(store_name) {
     // extracts a 10-11 digit number and the proceeding text within the line
     const fredMeyerRegex = /\b\d{9,11}\b\s*(.+?)(?=\b\d{9,11}\b|$)/gm
     // extracts text preceeding a capital letter seperated by whitespace up to the '[' character
-    const hasCapitalLetter = /([^[)]+)\s+(\$)?(\d+\.\d{1,2})\s+[A-Z]\b/g
-    //can use either fredMeyerRegex or hasCapitalLetter
-    const combinedRegex = new RegExp(fredMeyerRegex.source+ '|' + hasCapitalLetter.source);
+    const hasCapitalLetter = /([^']+) +(\$)?(\d*[,\.]?\d{1,2}) +([A-Z]|§|8)\b/g
     // extracts text if there is a double present in the line
     const simple = /([^[)]+)\s+(\$)?(\d+\.\d{2})/gi
 
@@ -57,9 +55,6 @@ async function selectRegex(store_name) {
     }
     else if(store_name == "Safeway" || store_name == "GroceryOutlet"){
         return hasCapitalLetter
-    }
-    else if (store_name == "Super1Foods"){
-        //todo
     }
     else{
         return simple
