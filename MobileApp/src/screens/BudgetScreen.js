@@ -17,8 +17,10 @@ const Budget = ({ props, route, navigation }) => {
         and send the user back to the homescreen.
     */
     const newBudget = async() => {
-        if (isNaN(parseInt(budgetPrice)) == true ) {
-            alert('Please input a number.');
+        if (budgetPrice == '') {
+            return 500;
+        } else if (isNaN(parseInt(budgetPrice)) == true ) {
+            alert('Please input a number.'); 
         } else {
             let updater = await updateBudget(userid, budgetPrice);
             navigation.replace('HomeScreen', {userid: userid});
