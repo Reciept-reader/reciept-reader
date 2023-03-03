@@ -106,19 +106,20 @@ const Dashboard = ({props, navigation, route}) => {
     } else {
       newBudget(budInt);
       if (sum > budInt) {
+        fixPercentage(1.0);
         alert("You've Gone Over Budget!");
+      } else {
+        /*
+         If the user has set a budget, this calculates how much of the budget 
+         has been spent, and then updates the progress bar
+        */
+        if (budInt > 0) {
+          newPercent = sum / budInt;
+          let percentString = newPercent.toFixed(2);
+          newPercent = parseFloat(percentString);
+          fixPercentage(newPercent);
+        }
       }
-    }
-
-    /*
-      If the user has set a budget, this calculates how much of the budget 
-      has been spent, and then updates the progress bar
-    */
-    if (budInt > 0) {
-      newPercent = sum / budInt;
-      let percentString = newPercent.toFixed(2);
-      newPercent = parseFloat(percentString);
-      fixPercentage(newPercent);
     }
     
     //Returns the budget

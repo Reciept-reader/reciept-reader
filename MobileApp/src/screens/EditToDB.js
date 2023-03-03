@@ -81,11 +81,6 @@ const EditToDB = ({ route, navigation }) => {
   const postdata = async () => {
     let s_ReceiptData = updateReceipt();
     await insertReceipt(s_ReceiptData, itemContent);
-    for (let i in itemContent) {
-      alert(
-        `item: ${itemContent[i]?.item_name} price: ${itemContent[i]?.price}`
-      );
-    }
     navigation.replace("HomeScreen", { userid: userid });
   };
 
