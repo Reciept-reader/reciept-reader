@@ -1,4 +1,3 @@
-
 import {
   Text,
   View,
@@ -7,9 +6,8 @@ import {
   TextInput,
   Button,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CustomButton from "../components/CustomButton/CustomButton";
-
 import { insertReceipt } from "../functions/userDataFun";
 
 const EditToDB = ({ route, navigation }) => {
@@ -25,7 +23,7 @@ const EditToDB = ({ route, navigation }) => {
   // Use states for the items, store name, date, and total
   // If the user updates any items, store name, date, total, the
   // app will replace the current stored value with the udpated value
-  const [itemContent, setItemContent] = useState(receiptData.items);
+  const [itemContent, setItemContent] = useState(receiptData?.items);
   const [store_nameDB, onChangeName] = useState("");
   const [dateDB, onChangeDate] = useState("");
   const [totalDB, onChangeTotal] = useState("");
@@ -66,8 +64,8 @@ const EditToDB = ({ route, navigation }) => {
   const updateReceipt = () => {
     let s_store = store_nameDB;
     let s_total = totalDB;
-    if (s_store.trim() == "") s_store = receiptData.store_name;
-    if (s_total.trim() == "") s_total = receiptData.total;
+    if (s_store.trim() == "") s_store = receiptData?.store_name;
+    if (s_total.trim() == "") s_total = receiptData?.total;
 
     const s_ReceiptData = {
       user_id: userid,
@@ -84,12 +82,14 @@ const EditToDB = ({ route, navigation }) => {
     let s_ReceiptData = updateReceipt();
     await insertReceipt(s_ReceiptData, itemContent);
     for (let i in itemContent) {
-      alert(`item: ${itemContent[i].item_name} price: ${itemContent[i].price}`);
+      alert(
+        `item: ${itemContent[i]?.item_name} price: ${itemContent[i]?.price}`
+      );
     }
     navigation.replace("HomeScreen", { userid: userid });
   };
 
-  if (receiptData.date == "") {
+  if (receiptData?.date === "") {
     receiptData.date = new Date().toLocaleDateString("en-US");
   }
 
@@ -101,7 +101,7 @@ const EditToDB = ({ route, navigation }) => {
         <Text>Store Name: </Text>
         <TextInput
           style={styles.input}
-          placeholder={receiptData.store_name}
+          placeholder={receiptData?.store_name}
           value={store_nameDB}
           onChangeText={onChangeName}
         />
@@ -109,7 +109,7 @@ const EditToDB = ({ route, navigation }) => {
         <Text>Date: </Text>
         <TextInput
           style={styles.input}
-          placeholder={receiptData.date}
+          placeholder={receiptData?.date}
           value={dateDB}
           onChangeText={onChangeDate}
         />
@@ -118,16 +118,16 @@ const EditToDB = ({ route, navigation }) => {
           <>
             <Text>Item: </Text>
             <TextInput
-              key={`item${item.id}`}
+              key={`item${item?.id}`}
               style={styles.input}
-              placeholder={item.item_name}
+              placeholder={item?.item_name}
               onChangeText={(text) => changeItemContent(text, index)}
             />
             <Text>Price: </Text>
             <TextInput
-              key={`price${item.id}`}
+              key={`price${item?.id}`}
               style={styles.input}
-              placeholder={`${item.price}`}
+              placeholder={`${item?.price}`}
               onChangeText={(text) => changePriceContent(text, index)}
             />
             <Button title="Delete" onPress={() => removeInput(index)} />
@@ -137,7 +137,7 @@ const EditToDB = ({ route, navigation }) => {
         <Text>Total: </Text>
         <TextInput
           style={styles.input}
-          placeholder={receiptData.total}
+          placeholder={String(receiptData?.total)}
           value={totalDB}
           onChangeText={onChangeTotal}
         />
