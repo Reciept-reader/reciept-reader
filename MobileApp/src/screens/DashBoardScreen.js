@@ -87,17 +87,30 @@ const Dashboard = ({props, navigation, route}) => {
     }
     if (sum < 0) {sum = 0}
     if (isNaN(sum) == true) {sum = 0}
-    if (sum > budget) {
-      alert("You've Gone Over Budget!");
+
+    let newBud = await getBudget(userId);
+    if (newBud == -1) {
+      newBudget(0);
+    } else {
+      newBudget(newBud);
+      if (sum > budget) {
+        alert("You've Gone Over Budget!");
+      }
     }
-    newPercent = sum / budget;
-    let percentString = newPercent.toFixed(2);
-    newPercent = parseInt(percentString);
-    fixPercentage(newPercent);
+    
+    if (budget > 0) {
+      newPercent = sum / budget;
+      let percentString = newPercent.toFixed(2);
+      newPercent = parseInt(percentString);
+      fixPercentage(newPercent);
+    } else {
+      alert("You need to set a budget!");
+    }
+    
     return sum;
   }
 
-  let budget = 500;
+  const [budget, newBudget] = useState('Loading...');
   const [totalSpent, setTotalSpent] = useState('Loading...');
   const [percentage, fixPercentage] = useState(0);
 
@@ -127,12 +140,13 @@ const Dashboard = ({props, navigation, route}) => {
     fetchImages();
 }, []);
 const setBudget = () => {
-  navigation.navigate('ShowBudget')
+  navigation.navigate('ShowBudget', {userid: userid})
 };
   return (  
     <View style={styles.scrollView}>
     <View>
-      <Text style={styles.title}>Budget: ${totalSpent} / ${budget}</Text>
+      <Text style={styles.title}>Total Spent This Week: ${totalSpent} </Text>
+      <Text style={styles.title}>This Week's Budget: ${budget}</Text>
       <ProgressChart
         labels={['January']}
         data={[percentage]}
