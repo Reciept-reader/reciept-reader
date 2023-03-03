@@ -166,6 +166,7 @@ const setBudget = () => {
   navigation.navigate('ShowBudget', {userid: userid})
 };
   return (  
+    <ScrollView>
     <View style={styles.scrollView}>
     <View>
       <Text style={styles.title}>This Week's Spending: ${totalSpent} </Text>
@@ -211,6 +212,7 @@ const setBudget = () => {
       </TouchableOpacity>
     </View>
   </View>
+  </ScrollView>
 );
   }
 
