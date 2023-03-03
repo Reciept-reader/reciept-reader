@@ -4,6 +4,7 @@ import Logo from '../../assets1/logo2.png';
 import CustomInput from '../components/CustomInput/CustomInput';
 import CustomButton from '../components/CustomButton/CustomButton';
 import {signUp} from '../functions/accountFun'
+import { StackActions } from '@react-navigation/native';
 
 function Signup({ navigation }) {
     const { height } = useWindowDimensions();
@@ -28,6 +29,9 @@ function Signup({ navigation }) {
         else {
             try {
             retVal = await signUp(user, pass1)
+            alert(retVal.user_id)
+            const popAction = StackActions.pop(1);
+            navigation.dispatch(popAction)
             navigation.replace('HomeScreen', {userid: retVal.user_id})
             } catch (error) {
                 alert("Username taken")

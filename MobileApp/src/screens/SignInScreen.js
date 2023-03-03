@@ -6,7 +6,6 @@ import CustomButton from '../components/CustomButton/CustomButton';
 import { signIn } from '../functions/accountFun';
 
 
-
 // import { useNavigation } from '@react-navigation/native';
 import HomeScreen from '../screens/HomeScreen';
 
