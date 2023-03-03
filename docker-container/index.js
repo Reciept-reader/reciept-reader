@@ -31,7 +31,7 @@ const downloadImageFromURL = async (url, path) => {
 async function main() {
   //Gets raw tesseract data from the receipt
   let arr = await analyze_receipt(
-    "https://nanonets.com/blog/content/images/2019/11/Screenshot-2019-11-19-at-19.58.23.png"
+    "https://ixxtmhjztlfsfjorurfi.supabase.co/storage/v1/object/public/receipts/0img49451.jpg"
   );
   console.log("raw data retrieved: ");
   console.log(arr);
@@ -53,7 +53,7 @@ async function main() {
 app.post("/", (req, res) => {
   console.log("Recieved image url");
   imageUrl =
-    "https://nanonets.com/blog/content/images/2019/11/Screenshot-2019-11-19-at-19.58.23.png";
+    "https://ixxtmhjztlfsfjorurfi.supabase.co/storage/v1/object/public/receipts/0img49451.jpg";
 
   //Run OCR
   const test = async () => {
