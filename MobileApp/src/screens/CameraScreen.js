@@ -75,8 +75,6 @@ export default function App({ route, navigation }) {
     //UPLOADS TO STORAGE **********
     //const storageName= "example12"
     setPhoto(result);
-    let urlSupa = await uploadReceipt(result, userParams.userid);
-    alert(urlSupa);
     //************ JACOB WHERE DOES THIS GO?? */
 
     // if (!result?.canceled) {

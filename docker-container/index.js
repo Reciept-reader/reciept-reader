@@ -1,3 +1,4 @@
+import preprocess from './image-preprocessing.js';
 import analyze_receipt from "./analyze-receipt.js";
 import createReceipt from "./item_extraction.js";
 
@@ -29,10 +30,12 @@ const downloadImageFromURL = async (url, path) => {
 
 // Runs the container code
 async function main() {
+  //Edits an image to be more easily read
+  let newImg = await preprocess(imageUrl);
+  console.log("preprocessing")
+
   //Gets raw tesseract data from the receipt
-  let arr = await analyze_receipt(
-    "https://nanonets.com/blog/content/images/2019/11/Screenshot-2019-11-19-at-19.58.23.png"
-  );
+  let arr = await analyze_receipt(newImg);
   console.log("raw data retrieved: ");
   console.log(arr);
 
@@ -51,9 +54,10 @@ async function main() {
         headers: { 'Content-Type': 'application/json' }
 */
 app.post("/", (req, res) => {
-  console.log("Recieved image url");
-  imageUrl =
-    "https://nanonets.com/blog/content/images/2019/11/Screenshot-2019-11-19-at-19.58.23.png";
+  console.log("Recieved image url:");
+  console.log(req.body.url);
+  
+  imageUrl = req.body.url;
 
   //Run OCR
   const test = async () => {
@@ -65,7 +69,6 @@ app.post("/", (req, res) => {
     console.log("Now ready for another url to process!");
     imageUrl = "";
   };
-
   test();
 });
 
