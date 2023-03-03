@@ -104,8 +104,6 @@ const Dashboard = ({props, navigation, route}) => {
       let percentString = newPercent.toFixed(2);
       newPercent = parseFloat(percentString);
       fixPercentage(newPercent);
-    } else {
-      alert("You need to set a budget!");
     }
     
     return sum;
