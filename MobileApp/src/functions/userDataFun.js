@@ -353,8 +353,6 @@ Will also delete all previous occurances of that custom name for the item name i
 */
 export async function deleteCustomItem(userId, itemName) {
     let customItem = createCustomItemData({command: 'delete', userId: userId, itemName: itemName})
-    alert(customItem.user_id)
-    alert(customItem.item_name)
 
     let res = await customEdge(JSON.stringify(customItem))
     return res

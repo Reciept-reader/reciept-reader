@@ -17,7 +17,6 @@ export async function uploadReceipt(response, userid) {
     const hostUrl =
       "https://ixxtmhjztlfsfjorurfi.supabase.co/storage/v1/object/public/receipts/";
     const fileName = `${userid}img${user.receipt_count}`; //storageName
-    alert(fileName);
     //ABOVE IS HARD CODED BECAUSE OF WEIRD UNDEFINED ERROR
 
     
@@ -34,10 +33,9 @@ export async function uploadReceipt(response, userid) {
         contentType: `image/${extension}`,
       });
 
-    alert(`${hostUrl}${fileName}.${extension}`);
     return `${hostUrl}${fileName}.${extension}`;
   } catch (error) {
-    alert(error);
+    return -1
     //return -1
     return `${hostUrl}${fileName}.${extension}`;
   }
