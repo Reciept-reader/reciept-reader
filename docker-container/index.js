@@ -1,3 +1,4 @@
+import preprocess from './image-preprocessing.js';
 import analyze_receipt from "./analyze-receipt.js";
 import createReceipt from "./item_extraction.js";
 
@@ -29,8 +30,12 @@ const downloadImageFromURL = async (url, path) => {
 
 // Runs the container code
 async function main() {
+  //Edits an image to be more easily read
+  let newImg = await preprocess(imageUrl);
+  console.log("preprocessing")
+
   //Gets raw tesseract data from the receipt
-  let arr = await analyze_receipt(imageUrl);
+  let arr = await analyze_receipt(newImg);
   console.log("raw data retrieved: ");
   console.log(arr);
 
@@ -51,6 +56,8 @@ async function main() {
 app.post("/", (req, res) => {
   console.log("Recieved image url");
   imageUrl = req.body.url;
+
+
 
   //Run OCR
   const test = async () => {
