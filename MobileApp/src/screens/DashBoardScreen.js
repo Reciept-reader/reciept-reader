@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react';
 import { View, FlatList, StyleSheet, Image, Text, Dimensions, ScrollView, ButtonList,TouchableOpacity } from 'react-native';
 import tempImage from '../receipts/costco1.png';
 import { useNavigation } from '@react-navigation/native'; 
-import { mostRecentReceipts } from '../functions/userDataFun';
+import { mostRecentReceipts, getBudget } from '../functions/userDataFun';
 import CustomButton from '../components/CustomButton/CustomButton';
 import AllReceipts from './AllReceipts';
 import { dateGrabber } from '../functions/aggregationFun';
