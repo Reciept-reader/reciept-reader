@@ -31,7 +31,6 @@ function ForgotPassword() {
             try {
             retVal = await forgotPassword(user, pass1)
             retVal = JSON.parse(retVal)
-            //alert(retVal)
             if(retVal == 0) {
                 alert('Password Successfully Changed.')
                 navigation.replace('Sign In')

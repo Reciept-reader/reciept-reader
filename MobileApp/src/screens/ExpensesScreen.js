@@ -31,7 +31,6 @@ const ExpensesScreen = ({ route, navigation }) => {
    * Screen. The payload on this screen is called "userParams" 
    */
   const userParams = route.params;
-  //alert(userParams.userid);
   
   //Creates an empty BarChart object
   const [data, setData] = useState({

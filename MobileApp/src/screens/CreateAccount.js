@@ -29,7 +29,6 @@ function Signup({ navigation }) {
         else {
             try {
             retVal = await signUp(user, pass1)
-            alert(retVal.user_id)
             const popAction = StackActions.pop(1);
             navigation.dispatch(popAction)
             navigation.replace('HomeScreen', {userid: retVal.user_id})
