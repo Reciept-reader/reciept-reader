@@ -30,9 +30,7 @@ const downloadImageFromURL = async (url, path) => {
 // Runs the container code
 async function main() {
   //Gets raw tesseract data from the receipt
-  let arr = await analyze_receipt(
-    "https://ixxtmhjztlfsfjorurfi.supabase.co/storage/v1/object/public/receipts/0img49451.jpg"
-  );
+  let arr = await analyze_receipt(imageUrl);
   console.log("raw data retrieved: ");
   console.log(arr);
 
@@ -52,8 +50,7 @@ async function main() {
 */
 app.post("/", (req, res) => {
   console.log("Recieved image url");
-  imageUrl =
-    "https://ixxtmhjztlfsfjorurfi.supabase.co/storage/v1/object/public/receipts/0img49451.jpg";
+  imageUrl = req.body.url;
 
   //Run OCR
   const test = async () => {
@@ -65,7 +62,6 @@ app.post("/", (req, res) => {
     console.log("Now ready for another url to process!");
     imageUrl = "";
   };
-
   test();
 });
 
