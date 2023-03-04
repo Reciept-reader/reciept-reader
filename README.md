@@ -21,8 +21,8 @@ The Reciept Reader project is a 3 section project for the CS 481 Capstone class.
 5. Enter the commad "npm i" (without quotes). This will download the dependencies required to run the application.
 6. The enter the "npm start" command to start running the project
 7. After the project is running, a QR code will be printined to the terminal. 
-   - Either download [Expo Go] {https://expo.dev/client} on your mobile device and scan the code,
-   - OR can be run through an emulator (such as [Andriod Studio] {https://developer.android.com/studio} installed on your device.
+   - Either download [Expo Go](https://expo.dev/client) on your mobile device and scan the code,
+   - OR can be run through an emulator (such as [Andriod Studio](https://developer.android.com/studio)) installed on your device.
 9. NOTE: The mobile device and computer must be running on the **same** exact network
 10. Enjoy the data returned from scanning any receipt you take a photo of!
 
@@ -46,14 +46,14 @@ The Reciept Reader project is a 3 section project for the CS 481 Capstone class.
 - Github
 
 ## Team Members
-- Jacob Fisher https://github.com/jacobfisher311
-- Mason Ringbom https://github.com/Sushi-Roll-17
-- Nathnael Seleba https://github.com/Nathnael7
-- Julio Espinola Rodas https://github.com/JulioSEspinola
-- Jatinder Singh https://github.com/Tennerr
-- Ibrahim Sydock https://github.com/sharktrexer
-- Ichinnorov Tuguldur https://github.com/IchinnorovTuguldur
-- William Ent https://github.com/Went343
+- [Jacob Fisher](https://github.com/jacobfisher311)
+- [Mason Ringbom](https://github.com/Sushi-Roll-17)
+- [Nathnael Seleba](https://github.com/Nathnael7)
+- [Julio Espinola Rodas](https://github.com/JulioSEspinola)
+- [Jatinder Singh](https://github.com/Tennerr)
+- [Ibrahim Sydock](https://github.com/sharktrexer)
+- [Ichinnorov Tuguldur](https://github.com/IchinnorovTuguldur)
+- [William Ent](https://github.com/Went343)
 - Brian Johnson
 
 ## License
