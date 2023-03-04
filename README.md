@@ -12,8 +12,19 @@ The Reciept Reader project is a 3 section project for the CS 481 Capstone class.
 - docker-container/ - Contains the most up to date code for containing the tesseract OCR in a docker image
   - Find the container already built as an image here: https://hub.docker.com/repository/docker/ibrahimsydock/tesseract-receipt-reader/general ```
 
-## Installation
+## Installation From Repo
 
+1. Download the repository as a zip file
+2. Unzip the contents and place in whichever directory you like
+3. Naviagte to the ./MobileApp directory
+4. Open a new terminal or one already in use
+5. Enter the commad "npm i" (without quotes). This will download the dependencies required to run the application.
+6. The enter the "npm start" command to start running the project
+7. After the project is running, a QR code will be printined to the terminal. 
+   - Either download [Expo Go] {https://expo.dev/client} on your mobile device and scan the code,
+   - OR can be run through an emulator (such as [Andriod Studio] {https://developer.android.com/studio} installed on your device.
+9. NOTE: The mobile device and computer must be running on the **same** exact network
+10. Enjoy the data returned from scanning any receipt you take a photo of!
 
 ## Technologies
 
