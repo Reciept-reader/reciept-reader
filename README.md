@@ -9,7 +9,8 @@ The Reciept Reader project is a 3 section project for the CS 481 Capstone class.
 ## Project Organization
 - AgendaMinutes/ - Contains all the minutes from the team meetings
 - ClientMinutes/ -  Contains all the minutes from the meetings with the client
-- docker-container/ - Contains the most up to date code for containing the tesseract OCR in a docker image
+Markup: - docker-container/ - Contains the most up to date code for containing the tesseract OCR in a docker image
+          - Find the container already built as an image here: https://hub.docker.com/repository/docker/ibrahimsydock/tesseract-receipt-reader/general
 
 ## Installation
 
