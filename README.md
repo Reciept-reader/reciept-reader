@@ -34,14 +34,14 @@ The Reciept Reader project is a 3 section project for the CS 481 Capstone class.
 - Github
 
 ## Team Members
-- Jacob Fisher
-- Mason Ringbom
-- Nathnael Seleba 
-- Jatinder Singh
-- Julio Espinola Rodas
-- Ibrahim Sydock
-- Ichinnorov Tuguldur
-- William Ent
+- Jacob Fisher https://github.com/jacobfisher311
+- Mason Ringbom https://github.com/Sushi-Roll-17
+- Nathnael Seleba https://github.com/Nathnael7
+- Julio Espinola Rodas https://github.com/JulioSEspinola
+- Jatinder Singh https://github.com/Tennerr
+- Ibrahim Sydock https://github.com/sharktrexer
+- Ichinnorov Tuguldur https://github.com/IchinnorovTuguldur
+- William Ent https://github.com/Went343
 - Brian Johnson
 
 ## License
