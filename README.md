@@ -5,6 +5,8 @@ The Reciept Reader project is a project for the CS 481 Capstone class at Central
 - Ability to read reciepts (images, pdfs) and intelligently extract purchase information such as item and store name, date of purchase, and prices of both individual and total items bought.
 - Ability to scan and process reciepts from different major stores including: Walmart, Safeway, FredMeyer, GroceryOutlet
 - Ability to let users know of unknown item name/price read from reciept and to allow user to edit it and save configuration for future use
+- Ability to let users set a budget and notify them when they've gone over.
+- Ability to display total spending over a period of weeks, months, quarters, and years.
 
 ## Project Organization
 - AgendaMinutes/ - Contains all the minutes from the team meetings
