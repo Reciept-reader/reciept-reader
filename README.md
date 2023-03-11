@@ -18,15 +18,16 @@ The Reciept Reader project is a project for the CS 481 Capstone class at Central
 
 1. Download the repository as a zip file
 2. Unzip the contents and place it in whichever directory you like
-3. Naviagte to the ./MobileApp directory
+3. Navigate to the ./MobileApp directory
 4. Open a new terminal or one already in use
-5. Enter the commad "npm i" (without quotes). This will download the dependencies required to run the application.
-6. The enter the "npm start" command to start running the project
+5. Enter the command "npm i" (without quotes). This will download the dependencies required to run the application (Expo, React, Supabase).
+6. Then enter the "npm start" command to start running the project
 7. After the project is running, a QR code will be printed to the terminal. 
    - Either download [Expo Go](https://expo.dev/client) on your mobile device and scan the code,
    - OR run it through an emulator (such as [Andriod Studio](https://developer.android.com/studio)) installed on your device.
-9. NOTE: The mobile device and computer must be running on the **same** exact network
-10. Enjoy the data returned from scanning any receipt you take a photo of!
+9. NOTE: The mobile device and computer must be running on the **same exact** network
+10. Run the container either through Docker or AWS EC2
+11. Enjoy the data returned from scanning any receipt you take a photo of!
 
 ## Technologies
 
