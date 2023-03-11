@@ -10,6 +10,7 @@ COPY package*.json ./
 #install npm
 RUN npm install
 
+#Include the rest of the files
 COPY . .
 
 #port
