@@ -59,6 +59,9 @@ The Reciept Reader project is a project for the CS 481 Capstone class at Central
 - [William Ent](https://github.com/Went343)
 - Brian Johnson
 
+## YouTube Link 
+https://www.youtube.com/watch?v=J_2MgS7zFYo
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
